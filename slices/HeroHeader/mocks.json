@@ -1,0 +1,36 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "FieldContent",
+				"value": "earlier",
+				"type": "Text"
+			},
+			"content": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Ea dolore eiusmod aliquip nostrud ut velit non labore dolore officia culpa aute duis pariatur ea. Minim labore elit ut et aliquip reprehenderit est et cillum mollit aliquip. Anim laborum do cillum quis proident labore aute fugiat elit culpa anim amet ullamco ex."
+						}
+					}
+				]
+			},
+			"media": {
+				"__TYPE__": "LinkContent",
+				"value": {
+					"id": "mock_Media_link",
+					"kind": "image/jpeg",
+					"name": "mock_name",
+					"url": "https://source.unsplash.com/daily",
+					"size": "0",
+					"__TYPE__": "FileLink"
+				}
+			}
+		},
+		"items": []
+	}
+]

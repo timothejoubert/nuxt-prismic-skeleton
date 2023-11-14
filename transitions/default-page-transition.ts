@@ -1,17 +1,15 @@
-import type { TransitionProps } from 'vue'
-import eventBus from '~/utils/event-bus'
-import EventType from '~/constants/event-type'
+import type { TransitionProps } from "vue";
 
 const defaultPageTransition: TransitionProps = {
     css: false,
-    mode: 'out-in',
+    mode: "out-in",
     onLeave(_el, done) {
-        done()
+        done();
     },
     onEnter(_el, done) {
-        eventBus.$emit(EventType.PAGE_TRANSITION_ENTER)
-        done()
+        useEvent({ id: "pageTransitionEnter", type: "emit" });
+        done();
     },
-}
+};
 
-export { defaultPageTransition }
+export { defaultPageTransition };

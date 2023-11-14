@@ -1,0 +1,8 @@
+{
+  "libraries": ["./slices"],
+  "repositoryNameTest": "timothe-joubert",
+  "repositoryName": "nuxt3-starter",
+  "previewEndpoint": "/preview",
+  "adapter": "@slicemachine/adapter-nuxt",
+  "localSliceSimulatorURL": "http://localhost:3000/slice-simulator"
+}

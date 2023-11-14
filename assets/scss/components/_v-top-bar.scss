@@ -1,0 +1,32 @@
+$v-top-bar: (
+        xs: (
+                height: rem(44),
+        ),
+        lg: (
+                height: rem(44),
+        ),
+);
+
+//@mixin v-top-bar($size: 's') {
+//        @if map-has-key($v-top-bar, $size) {
+//                $size-properties: map-get($v-top-bar, $size);
+//
+//                @each $key, $value in $size-properties {
+//                        #{$key}: $value;
+//                }
+//        }
+//}
+
+//@function v-top-bar-property($size: 's', $property) {
+//        @if map-has-key($v-top-bar, $size) {
+//                $size-properties: map-get($v-top-bar, $size);
+//
+//                @if map-has-key($size-properties, $property) {
+//                        @return map-get($size-properties, $property);
+//                } @else {
+//                        @warn "#{$property} property doesn't exist in v-top-bar variables";
+//                        @return '';
+//                }
+//        }
+//}
+

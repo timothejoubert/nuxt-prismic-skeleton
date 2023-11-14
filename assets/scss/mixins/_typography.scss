@@ -77,45 +77,15 @@
 
 }
 
-// Overtitle
-@mixin text-overtitle-fluid {
-    font-size: $overtitle-font-size-s;
-    line-height: 1.2;
-
-    @include media('>=xl') {
-        font-size: $overtitle-font-size-m;
-    }
-}
-
+// Over title
 @mixin text-overtitle-m {
-    font-size: $overtitle-font-size-m;
+    font-size: rem(20);
     line-height: 1.2;
 }
 
 @mixin text-overtitle-s {
-    font-size: $overtitle-font-size-s;
+    font-size: rem(16);
     line-height: 1.2;
-}
-
-
-// TAG
-@mixin text-tag-fluid {
-    font-size: $tag-font-size-s;
-    line-height: 1;
-
-    @include media('>=xl') {
-        font-size: $tag-font-size-m;
-    }
-}
-
-@mixin text-tag-m {
-    font-size: $tag-font-size-m;
-    line-height: 1;
-}
-
-@mixin text-tag-s {
-    font-size: $tag-font-size-s;
-    line-height: 1;
 }
 
 // Menu
@@ -126,25 +96,3 @@
 @mixin text-menu-s {
     font-size: rem(16);
 }
-
-// BUTTON
-@mixin text-button-m {
-    font-size: $button-font-size-m;
-    line-height: 1;
-}
-
-@mixin text-button-l {
-    font-size: $button-font-size-l;
-    line-height: 1;
-}
-
-// OTHERS
-@mixin text-key-figure {
-    font-size: rem(48);
-    line-height: 1.1;
-
-    @include media('>=xl') {
-        font-size: rem(80);
-    }
-}
-

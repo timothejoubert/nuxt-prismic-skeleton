@@ -1,0 +1,16 @@
+{
+  "id": "project_listing",
+  "type": "SharedSlice",
+  "name": "ProjectListing",
+  "description": "ProjectListing",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": ""
+    }
+  ]
+}

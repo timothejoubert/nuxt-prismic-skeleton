@@ -1,0 +1,64 @@
+{
+  "id": "settings",
+  "label": "settings",
+  "format": "custom",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "app_title": {
+        "type": "Text",
+        "config": {
+          "label": "App title",
+          "placeholder": ""
+        }
+      },
+      "app_description": {
+        "type": "StructuredText",
+        "config": {
+          "label": "App description",
+          "placeholder": "",
+          "allowTargetBlank": false,
+          "single": "strong,em"
+        }
+      },
+      "email": {
+        "type": "Text",
+        "config": {
+          "label": "Email",
+          "placeholder": ""
+        }
+      },
+      "socials": {
+        "type": "Group",
+        "config": {
+          "label": "Socials",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Label",
+                "placeholder": ""
+              }
+            },
+            "social": {
+              "type": "Select",
+              "config": {
+                "label": "Social",
+                "placeholder": "",
+                "options": [
+                  "Facebook",
+                  "Instagram",
+                  "Behance",
+                  "Linkedin",
+                  "Viméo",
+                  "Youtube"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

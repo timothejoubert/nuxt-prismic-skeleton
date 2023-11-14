@@ -34,36 +34,12 @@
     @include text-body-xs;
 }
 
-.text-overtitle-fluid {
-    @include text-overtitle-fluid;
-}
-
 .text-overtitle-m {
     @include text-overtitle-m;
 }
 
 .text-overtitle-s {
     @include text-overtitle-s;
-}
-
-.text-tag-fluid {
-    @include text-tag-fluid;
-}
-
-.text-tag-m {
-    @include text-tag-m;
-}
-
-.text-tag-s {
-    @include text-tag-s;
-}
-
-.text-button-m {
-    @include text-button-m;
-}
-
-.text-button-l {
-    @include text-button-l;
 }
 
 .text-menu-m {
@@ -74,6 +50,3 @@
     @include text-menu-s;
 }
 
-.text-key-figure {
-    @include text-key-figure;
-}

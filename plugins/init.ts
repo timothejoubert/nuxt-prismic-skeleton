@@ -1,43 +1,84 @@
-import type {CommonContent} from "~/composables/use-common-content";
-import type {PrismicDocument} from "@prismicio/client";
-import {joinURL} from "ufo";
-import type { Link } from '@unhead/schema'
+import type { PrismicDocument } from "@prismicio/client";
+import { joinURL } from "ufo";
+import type { Link } from "@unhead/schema";
+import type { AlternateLanguage } from "@prismicio/client/src/types/value/document";
+import type {
+    CommonContent,
+    CommonContentMenus,
+    MenuUid,
+} from "~/composables/use-common-content";
+import type { MenuDocument } from "~/prismicio-types";
 
-async function initCommonContent() {
-    const { client } = usePrismic()
+function initCommonContent() {
+    const { client } = usePrismic();
 
-    return useAsyncData<CommonContent>('common_content', async () => {
-        const menus = await client.getAllByType('menu')
-        const setting = await client.getSingle('settings')
+    return useAsyncData<CommonContent>("common_content", async () => {
+        const menusResponse = await client.getAllByType("menu");
+        const setting = await client.getSingle("settings");
 
-        return { menus, setting }
-    })
+        const menus = menusResponse.reduce(
+            (acc: Partial<CommonContentMenus>, current: MenuDocument) => {
+                const menuUid = current.uid as MenuUid;
+
+                if (!acc?.[menuUid]) acc[menuUid] = current;
+
+                return acc;
+            },
+            {},
+        ) as CommonContentMenus;
+
+        return { menus, setting };
+    });
 }
 
-function initHead(document?: PrismicDocument, alternateLinks?: unknown[]) {
-
-    const route = useRoute()
-    const runtimeConfig = useRuntimeConfig()
+function initHead(
+    document?: PrismicDocument,
+    alternateLinks?: AlternateLanguage[],
+) {
+    const route = useRoute();
+    const runtimeConfig = useRuntimeConfig();
     const link: Link[] = [
         {
-            rel: 'canonical',
-            href: joinURL(runtimeConfig.public.baseURL, document?.url || route.path),
+            rel: "canonical",
+            href: joinURL(
+                runtimeConfig.public.baseURL,
+                document?.url || route.path,
+            ),
         },
-    ]
+    ];
 
-    const nuxtApp = useNuxtApp()
-    const locale = runtimeConfig.public.availableLocales?.length ? nuxtApp?.$i18n.locale.value :  runtimeConfig.public.defaultLocale
+    // ALTERNATE LINKS
+    const alternateLinksHead = alternateLinks?.map(
+        (alternateLink: AlternateLanguage) => {
+            return {
+                hid: `alternate-${alternateLink.lang}`,
+                rel: "alternate",
+                hreflang: alternateLink.lang,
+                href: joinURL(
+                    runtimeConfig.public.baseURL,
+                    alternateLink.uid || alternateLink.lang,
+                ),
+            };
+        },
+    );
+    if (alternateLinksHead) link.push(...alternateLinksHead);
+
+    const nuxtApp = useNuxtApp();
+    const locale = runtimeConfig.public.availableLocales?.length
+        ? (nuxtApp?.$i18n as any).locale.value
+        : runtimeConfig.public.defaultLocale;
+    if (!locale) console.warn("$i18n plugin not setup in init.ts plugin");
 
     useHead({
         htmlAttrs: {
-            lang: locale || 'fr',
+            lang: locale || "fr",
         },
         link,
         meta: [
             // app version
-            { name: 'version', content: runtimeConfig.public.version },
+            { name: "version", content: runtimeConfig.public.version },
         ],
-    })
+    });
 }
 //
 // function initSeoMeta(webResponse?: RoadizWebResponse) {
@@ -86,7 +127,7 @@ function initHead(document?: PrismicDocument, alternateLinks?: unknown[]) {
 
 export default defineNuxtPlugin(async () => {
     // initPreview()
-    await initCommonContent()
+    await initCommonContent();
 
     // const route = useRoute()
     // const isWildCardRoute = route.name === 'slug'
@@ -95,4 +136,4 @@ export default defineNuxtPlugin(async () => {
     // if (page) await initI18n(page?.locale)
     // initHead(page?.webResponse, page?.alternateLinks)
     // initSeoMeta(page?.webResponse)
-})
+});
