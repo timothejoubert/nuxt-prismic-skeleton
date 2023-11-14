@@ -3,7 +3,7 @@ import { useNextPage } from "~/composables/use-next-page";
 import { useCurrentPage } from "~/composables/use-current-page";
 
 export interface Page {
-    title?: string;
+    title?: string | null;
     webResponse?: PrismicDocument;
     // alternateLinks?: RoadizAlternateLink[];
 }

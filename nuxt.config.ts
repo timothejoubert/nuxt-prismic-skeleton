@@ -39,9 +39,9 @@ export default defineNuxtConfig({
             },
         },
     },
-    experimental: {
-        renderJsonPayloads: false,
-    },
+    // experimental: {
+    //     renderJsonPayloads: false,
+    // },
     // https://github.com/storybook-vue/storybook-nuxt/issues/57
     components: [
         "~/components/atoms",
@@ -59,6 +59,7 @@ export default defineNuxtConfig({
             availableLocales: locales,
             defaultLocale,
             version,
+            projectPath: process.env.NUXT_PUBLIC_PROJECT_PATH || "",
             baseURL: process.env.NUXT_PUBLIC_BASE_URL || "",
         },
     },
@@ -79,7 +80,7 @@ export default defineNuxtConfig({
                 },
                 {
                     type: "project",
-                    path: "/projects/:uid",
+                    path: process.env.NUXT_PUBLIC_PROJECT_PATH + "/:uid",
                 },
             ],
         },

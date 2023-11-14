@@ -21,7 +21,8 @@ function scrollTop() {
 
 <style lang="scss" module>
 .root {
-    padding: rem(24) rem(34);
+    height: var(--v-footer-height);
+    padding-inline: rem(34);
     background-color: color(dark);
     color: color(primary);
     display: flex;

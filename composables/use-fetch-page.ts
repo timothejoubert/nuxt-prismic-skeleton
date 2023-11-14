@@ -6,10 +6,14 @@ export type PageContent = ReachableDocument["data"];
 export async function useFetchPage<T extends PrismicDocument>() {
     const prismic = usePrismic();
     const route = useRoute();
-    const path = route.path.replace("/", "");
-    const key = `fetch-page-${path}`;
+    const uidParams = route.params.uid;
+    const uid = Array.isArray(uidParams) ? uidParams.at(-1) : uidParams;
+    const key = `fetch-page-${uid}`;
 
-    console.log(path);
+    const projectPath = useRuntimeConfig().public.projectPath;
+    const isProject =
+        route.fullPath.includes(projectPath) && route.path !== projectPath;
+
     // TODO: use getCachedData() into the useAsyncData() options (not released yet) instead of this
     // const cachedData = useNuxtData(key)
     const cachedData = { data: ref(null) };
@@ -18,28 +22,30 @@ export async function useFetchPage<T extends PrismicDocument>() {
         : await useAsyncData(key, async () => {
               try {
                   const response = await prismic.client.getByUID(
-                      "page" as ReachableDocumentType,
-                      !path || path === "/" ? "home" : path,
+                      (isProject ? "project" : "page") as ReachableDocumentType,
+                      !uid ? "home" : uid,
                   );
+                  // TODO: fetch page or project page by UID
 
-                  // [prismic.predicates.at('document.type', ['page', 'project']), prismic.predicates.at('my.doctype1.uid', path === "/" ? "home" : path)],
                   // const alternateLinks: unknown[] = []; // getResponseAlternateLinks(response);
-
                   return {
                       // alternateLinks,
                       webResponse: response,
                   };
               } catch (error) {
-                  console.error("error=", error, path);
+                  console.error("error=", error, uid);
 
-                  clearError({ redirect: "/" });
-
-                  return { error };
+                  throw createError({
+                      statusCode: 404,
+                      message: "Page or project not found in useFetchPage",
+                  });
+                  // clearError({ redirect: "/" });
+                  // return { error };
               }
           });
 
     const webResponse = data.value?.webResponse as T | undefined;
-    const itemData = webResponse?.data;
+    const itemData = webResponse?.data as PageContent;
     const title = itemData?.title || webResponse?.uid;
 
     return {
@@ -47,6 +53,6 @@ export async function useFetchPage<T extends PrismicDocument>() {
         webResponse,
         itemData,
         title,
-        error: data.value?.error,
+        // error: data.value?.error,
     };
 }

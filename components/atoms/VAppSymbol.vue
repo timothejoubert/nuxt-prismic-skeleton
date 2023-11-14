@@ -6,7 +6,7 @@
 
 <style lang="scss" module>
 .root {
-    width: rem(24);
+    width: rem(16);
     aspect-ratio: 1;
     background-color: currentColor;
 }
