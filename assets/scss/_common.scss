@@ -1,0 +1,76 @@
+
+:root {
+    --size: 375;
+
+    @include media('>=md') {
+        --size: #{breakpoint(md, $strip-unit: true)};
+    }
+
+    @include media('>=vl') {
+        --size: #{breakpoint(vl, $strip-unit: true)};
+    }
+
+    @include media('>=xl') {
+        --size: #{breakpoint(xl, $strip-unit: true)};
+    }
+
+}
+
+html {
+    --vw-ratio: 0.4;
+
+    font-size: calc((100vw / var(--size)) * (16 * var(--vw-ratio)) + 1rem * calc(1 - var(--vw-ratio)));
+
+}
+
+body {
+    font-family: $neue-haas;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+    text-decoration-thickness: inherit;
+    text-underline-offset: inherit;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    text-align: inherit;
+    text-transform: inherit;
+
+    &:disabled {
+        cursor: default;
+    }
+}
+
+input{
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+
+    &[type="submit"],
+    &[type="reset"] {
+        cursor: pointer;
+    }
+}
+
+textarea,
+select {
+    color: inherit;
+    font: inherit;
+    line-height: inherit;
+}
+
+*:focus-visible {
+    outline: 3px solid var(--theme-foreground-color, currentColor);
+    outline-offset: 10px;
+}

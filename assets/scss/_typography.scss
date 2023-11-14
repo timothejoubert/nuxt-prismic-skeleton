@@ -1,0 +1,79 @@
+.text-h1 {
+    @include text-h1;
+}
+
+.text-h2 {
+    @include text-h2;
+}
+
+.text-h3 {
+    @include text-h3;
+}
+
+.text-h4 {
+    @include text-h4;
+}
+
+.text-h5 {
+    @include text-h5;
+}
+
+.text-body-l {
+    @include text-body-l;
+}
+
+.text-body-m {
+    @include text-body-m;
+}
+
+.text-body-s {
+    @include text-body-s;
+}
+
+.text-body-xs {
+    @include text-body-xs;
+}
+
+.text-overtitle-fluid {
+    @include text-overtitle-fluid;
+}
+
+.text-overtitle-m {
+    @include text-overtitle-m;
+}
+
+.text-overtitle-s {
+    @include text-overtitle-s;
+}
+
+.text-tag-fluid {
+    @include text-tag-fluid;
+}
+
+.text-tag-m {
+    @include text-tag-m;
+}
+
+.text-tag-s {
+    @include text-tag-s;
+}
+
+.text-button-m {
+    @include text-button-m;
+}
+
+.text-button-l {
+    @include text-button-l;
+}
+
+.text-menu-m {
+    @include text-menu-m;
+}
+
+.text-menu-s {
+    @include text-menu-s;
+}
+
+.text-key-figure {
+    @include text-key-figure;
+}

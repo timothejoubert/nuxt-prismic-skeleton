@@ -1,0 +1,27 @@
+@include font-face('neue-haas', 'neuehaasgrotesktext-bold-subset') {
+    font-weight: 600;
+}
+
+@include font-face('neue-haas', 'neuehaasgrotesktext-boldita-subset') {
+    font-style: italic;
+    font-weight: 600;
+}
+
+@include font-face('neue-haas', 'neuehaasgrotesktext-medium-subset') {
+    font-weight: 500;
+}
+
+@include font-face('neue-haas', 'neuehaasgrotesktext-medita-subset') {
+    font-style: italic;
+    font-weight: 500;
+}
+
+@include font-face('neue-haas', 'neuehaasgrotesktext-regular-subset') {
+    font-weight: 400;
+}
+
+@include font-face('neue-haas', 'neuehaasgrotesktext-italic-subset') {
+    font-style: italic;
+    font-weight: 400;
+}
+
