@@ -2,9 +2,7 @@
 import { defaultPageTransition } from "~/transitions/default-page-transition";
 import type { ProjectDocument } from "~/prismicio-types";
 
-const { webResponse, itemData, error, title } = await useFetchPage();
-
-if (error) showError(error);
+const { webResponse, itemData, title } = await useFetchPage();
 
 definePageMeta({
     pageTransition: defaultPageTransition,
@@ -20,6 +18,7 @@ const prismic = usePrismic();
 const route = useRoute();
 
 if (isProjectListing) {
+    // TODO: fetch all tags use in project type
     const { data } = await useAsyncData(
         route.params.uid.toString(),
         async () => {

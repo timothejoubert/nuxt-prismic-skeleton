@@ -4,6 +4,7 @@
     <div>
         <VTopBar />
         <NuxtPage />
+        <NuxtLoadingIndicator />
         <VFooter />
     </div>
 </template>

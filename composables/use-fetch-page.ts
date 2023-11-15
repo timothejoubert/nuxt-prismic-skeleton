@@ -1,7 +1,8 @@
 import type { PrismicDocument } from "@prismicio/client";
 import type { ReachableDocument, ReachableDocumentType } from "~/types/prismic";
+import type { UnionToIntersection } from "~/utils/types";
 
-export type PageContent = ReachableDocument["data"];
+export type PageContent = UnionToIntersection<ReachableDocument["data"]>;
 
 export async function useFetchPage<T extends PrismicDocument>() {
     const prismic = usePrismic();
