@@ -25,3 +25,26 @@
 @mixin css-vars-by-size($base-name, $vars, $size, $prefix: '') {
     @include component-vars-by-size($vars, $size, $base-name, $prefix);
 }
+
+
+/* tim */
+@mixin css-var-properties($breakpoint, $properties, $prefix) {
+    @each $property, $value in $properties {
+        @if $breakpoint == 0 or $breakpoint == "xs" {
+            #{list-implode(('--', $prefix, $property), '-')}: #{$value};
+        } @else {
+            @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+                #{list-implode(('--', $prefix, $property), '-')}: #{$value};
+            }
+        }
+    }
+}
+
+@mixin css-vars-breakpoints-properties($map, $prefix) {
+    @each $breakpoint, $value in $map {
+        $properties: map-get($map, $breakpoint);
+
+        @include css-var-properties($breakpoint, $properties, $prefix);
+    }
+}
+

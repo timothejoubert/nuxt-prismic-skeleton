@@ -8,6 +8,6 @@
 .root {
     width: rem(16);
     aspect-ratio: 1;
-    background-color: currentColor;
+    background-color: currentcolor;
 }
 </style>

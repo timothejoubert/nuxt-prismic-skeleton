@@ -1,33 +1,29 @@
 <script setup lang="ts">
-const { setting } = useCommonContent();
+const { setting } = useCommonContent()
 
-const email = setting?.data.email;
+const email = setting?.data.email
 
 function scrollTop() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 </script>
 
 <template>
     <footer :class="$style.root">
         <button v-if="email">{{ email }}</button>
-        <button
-            :class="$style['scroll-top']"
-            aria-label="scroll top"
-            @click="scrollTop"
-        ></button>
+        <button :class="$style['scroll-top']" aria-label="scroll top" @click="scrollTop"></button>
     </footer>
 </template>
 
 <style lang="scss" module>
 .root {
-    height: var(--v-footer-height);
-    padding-inline: rem(34);
-    background-color: color(dark);
-    color: color(primary);
     display: flex;
+    height: var(--v-footer-height);
     align-items: center;
     justify-content: center;
+    background-color: color(dark);
+    color: color(primary);
+    padding-inline: rem(34);
 }
 
 .scroll-top {

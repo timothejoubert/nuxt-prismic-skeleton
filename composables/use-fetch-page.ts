@@ -1,53 +1,53 @@
-import type { PrismicDocument } from "@prismicio/client";
-import type { ReachableDocument, ReachableDocumentType } from "~/types/prismic";
-import type { UnionToIntersection } from "~/utils/types";
+import type { PrismicDocument } from '@prismicio/client'
+import type { ReachableDocument, ReachableDocumentType } from '~/types/prismic'
+import type { UnionToIntersection } from '~/utils/types'
 
-export type PageContent = UnionToIntersection<ReachableDocument["data"]>;
+export type PageContent = UnionToIntersection<ReachableDocument['data']>
 
 export async function useFetchPage<T extends PrismicDocument>() {
-    const prismic = usePrismic();
-    const route = useRoute();
-    const uidParams = route.params.uid;
-    const uid = Array.isArray(uidParams) ? uidParams.at(-1) : uidParams;
-    const key = `fetch-page-${uid}`;
+    const prismic = usePrismic()
+    const route = useRoute()
+    const uidParams = route.params.uid
+    const uid = Array.isArray(uidParams) ? uidParams.at(-1) : uidParams
+    const key = `fetch-page-${uid}`
 
-    const projectPath = useRuntimeConfig().public.projectPath;
-    const isProject =
-        route.fullPath.includes(projectPath) && route.path !== projectPath;
+    const projectPath = useRuntimeConfig().public.projectPath
+    const isProject = route.fullPath.includes(projectPath) && route.path !== projectPath
 
     // TODO: use getCachedData() into the useAsyncData() options (not released yet) instead of this
     // const cachedData = useNuxtData(key)
-    const cachedData = { data: ref(null) };
+    const cachedData = { data: ref(null) }
     const { data } = cachedData.data?.value
         ? cachedData
         : await useAsyncData(key, async () => {
               try {
-                  const response = await prismic.client.getByUID(
-                      (isProject ? "project" : "page") as ReachableDocumentType,
-                      !uid ? "home" : uid,
-                  );
+                  // Sometimes error when accessing prismic on SSR
+                  const response = await prismic?.client.getByUID(
+                      (isProject ? 'project' : 'page') as ReachableDocumentType,
+                      !uid ? 'home' : uid,
+                  )
                   // TODO: fetch page or project without check url
 
                   // const alternateLinks: AlternateLanguage[] = getResponseAlternateLinks(response);
                   return {
                       alternateLinks: [],
                       webResponse: response,
-                  };
+                  }
               } catch (error) {
-                  console.error("error=", error, uid);
+                  console.error('error=', error, uid)
 
                   throw createError({
                       statusCode: 404,
-                      message: "Page or project not found in useFetchPage",
-                  });
+                      message: 'Page or project not found in useFetchPage',
+                  })
                   // clearError({ redirect: "/" });
                   // return { error };
               }
-          });
+          })
 
-    const webResponse = data.value?.webResponse as T | undefined;
-    const itemData = webResponse?.data as PageContent;
-    const title = itemData?.title || webResponse?.uid;
+    const webResponse = data.value?.webResponse as T | undefined
+    const itemData = webResponse?.data as PageContent
+    const title = itemData?.title || webResponse?.uid
 
     return {
         alternateLinks: [],
@@ -55,5 +55,5 @@ export async function useFetchPage<T extends PrismicDocument>() {
         itemData,
         title,
         // error: data.value?.error,
-    };
+    }
 }

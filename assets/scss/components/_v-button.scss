@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:list";
 @use "sass:math";
 
 $v-button-size-vars-by-variant: () !default;
@@ -11,9 +12,9 @@ $v-button: (
         height: rem(32),
     ),
     m: (
-        font-size: rem(14),
+        font-size: fluid((xs: 18, hd: 22)),
         min-width: rem(38),
-        height: rem(38),
+        height: rem(36),
     ),
     l: (
         font-size: rem(18),
@@ -42,13 +43,13 @@ $v-button-rounded: (
 );
 $v-button-filled: (
     s: (
-        padding: 0 rem(8)
+        padding: 0 rem(12)
     ),
     m: (
-        padding: 0 rem(10)
+        padding: 0 rem(15)
     ),
     l: (
-        padding: 0 rem(16)
+        padding: 0 rem(20)
     ),
     xl: (
         padding: 0 rem(16)
@@ -64,7 +65,7 @@ $v-button-label: (
         margin-inline: rem(6) rem(2),
     ),
     m: (
-        margin-inline: rem(6) rem(2),
+        margin-inline: 0 rem(10),
     ),
     l: (
         margin-inline: rem(4) rem(2),
@@ -73,7 +74,6 @@ $v-button-label: (
         margin-inline: rem(4) rem(2),
     ),
 );
-
 $v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, (
     default: (
         (vars: $v-button, prefix: ''),

@@ -1,75 +1,63 @@
 <script lang="ts" setup>
-import type {ProjectDocument} from "~/prismicio-types";
+import type { ProjectDocument } from '~/prismicio-types'
 
-const prismic = usePrismic();
-const route = useRoute();
+const prismic = usePrismic()
+const route = useRoute()
 
-const projects = ref<ProjectDocument[] | null>(null);
+const projects = ref<ProjectDocument[] | null>(null)
 
-const { data } = await useAsyncData(
-    route.params.uid.toString(),
-    async () => {
-        const document = await prismic.client.getAllByType("project", {
-            orderings: [
-                {
-                    field: "my.project.creation",
-                    direction: "desc",
-                },
-                {
-                    field: "my.project.title",
-                    direction: "desc",
-                },
-            ],
-            fetch: [
-                "project.title",
-                "project.main_media",
-                "project.creation",
-            ],
-            pageSize: 12,
-        });
+const { data } = await useAsyncData(route.params.uid.toString(), async () => {
+    const document = await prismic.client.getAllByType('project', {
+        orderings: [
+            {
+                field: 'my.project.creation',
+                direction: 'desc',
+            },
+            {
+                field: 'my.project.title',
+                direction: 'desc',
+            },
+        ],
+        fetch: ['project.title', 'project.main_media', 'project.creation'],
+        pageSize: 12,
+    })
 
-        if (document) {
-            return document;
-        } else {
-            throw createError({
-                statusCode: 404,
-                message: "Error during fetch all projects",
-            });
-        }
-    },
-);
-projects.value = data.value;
+    if (document) {
+        return document
+    } else {
+        throw createError({
+            statusCode: 404,
+            message: 'Error during fetch all projects',
+        })
+    }
+})
+projects.value = data.value
 
 // useAllPrismicDocumentsByTag()
-const { data: tagData } = await useAsyncData(
-    'tags',
-    async () => {
-        const tags = await prismic.client.getTags();
+const { data: tagData } = await useAsyncData('tags', async () => {
+    const tags = await prismic.client.getTags()
 
-        // TODO: check if tag are used in project
-        // ForEach tag try to fetch one project with this tag if no response remove this tag
-        // tags.filter(async (tag) => {
-        //     const filteredProject = await prismic.client.getByTag(tag, { fetch: '', pageSize: 1 });
-        //     console.log(tag, filteredProject)
-        //     return filteredProject
-        // })
+    // TODO: check if tag are used in project
+    // ForEach tag try to fetch one project with this tag if no response remove this tag
+    // tags.filter(async (tag) => {
+    //     const filteredProject = await prismic.client.getByTag(tag, { fetch: '', pageSize: 1 });
+    //     console.log(tag, filteredProject)
+    //     return filteredProject
+    // })
 
-        if (!tags) return null
+    if (!tags) return null
 
-        return tags;
-    },
-);
+    return tags
+})
 
 const tags = tagData.value
 console.log(tagData)
-
-
 </script>
 
 <template>
-    <div :class="$style.root" v-if="projects?.length">
+    <div v-if="projects?.length" :class="$style.root">
         <div :class="$style.filter">
-            Tags: <button v-for="tag in tags" :key="tag">{{tag}}</button>
+            Tags: <button v-for="tag in tags" :key="tag">{{ tag }}</button>
         </div>
         <VProjectCard v-for="project in projects" :key="project.uid" :prismic-project="project" layout="condensed" />
     </div>
@@ -84,16 +72,15 @@ console.log(tagData)
     grid-template-columns: repeat(var(--v-project-listing-columns), 1fr);
 
     @include media('>=md') {
-        --v-project-listing-columns: 2
+        --v-project-listing-columns: 2;
     }
 
     @include media('>=vl') {
-        --v-project-listing-columns:3;
+        --v-project-listing-columns: 3;
     }
 
     @include media('>=hd') {
         --v-project-listing-columns: 4;
     }
-
 }
 </style>

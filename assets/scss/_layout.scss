@@ -1,0 +1,7 @@
+.container {
+    padding-inline: var(--layout-padding-inline);
+}
+
+:root {
+    @include css-vars-breakpoints-properties($layout, 'layout');
+}

@@ -1,9 +1,8 @@
-<script  lang="ts" setup>
-import type {ImageField, LinkToMediaField} from "@prismicio/types";
-import type {ProjectDocument} from "~/prismicio-types";
-import {NuxtLink} from "#components";
-import type {UnionToIntersection} from "~/utils/types";
-
+<script lang="ts" setup>
+import type { ImageField, LinkToMediaField } from '@prismicio/types'
+import type { ProjectDocument } from '~/prismicio-types'
+import { NuxtLink } from '#components'
+// import type { UnionToIntersection } from '~/utils/types'
 
 type PrismicMedia = LinkToMediaField | ImageField
 
@@ -29,18 +28,18 @@ interface VProjectCardPrismicProps {
     prismicProject?: ProjectDocument
 }
 
-
 // TODO: prismic or row prop not working
 
-type VProjectCardProps = {
-    layout: 'default' | 'condensed'
-} & VProjectCardRowProps | VProjectCardPrismicProps
-
+type VProjectCardProps =
+    | ({
+          layout: 'default' | 'condensed'
+      } & VProjectCardRowProps)
+    | VProjectCardPrismicProps
 
 const props = defineProps<VProjectCardProps>()
 
 function parseProjectDocumentData(document: ProjectDocument | undefined) {
-    if (!document) return {title: undefined,year: undefined, tags: undefined, url: undefined, media: undefined}
+    if (!document) return { title: undefined, year: undefined, tags: undefined, url: undefined, media: undefined }
     const { data } = document
 
     return {
@@ -48,7 +47,7 @@ function parseProjectDocumentData(document: ProjectDocument | undefined) {
         year: data.creation, // TODO: Get year from full date format
         tags: document.tags,
         url: document.url,
-        media: data.main_media
+        media: data.main_media,
     }
 }
 
@@ -67,25 +66,25 @@ const media = props.media || prismicMedia
 const tags = props.tags || prismicTags
 
 const rootAttribute = {
-    component:  url ? NuxtLink : 'div',
-    to: url
+    component: url ? NuxtLink : 'div',
+    to: url,
 }
 </script>
 
 <template>
     <component :is="rootAttribute.component" :to="rootAttribute.to">
-        <img :src="media.url" alt="" :class="$style.media">
+        <img :src="media.url" alt="" :class="$style.media" />
         <div :class="$style.information">
             <h3>{{ title }}</h3>
-            <span>{{year}}</span>
-            <span v-for="tag in tags" :key="tag">{{tag}}</span>
+            <span>{{ year }}</span>
+            <span v-for="tag in tags" :key="tag">{{ tag }}</span>
         </div>
     </component>
 </template>
 
 <style lang="scss" module>
-.root {
-}
+// .root {
+// }
 
 .media {
     width: 100%;
@@ -111,4 +110,3 @@ const rootAttribute = {
     }
 }
 </style>
-
