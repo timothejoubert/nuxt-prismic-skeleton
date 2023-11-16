@@ -15,14 +15,18 @@ watch(
             links?.findIndex((link) => link.document?.url === route.path) || 0;
     },
     { immediate: true },
-);
+)
+
+function onFocus() {
+    // TODO: update selectedIndex ?
+}
 </script>
 
 <template>
     <nav :class="$style.root">
         <ul :class="$style.list">
             <li v-for="item in links" :key="item" :class="$style.item">
-                <NuxtLink :to="item.document.url" :class="$style.link"
+                <NuxtLink :to="item.document.url" :class="$style.link" @focus="onFocus"
                     >{{ item.label }}
                     <VAppSymbol />
                 </NuxtLink>

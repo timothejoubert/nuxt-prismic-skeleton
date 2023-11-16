@@ -2,16 +2,7 @@
 @import "components/v-top-bar";
 @import "components/v-footer";
 
-
-@mixin breakpoints-css-vars($map, $prefix) {
-    @each $breakpoint, $value in $map {
-        $properties: map-get($map, $breakpoint);
-
-        @include get-properties-from-breakpoint($breakpoint, $properties, $prefix);
-    }
-}
-
-@mixin get-properties-from-breakpoint($breakpoint, $properties, $prefix) {
+@mixin css-var-properties($breakpoint, $properties, $prefix) {
     @each $property, $value in $properties {
         @if $breakpoint == 0 or $breakpoint == "xs" {
             #{list-implode(('--', $prefix, $property), '-')}: #{$value};
@@ -23,7 +14,17 @@
     }
 }
 
+@mixin css-vars-breakpoints-properties($map, $prefix) {
+    @each $breakpoint, $value in $map {
+        $properties: map-get($map, $breakpoint);
+
+        @include css-var-properties($breakpoint, $properties, $prefix);
+    }
+}
+
 :root {
-    @include breakpoints-css-vars($v-top-bar, 'v-top-bar');
-    @include breakpoints-css-vars($v-footer, 'v-footer');
+    @include css-vars-breakpoints-properties($v-top-bar, 'v-top-bar');
+    @include css-vars-breakpoints-properties($v-footer, 'v-footer');
+
+    --min-page-content-height: calc(100vh - var(--v-top-bar-height) - var(--v-footer-height));
 }

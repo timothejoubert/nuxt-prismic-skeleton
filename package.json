@@ -1,8 +1,8 @@
 {
-  "name": "nuxt-starter-prismic-minimal",
+  "name": "nuxt-prismic-minimal",
   "version": "0.0.1",
   "private": true,
-  "author": "Timothé Joubert <timothejoubert26@gmail.com> (https://timothejoubert.com)",
+  "author": "Timothé Joubert [timothejoubert26@gmail.com](https://timothejoubert.com)",
   "scripts": {
     "dev": "concurrently \"npm:nuxt:dev\" \"npm:slicemachine\" --names \"nuxt,slicemachine\" --prefix-colors green,magenta",
     "nuxt:dev": "nuxt dev",

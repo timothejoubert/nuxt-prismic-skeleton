@@ -65,8 +65,9 @@ function initHead(
 
     const nuxtApp = useNuxtApp();
     const locale = runtimeConfig.public.availableLocales?.length
-        ? (nuxtApp?.$i18n as any).locale.value
+        ? (nuxtApp?.$i18n as any)?.locale.value
         : runtimeConfig.public.defaultLocale;
+
     if (!locale) console.warn("$i18n plugin not setup in init.ts plugin");
 
     useHead({
@@ -80,7 +81,8 @@ function initHead(
         ],
     });
 }
-//
+
+// TODO: Adapt to Prismic data
 // function initSeoMeta(webResponse?: RoadizWebResponse) {
 //     const nuxtApp = useNuxtApp()
 //     const { commonContent } = useCommonContent()
@@ -129,11 +131,11 @@ export default defineNuxtPlugin(async () => {
     // initPreview()
     await initCommonContent();
 
-    // const route = useRoute()
-    // const isWildCardRoute = route.name === 'slug'
-    // const page = isWildCardRoute ? await useFetchPage() : undefined
+    const route = useRoute()
+    const isWildCardRoute = route.name === 'uid'
+    const page = isWildCardRoute ? await useFetchPage() : undefined
 
     // if (page) await initI18n(page?.locale)
-    // initHead(page?.webResponse, page?.alternateLinks)
+    initHead(page?.webResponse, page?.alternateLinks)
     // initSeoMeta(page?.webResponse)
 });

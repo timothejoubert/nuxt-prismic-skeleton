@@ -26,11 +26,11 @@ export async function useFetchPage<T extends PrismicDocument>() {
                       (isProject ? "project" : "page") as ReachableDocumentType,
                       !uid ? "home" : uid,
                   );
-                  // TODO: fetch page or project page by UID
+                  // TODO: fetch page or project without check url
 
-                  // const alternateLinks: unknown[] = []; // getResponseAlternateLinks(response);
+                  // const alternateLinks: AlternateLanguage[] = getResponseAlternateLinks(response);
                   return {
-                      // alternateLinks,
+                      alternateLinks: [],
                       webResponse: response,
                   };
               } catch (error) {
@@ -50,7 +50,7 @@ export async function useFetchPage<T extends PrismicDocument>() {
     const title = itemData?.title || webResponse?.uid;
 
     return {
-        // alternateLinks: [],
+        alternateLinks: [],
         webResponse,
         itemData,
         title,
