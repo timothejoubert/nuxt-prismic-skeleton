@@ -105,8 +105,7 @@ function onClick(event: MouseEvent) {
         :class="rootClasses"
         :disabled="internalTag === 'button' && disabled"
         v-bind="linkProps"
-        @click="onClick"
-    >
+        @click="onClick">
         <span v-if="hasIcon" ref="icon" :class="$style.icon">
             <slot name="icon" />
         </span>
@@ -119,6 +118,7 @@ function onClick(event: MouseEvent) {
 <style lang="scss" module>
 .root {
     @include v-button-default-css-vars($v-button);
+    @include v-button-default-css-vars($v-button-commons);
     @include theme-variants;
 
     position: var(--v-button-position, relative);

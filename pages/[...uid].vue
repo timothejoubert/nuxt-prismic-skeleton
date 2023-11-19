@@ -20,11 +20,13 @@ const isProjectListing = itemData?.type === 'Project listing'
         <VProjectListing v-if="isProjectListing" />
         <div v-else>Main content</div>
 
-        <VButton>label</VButton>
-        <VButton filled>label</VButton>
-        <VButton outlined>label</VButton>
-        <VButton outlined filled theme="light">label</VButton>
-        <VButton outlined filled theme="dark">label</VButton>
+        <div :class="$style.buttons">
+            <VButton>label</VButton>
+            <VButton filled>label</VButton>
+            <VButton outlined>label</VButton>
+            <VButton outlined filled theme="light">label</VButton>
+            <VButton outlined filled theme="dark">label</VButton>
+        </div>
         <!--  <SliceZone-->
         <!--      wrapper="main"-->
         <!--      :slices="page?.data.slices ?? []"-->
@@ -38,5 +40,10 @@ const isProjectListing = itemData?.type === 'Project listing'
     position: relative;
     overflow: auto;
     min-height: var(--min-page-content-height);
+}
+
+.buttons {
+    display: flex;
+    gap: rem(20);
 }
 </style>

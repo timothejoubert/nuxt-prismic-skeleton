@@ -4,7 +4,10 @@
 
 $v-button-size-vars-by-variant: () !default;
 
-// root
+$v-button-commons: (
+    text-transform: uppercase,
+);
+
 $v-button: (
     s: (
         font-size: rem(12),
@@ -13,7 +16,7 @@ $v-button: (
     ),
     m: (
         font-size: fluid((xs: 18, hd: 22)),
-        min-width: rem(38),
+        min-width: rem(58),
         height: rem(36),
     ),
     l: (
