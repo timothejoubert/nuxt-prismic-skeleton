@@ -1,4 +1,4 @@
-import type { PrismicDocument } from '@prismicio/client'
+import type { PrismicDocument } from '@prismicio/types'
 import type { ReachableDocument, ReachableDocumentType } from '~/types/prismic'
 import type { UnionToIntersection } from '~/utils/types'
 

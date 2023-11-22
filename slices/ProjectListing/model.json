@@ -10,7 +10,53 @@
       "docURL": "...",
       "version": "initial",
       "description": "Default",
-      "imageUrl": ""
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "excerpt": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Excerpt",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          }
+        },
+        "link": {
+          "type": "Link",
+          "config": {
+            "label": "Link",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "select": null
+          }
+        },
+        "link_label": {
+          "type": "Text",
+          "config": {
+            "label": "Link label",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {
+        "projet": {
+          "type": "Link",
+          "config": {
+            "label": "Projet",
+            "select": "document",
+            "customtypes": [
+              "project"
+            ]
+          }
+        }
+      }
     }
   ]
 }

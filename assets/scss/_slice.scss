@@ -1,0 +1,3 @@
+.slice {
+  @include component-default-vars($slice, 'slice', '', 0, false);
+}

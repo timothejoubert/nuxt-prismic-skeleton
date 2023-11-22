@@ -114,10 +114,10 @@ export default defineNuxtPlugin(async () => {
     await initCommonContent()
 
     const route = useRoute()
-    const isWildCardRoute = route.name === 'uid'
-    const page = isWildCardRoute ? await useFetchPage() : undefined
+    // const isWildCardRoute = route.name === 'uid'
+    // const page = isWildCardRoute ? await useFetchPage() : undefined
 
     // if (page) await initI18n(page?.locale)
-    initHead(page?.webResponse, page?.alternateLinks)
+    // initHead(page?.webResponse, page?.alternateLinks)
     // initSeoMeta(page?.webResponse)
 })

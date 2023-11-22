@@ -8,17 +8,6 @@
 				"value": "school",
 				"type": "Text"
 			},
-			"content": {
-				"__TYPE__": "StructuredTextContent",
-				"value": [
-					{
-						"type": "paragraph",
-						"content": {
-							"text": "Culpa tempor amet minim est excepteur."
-						}
-					}
-				]
-			},
 			"media": {
 				"__TYPE__": "LinkContent",
 				"value": {
@@ -44,6 +33,17 @@
 						"type": "paragraph",
 						"content": {
 							"text": "Elit tempor ipsum sit adipisicing et mollit incididunt magna et do commodo. Sunt qui cupidatat esse deserunt est eiusmod nisi cupidatat in aliqua sit commodo. Nostrud mollit sunt labore sit elit non non irure fugiat dolore reprehenderit mollit nulla excepteur duis."
+						}
+					}
+				]
+			},
+			"excerpt": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Laborum amet magna nostrud esse magna commodo laboris voluptate laboris proident aute."
 						}
 					}
 				]

@@ -1,15 +1,15 @@
-@mixin component-default-vars($vars, $base: '', $prefix: '', $default: 'm') {
+@mixin component-default-vars($vars, $base: '', $prefix: '', $default: 'm', $with-default: true) {
     @if  map-has-key($vars, $default) {
         // if has breakpoint value
         $default: map-get($vars, $default);
 
         @each $key, $value in $default {
-            #{$key}: var(#{list-implode(('--', $base, $prefix, $key), '-')}, $value);
+            #{$key}: var(#{list-implode(('--', $base, $prefix, $key), '-')} #{if($with-default, #{','$value}, '')});
         }
     } @else {
         // if is root properties
         @each $key, $value in $vars {
-            #{$key}: var(#{list-implode(('--', $base, $prefix, $key), '-')}, $value);
+            #{$key}: var(#{list-implode(('--', $base, $prefix, $key), '-')}, #{if($with-default, #{','$value}, '')});
         }
     }
 }
@@ -53,4 +53,3 @@
         @include css-var-properties($breakpoint, $properties, $prefix);
     }
 }
-

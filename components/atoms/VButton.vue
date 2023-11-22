@@ -18,7 +18,6 @@ export interface VButtonProps {
     iconLast?: boolean
     skeleton?: boolean
     theme?: Theme | false
-    control?: boolean
 }
 
 defineSlots<{
@@ -74,7 +73,7 @@ const hasLabel = computed((): boolean => {
 })
 
 const $style = useCssModule()
-// const { themeClass } = useTheme({ props })
+const { themeClass } = useTheme({ props })
 
 const rootClasses = computed(() => {
     return [
@@ -86,11 +85,10 @@ const rootClasses = computed(() => {
         props.skeleton && $style['root--skeleton'],
         props.rounded && $style['root--rounded'],
         props.iconLast && $style['root--icon-last'],
-        props.control && $style['root--control'],
         typeof props.size === 'string' && $style['root--size-' + props.size],
         hasIcon.value && $style['root--has-icon'],
         hasLabel.value && $style['root--has-label'],
-        // themeClass.value && themeClass.value,
+        themeClass.value && themeClass.value,
     ]
 })
 

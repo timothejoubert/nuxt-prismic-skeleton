@@ -1,1 +1,1 @@
-type Theme = 'light'
+export type Theme = 'main' | 'secondary' | 'ternary'

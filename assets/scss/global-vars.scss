@@ -1,6 +1,7 @@
 :root {
     @include css-vars-breakpoints-properties($v-top-bar, 'v-top-bar');
     @include css-vars-breakpoints-properties($v-footer, 'v-footer');
+    @include css-vars-breakpoints-properties($slice, 'slice');
 
     --min-page-content-height: calc(100vh - var(--v-top-bar-height) - var(--v-footer-height));
 }

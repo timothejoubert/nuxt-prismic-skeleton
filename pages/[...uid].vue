@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { PrismicDocument } from '@prismicio/types'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
-// import { components } from "~/slices";
+import { components } from '~/slices'
 
 const { webResponse, itemData, title } = await useFetchPage()
 
@@ -12,26 +13,25 @@ usePage({ title, webResponse })
 
 const isProjectListing = itemData?.type === 'Project listing'
 // const isArchive = itemData?.type === 'Archives'
+
+const ctaLink = getPrismicLinkProps(webResponse)
+
+function getPrismicLinkProps(document: PrismicDocument) {
+    // TODO: can accept prismic linkField (document, webUrl, relationField)
+
+    const url = document?.url || document?.uid || '/'
+    const label = document.data?.title || 'default PrismicLink label'
+
+    return { url, label }
+}
 </script>
 
 <template>
     <div :class="$style.root">
         <VHeader v-if="itemData" :page="itemData" />
+        <VButtonLink v-bind="ctaLink" />
         <VProjectListing v-if="isProjectListing" />
-        <div v-else>Main content</div>
-
-        <div :class="$style.buttons">
-            <VButton>label</VButton>
-            <VButton filled>label</VButton>
-            <VButton outlined>label</VButton>
-            <VButton outlined filled theme="light">label</VButton>
-            <VButton outlined filled theme="dark">label</VButton>
-        </div>
-        <!--  <SliceZone-->
-        <!--      wrapper="main"-->
-        <!--      :slices="page?.data.slices ?? []"-->
-        <!--      :components="components"-->
-        <!--  />-->
+        <SliceZone v-if="itemData.slices" :slices="itemData.slices" :components="components" />
     </div>
 </template>
 
@@ -40,10 +40,5 @@ const isProjectListing = itemData?.type === 'Project listing'
     position: relative;
     overflow: auto;
     min-height: var(--min-page-content-height);
-}
-
-.buttons {
-    display: flex;
-    gap: rem(20);
 }
 </style>

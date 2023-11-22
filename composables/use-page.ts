@@ -1,4 +1,4 @@
-import type { PrismicDocument } from '@prismicio/client'
+import type { PrismicDocument } from '@prismicio/types'
 import { useNextPage } from '~/composables/use-next-page'
 import { useCurrentPage } from '~/composables/use-current-page'
 

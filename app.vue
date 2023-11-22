@@ -4,7 +4,7 @@
     <div>
         <VTopBar />
         <NuxtPage />
-        <NuxtLoadingIndicator :height="200" color="red" :duration="10000" />
+        <NuxtLoadingIndicator :height="5" color="yellow" />
         <VFooter />
     </div>
 </template>

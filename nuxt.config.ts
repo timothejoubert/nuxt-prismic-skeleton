@@ -50,7 +50,7 @@ export default defineNuxtConfig({
     // https://github.com/storybook-vue/storybook-nuxt/issues/57
     components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],
 
-    modules: ['@nuxtjs/prismic', '@nuxtjs/svg-sprite'],
+    modules: ['@nuxtjs/i18n', '@nuxt/image', '@nuxtjs/prismic', '@nuxtjs/svg-sprite'],
 
     runtimeConfig: {
         // The private keys which are only available server-side
@@ -85,5 +85,17 @@ export default defineNuxtConfig({
                 },
             ],
         },
+    },
+    i18n: {
+        // Use no_prefix strategy to avoid redirecting localized paths without locale prefix
+        strategy: 'no_prefix',
+        detectBrowserLanguage: false,
+        defaultLocale,
+        locales: locales.map((locale) => ({
+            code: locale,
+            file: `nuxt.${locale}.json`,
+        })),
+        lazy: true,
+        langDir: 'assets/locales/',
     },
 })
