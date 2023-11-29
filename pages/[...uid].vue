@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import type { PrismicDocument } from '@prismicio/types'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import { components } from '~/slices'
+import { getPrismicLinkProps } from '~/utils/prismic/link'
+import { isHomeDocument } from '~/utils/types/document-type'
 
-const { webResponse, itemData, title } = await useFetchPage()
+const { webResponse, itemData, title, error } = await useFetchPage()
+
+if (error) {
+    showError(error)
+}
 
 definePageMeta({
     pageTransition: defaultPageTransition,
@@ -11,27 +16,32 @@ definePageMeta({
 
 usePage({ title, webResponse })
 
+const ctaLink = webResponse && getPrismicLinkProps(webResponse)
+
+// Page
+const isHome = isHomeDocument(webResponse?.type) || webResponse?.url === '/'
+const isArchive = itemData?.type === 'Archives'
 const isProjectListing = itemData?.type === 'Project listing'
-// const isArchive = itemData?.type === 'Archives'
+const pageComponent = isHome ? 'VHome' : isProjectListing ? 'VProjectListing' : 'VPageDefault'
 
-const ctaLink = getPrismicLinkProps(webResponse)
-
-function getPrismicLinkProps(document: PrismicDocument) {
-    // TODO: can accept prismic linkField (document, webUrl, relationField)
-
-    const url = document?.url || document?.uid || '/'
-    const label = document.data?.title || 'default PrismicLink label'
-
-    return { url, label }
+// Header
+const headerProps = itemData && {
+    title: itemData.title,
+    content: itemData.excerpt,
+    asideContent: itemData.content,
+    media: itemData.media,
 }
+console.log('webResponse', webResponse)
 </script>
 
 <template>
     <div :class="$style.root">
-        <VHeader v-if="itemData" :page="itemData" />
+        <component :is="pageComponent" v-if="webResponse" :web-response="webResponse">
+            <VHeader v-if="itemData" v-bind="headerProps" />
+        </component>
+
         <VButtonLink v-bind="ctaLink" />
-        <VProjectListing v-if="isProjectListing" />
-        <SliceZone v-if="itemData.slices" :slices="itemData.slices" :components="components" />
+        <!--        <SliceZone v-if="itemData?.slices" :slices="itemData.slices" :components="components" />-->
     </div>
 </template>
 

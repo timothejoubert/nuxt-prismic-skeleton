@@ -10,3 +10,13 @@
         url('../fonts/noigrotesk-variable.woff2') format('woff2'),
         url('../fonts/noigrotesk-variable.woff') format('woff');
 }
+
+@font-face {
+    font-display: swap;
+    font-family: mango;
+    font-style: oblique 0deg 9deg;
+    font-weight: 100 900;
+    src:
+        url('../fonts/mango-grotesque-vf.woff2') format('woff2'),
+        url('../fonts/mango-grotesque-vf.ttf') format('truetype');
+}

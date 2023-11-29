@@ -1,6 +1,7 @@
 
 
 ### In progress
+* update Slice machine: http://localhost:9999/changelog
 * VButton (Base + surcouche animation + theme)
 * VLink
 * VCta (Surcouche Prismic)

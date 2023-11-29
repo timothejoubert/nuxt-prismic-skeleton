@@ -1,10 +1,10 @@
 @use 'sass:math';
 
 @mixin text-h1 {
-    @include font-size-fluid((xs: 57, xl: 146));
+    @include font-size-fluid((xs: 130, xl: 360));
 
     font-weight: 750;
-    line-height: 1;
+    line-height: 0.8;
     text-transform: uppercase;
 }
 

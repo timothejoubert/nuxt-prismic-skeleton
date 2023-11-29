@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import type { ProjectDocument } from '~/prismicio-types'
+import type { VPageProps } from '~/types/prismic'
+
+defineProps<VPageProps>()
 
 const prismic = usePrismic()
 const route = useRoute()

@@ -6,6 +6,7 @@ import type {
 import type { FilledLinkToWebField } from '@prismicio/types/src/value/link'
 import type { FilledLinkToMediaField, LinkToMediaField } from '@prismicio/types/src/value/linkToMedia'
 import type { ReachableDocument, ReachableDocumentType } from '~/types/prismic'
+import { documentTypes, isDocumentType } from '~/utils/types/document-type'
 
 // Document Field
 function getPrismicDocumentLinkProps(document: PrismicDocument) {
@@ -70,8 +71,6 @@ export function getPrismicLinkFieldProps(field: LinkField) {
 }
 
 // From all fields
-const pageType: (ReachableDocumentType | string)[] = ['page', 'project']
-
 function isRelationField(prismicData: Object & Partial<LinkField>): prismicData is LinkField {
     return !!prismicData?.link_type
 }
@@ -81,7 +80,7 @@ function isPrismicDocument(prismicData: Object & PrismicDocument): prismicData i
 }
 
 function isPrismicDocumentReachable(prismicData: Object & PrismicDocument) {
-    return isPrismicDocument(prismicData) && pageType.includes(prismicData.type)
+    return isPrismicDocument(prismicData) && isDocumentType(prismicData.type)
 }
 
 export function getPrismicLinkProps(prismicData: PrismicDocument | LinkField) {

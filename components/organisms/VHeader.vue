@@ -1,13 +1,26 @@
 <script lang="ts" setup>
-import type { PageContent } from '~/composables/use-fetch-page'
+import type { LinkToMediaField, RichTextField } from '@prismicio/types'
 
-defineProps<{ page: PageContent }>()
+interface VHeaderProps {
+    title: string
+    content?: RichTextField
+    asideContent?: RichTextField
+    media?: LinkToMediaField
+}
+defineProps<VHeaderProps>()
 </script>
 
 <template>
     <header :class="$style.root" class="container">
-        <h1 class="text-h1" :class="$style.title">{{ page.title }}</h1>
-        <PrismicRichText class="text-body-l" :field="page.excerpt" :class="$style.content" />
+        <h1 class="text-h1" :class="$style.title">{{ title }}</h1>
+        <PrismicRichText v-if="content" class="text-body-l" :field="content" :class="$style.content" />
+        <div :class="$style.aside">
+            <PrismicRichText
+                v-if="asideContent"
+                class="text-body-l"
+                :field="asideContent"
+                :class="$style['aside__content']" />
+        </div>
     </header>
 </template>
 
@@ -28,5 +41,9 @@ defineProps<{ page: PageContent }>()
     @include media('>=lg') {
         width: min(#{math.div(600, 1440) * 100%}, rem(800));
     }
+}
+
+.aside {
+    background-color: lightgrey;
 }
 </style>
