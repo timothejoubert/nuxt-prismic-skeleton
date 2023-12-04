@@ -284,15 +284,15 @@ interface PageDocumentData {
   type: prismic.SelectField<'Default' | 'Home' | 'About' | 'Archives' | 'Project listing', 'filled'>
 
   /**
-   * Excerpt field in *Page*
+   * Content field in *Page*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: page.excerpt
+   * - **API ID Path**: page.content
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  excerpt: prismic.RichTextField
+  content: prismic.RichTextField
 
   /**
    * Slice Zone field in *Page*

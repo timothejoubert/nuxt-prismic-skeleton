@@ -1,6 +1,7 @@
 import type { PrismicDocument } from '@prismicio/types'
 import { useNextPage } from '~/composables/use-next-page'
 import { useCurrentPage } from '~/composables/use-current-page'
+import EventType from '~/constants/event-type'
 
 export interface Page {
     title?: string | null
@@ -20,30 +21,15 @@ export function usePage(options?: UsePageOptions) {
         // alternateLinks: options?.alternateLinks,
     }
 
-    function onPageTransitionEnter() {
-        currentPage.value = { ...nextPage.value }
-    }
-
     watch(currentPage, () => {
         useHead({
-            title: currentPage.value?.title,
+            title: currentPage.value.title,
         })
 
-        // useAlternateLinks(currentPage.value.alternateLinks);
+        // useAlternateLinks(currentPage.value.alternateLinks)
     })
 
-    onBeforeMount(() => {
-        useEvent({
-            id: 'pageTransitionEnter',
-            type: 'on',
-            callback: onPageTransitionEnter,
-        })
-    })
+    if (!currentPage.value) currentPage.value = { ...nextPage.value }
 
-    onBeforeUnmount(() => {
-        useEvent({
-            id: 'pageTransitionEnter',
-            type: 'off',
-        })
-    })
+    usePageTransitionEvent(EventType.PAGE_TRANSITION_AFTER_LEAVE, () => (currentPage.value = { ...nextPage.value }))
 }

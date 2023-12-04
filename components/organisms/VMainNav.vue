@@ -3,7 +3,7 @@ import { getDocumentData } from '~/utils/prismic/document-data'
 
 const { mainMenu } = useCommonContent()
 
-const links = mainMenu && getDocumentData(mainMenu, 'links')
+const links = (mainMenu && getDocumentData(mainMenu, 'links')) || []
 
 const selectedIndex = ref(0)
 const route = useRoute()
@@ -23,12 +23,12 @@ function onFocus() {
 
 <template>
     <nav :class="$style.root">
-        <ul :class="$style.list">
+        <ul v-if="links.length" :class="$style.list">
             <li v-for="item in links" :key="item" :class="$style.item">
-                <NuxtLink :to="item.document.url" :class="$style.link" @focus="onFocus"
+                <VLink :reference="item.document" :class="$style.link" @focus="onFocus"
                     >{{ item.label }}
                     <VAppSymbol />
-                </NuxtLink>
+                </VLink>
             </li>
         </ul>
     </nav>

@@ -6,7 +6,10 @@ import type {
 import type { FilledLinkToWebField } from '@prismicio/types/src/value/link'
 import type { FilledLinkToMediaField, LinkToMediaField } from '@prismicio/types/src/value/linkToMedia'
 import type { ReachableDocument, ReachableDocumentType } from '~/types/prismic'
-import { documentTypes, isDocumentType } from '~/utils/types/document-type'
+import { isExistingType } from '~/utils/prismic/document-type'
+
+export type PrismicReference = PrismicDocument | LinkField
+type FilledLinkFields = FilledContentRelationshipField | FilledLinkToWebField | FilledLinkToMediaField
 
 // Document Field
 function getPrismicDocumentLinkProps(document: PrismicDocument) {
@@ -42,10 +45,13 @@ function getPrismicRelationFieldProps(field: ContentRelationshipField) {
 }
 
 // Type guard
-type FilledLinkFields = FilledContentRelationshipField | FilledLinkToWebField | FilledLinkToMediaField
-
 function getFilledLinkField(field: LinkField): FilledLinkFields | undefined {
-    const anyField = field as any // UnionToIntersection<FilledLinkFields>
+    const anyField = field as any
+
+    if (!anyField || anyField?.isBroken) {
+        console.warn(`${field} is not filled or broken`)
+        return undefined
+    }
 
     const hasFilledKey = anyField?.url || anyField?.id || anyField?.link_type === 'Media' // Web | Relation | Media
     return hasFilledKey ? (field as FilledLinkFields) : undefined
@@ -54,10 +60,7 @@ function getFilledLinkField(field: LinkField): FilledLinkFields | undefined {
 export function getPrismicLinkFieldProps(field: LinkField) {
     const filledField = getFilledLinkField(field)
 
-    if (!filledField) {
-        console.warn(`${field} is not filled`)
-        return { url: '', label: '' }
-    }
+    if (!filledField) return { url: '', label: '' }
 
     if (field.link_type === 'Web') {
         return getWebLinkProps(filledField)
@@ -80,10 +83,14 @@ function isPrismicDocument(prismicData: Object & PrismicDocument): prismicData i
 }
 
 function isPrismicDocumentReachable(prismicData: Object & PrismicDocument) {
-    return isPrismicDocument(prismicData) && isDocumentType(prismicData.type)
+    return isPrismicDocument(prismicData) && isExistingType(prismicData.type)
 }
 
-export function getPrismicLinkProps(prismicData: PrismicDocument | LinkField) {
+export function getPrismicLinkProps(prismicData: PrismicReference | undefined) {
+    if (!prismicData) {
+        console.warn('getPrismicLinkProps arg undefined')
+        return
+    }
     if (isRelationField(prismicData)) return getPrismicLinkFieldProps(prismicData)
     else if (isPrismicDocumentReachable(prismicData)) return getPrismicDocumentLinkProps(prismicData)
 }

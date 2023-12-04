@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { ProjectDocument } from '~/prismicio-types'
+import type { ProjectDocument, ProjectListingDocumentData } from '~/prismicio-types'
 import type { VPageProps } from '~/types/prismic'
 
-defineProps<VPageProps>()
+defineProps<VPageProps<ProjectListingDocumentData>>()
 
 const prismic = usePrismic()
 const route = useRoute()
@@ -54,7 +54,6 @@ const { data: tagData } = await useAsyncData('tags', async () => {
 })
 
 const tags = tagData.value
-console.log(tagData)
 </script>
 
 <template>
@@ -85,5 +84,11 @@ console.log(tagData)
     @include media('>=hd') {
         --v-project-listing-columns: 4;
     }
+}
+</style>
+
+<style lang="scss" module>
+.filter {
+    display: flex;
 }
 </style>

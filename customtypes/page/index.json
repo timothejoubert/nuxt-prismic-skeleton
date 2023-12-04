@@ -25,23 +25,17 @@
         "config": {
           "label": "Type",
           "placeholder": "",
-          "options": [
-            "Default",
-            "Home",
-            "About",
-            "Archives",
-            "Project listing"
-          ],
+          "options": ["Default", "Home", "About", "Archives", "Project listing"],
           "default_value": "Default"
         }
       },
-      "excerpt": {
+      "content": {
         "type": "StructuredText",
         "config": {
-          "label": "Excerpt",
+          "label": "Content",
           "placeholder": "",
           "allowTargetBlank": true,
-          "multi": "heading1,heading2,strong,em,hyperlink,paragraph"
+          "multi": "paragraph,strong,em,hyperlink"
         }
       },
       "slices": {

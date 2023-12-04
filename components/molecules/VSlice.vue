@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { type Content } from '@prismicio/client'
-import { getPrismicLinkFieldProps } from '~/utils/prismic/link'
+import { getPrismicLinkFieldProps } from '~/utils/prismic/prismic-link'
 
 const props = defineProps<{ item: Content.ProjectListingSlice }>()
 

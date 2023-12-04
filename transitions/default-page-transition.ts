@@ -1,14 +1,69 @@
 import type { TransitionProps } from 'vue'
+import { gsap } from 'gsap'
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import eventBus from '~/utils/event-bus'
+import EventType from '~/constants/event-type'
+
+function foregroundElement() {
+    const foreground = document.createElement('div')
+    foreground.style.position = 'fixed'
+    foreground.style.inset = '0'
+    foreground.style.zIndex = '5'
+    foreground.style.background = '#fff'
+
+    return foreground
+}
 
 const defaultPageTransition: TransitionProps = {
     css: false,
     mode: 'out-in',
-    onLeave(_el, done) {
-        done()
+    onLeave(_element, done) {
+        console.log('onLeave')
+        eventBus.emit(EventType.PAGE_TRANSITION_LEAVE)
+
+        if (usePrefersReducedMotion().value) {
+            done()
+        } else {
+            const foreground = foregroundElement()
+            document.body.appendChild(foreground)
+
+            disableBodyScroll(document.body, { reserveScrollBarGap: true })
+
+            gsap.from(foreground, {
+                opacity: 0,
+                duration: 0.5,
+                onComplete: () => {
+                    foreground.remove()
+                    done()
+                },
+            })
+        }
     },
-    onEnter(_el, done) {
-        useEvent({ id: 'pageTransitionEnter', type: 'emit' })
-        done()
+    onAfterLeave() {
+        console.log('onAfterLeave')
+        eventBus.emit(EventType.PAGE_TRANSITION_AFTER_LEAVE)
+    },
+    onEnter(element, done) {
+        console.log('onEnter')
+        if (usePrefersReducedMotion().value) {
+            eventBus.emit(EventType.PAGE_TRANSITION_ENTER)
+            done()
+        } else {
+            const foreground = foregroundElement()
+            element.appendChild(foreground)
+
+            eventBus.emit(EventType.PAGE_TRANSITION_ENTER)
+
+            gsap.to(foreground, {
+                opacity: 0,
+                duration: 0.5,
+                onComplete: () => {
+                    enableBodyScroll(document.body)
+                    foreground.remove()
+                    done()
+                },
+            })
+        }
     },
 }
 

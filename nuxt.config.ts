@@ -1,7 +1,7 @@
 import svgLoader from 'vite-svg-loader'
 import prismicProjectData from './slicemachine.config.json'
 import { version } from './package.json'
-import { generatePrismicUrlList } from './utils/types/document-url'
+import { generatePrismicUrlList } from './utils/prismic/prismic-route'
 
 const locales = ['fr']
 const defaultLocale = 'fr'
@@ -65,11 +65,15 @@ export default defineNuxtConfig({
         },
     },
 
+    build: {
+        transpile: ['gsap'],
+    },
+
     prismic: {
         endpoint: prismicProjectData.repositoryName || 'nuxt3-starter',
         preview: prismicProjectData.previewEndpoint || '/preview',
         clientConfig: {
-            routes: [], // generatePrismicUrlList(),
+            routes: generatePrismicUrlList(),
         },
     },
     i18n: {

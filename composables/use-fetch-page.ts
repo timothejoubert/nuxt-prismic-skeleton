@@ -1,12 +1,20 @@
-import type { ReachableDocument, ReachableDocumentType } from '~/types/prismic'
-import type { UnionToIntersection } from '~/utils/types'
-import { getDocumentTypeByUrl } from '~/utils/types/document-url'
+import type { ReachableDocumentType } from '~/types/prismic'
+import type { PossibleUrl } from '~/utils/prismic/document-url'
+import { prismicDocuments } from '~/utils/prismic/prismic-documents'
+import { isProjectUrl, isSingleDocumentType, isStaticUrl } from '~/utils/prismic/document-url'
 
-export type PageContent = UnionToIntersection<ReachableDocument['data']>
-const singleDocumentType: ReachableDocumentType[] = ['home_page', 'archives', 'project_listing']
+function getDocumentTypeByUrl(url: PossibleUrl | string): ReachableDocumentType {
+    if (isStaticUrl(url)) {
+        return (
+            (Object.entries(prismicDocuments).find(
+                ([_type, typeUrl]) => typeUrl === url,
+            )?.[0] as ReachableDocumentType) || 'home_page'
+        )
+    } else if (isProjectUrl(url)) return 'project'
+    else return 'page'
+}
 
 export async function useFetchPage() {
-    const prismic = usePrismic()
     const route = useRoute()
     const uidParams = route.params.uid
     const uid = Array.isArray(uidParams) ? uidParams.at(-1) : uidParams
@@ -18,14 +26,12 @@ export async function useFetchPage() {
     const { data, error } = cachedData.data?.value
         ? cachedData
         : await useAsyncData(key, async () => {
-              // Sometimes error when accessing prismic on SSR
+              const prismic = usePrismic()
               const documentType = getDocumentTypeByUrl(route.fullPath)
-              const isSingleDocument = singleDocumentType.includes(documentType)
-              console.log(documentType, isSingleDocument)
 
-              const response = await (isSingleDocument
+              const response = await (isSingleDocumentType(documentType)
                   ? prismic?.client.getSingle(documentType)
-                  : prismic?.client.getByUID(documentType, !uid ? 'home' : uid))
+                  : prismic?.client.getByUID(documentType, !uid ? 'home_page' : uid))
 
               // const alternateLinks: AlternateLanguage[] = getResponseAlternateLinks(response);
               return {

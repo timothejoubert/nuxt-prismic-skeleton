@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ImageField, LinkToMediaField } from '@prismicio/types'
 import type { ProjectDocument } from '~/prismicio-types'
-import { NuxtLink } from '#components'
+import { parseProjectDocumentData } from '~/utils/prismic/document-project'
 // import type { UnionToIntersection } from '~/utils/types'
 
 type PrismicMedia = LinkToMediaField | ImageField
@@ -22,64 +22,39 @@ interface VProjectCardRowProps {
     url?: string
     year?: string
     tags?: string[]
-}
-
-interface VProjectCardPrismicProps {
     prismicProject?: ProjectDocument
 }
 
-// TODO: prismic or row prop not working
+// type VProjectCardProps =
+//     | ({
+//           layout: 'default' | 'condensed'
+//       } & VProjectCardRowProps)
+//     | {
+//           prismicProject: ProjectDocument
+//       }
 
-type VProjectCardProps =
-    | ({
-          layout: 'default' | 'condensed'
-      } & VProjectCardRowProps)
-    | VProjectCardPrismicProps
+const props = defineProps<VProjectCardRowProps>()
 
-const props = defineProps<VProjectCardProps>()
+const { projectTitle, projectYear, projectTags, projectUrl, projectMedia } = parseProjectDocumentData(
+    props.prismicProject,
+)
 
-function parseProjectDocumentData(document: ProjectDocument | undefined) {
-    if (!document) return { title: undefined, year: undefined, tags: undefined, url: undefined, media: undefined }
-    const { data } = document
-
-    return {
-        title: data.title,
-        year: data.creation, // TODO: Get year from full date format
-        tags: document.tags,
-        url: document.url,
-        media: data.main_media,
-    }
-}
-
-const {
-    title: prismicTitle,
-    year: prismicYear,
-    tags: prismicTags,
-    url: prismicUrl,
-    media: prismicMedia,
-} = parseProjectDocumentData(props.prismicProject)
-
-const title = props.title || prismicTitle
-const year = props.year || prismicYear
-const url = props.url || prismicUrl
-const media = props.media || prismicMedia
-const tags = props.tags || prismicTags
-
-const rootAttribute = {
-    component: url ? NuxtLink : 'div',
-    to: url,
-}
+const title = props.title || projectTitle
+const year = props.year || projectYear
+const tags = props.tags || projectTags
+const url = props.url || projectUrl
+const media = props.media || projectMedia
 </script>
 
 <template>
-    <component :is="rootAttribute.component" :to="rootAttribute.to">
+    <VLink :url="url" :reference="prismicProject">
         <img :src="media.url" alt="" :class="$style.media" />
         <div :class="$style.information">
             <h3>{{ title }}</h3>
             <span>{{ year }}</span>
             <span v-for="tag in tags" :key="tag">{{ tag }}</span>
         </div>
-    </component>
+    </VLink>
 </template>
 
 <style lang="scss" module>
