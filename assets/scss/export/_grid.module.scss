@@ -1,0 +1,13 @@
+@import "../variables/grid";
+
+@each $breakpoint, $value in $grid-columns {
+    :export {
+        grid-column-#{$breakpoint}: $value;
+    }
+}
+
+@each $breakpoint, $value in $gutters {
+    :export {
+        grid-gutter-#{$breakpoint}: $value;
+    }
+}

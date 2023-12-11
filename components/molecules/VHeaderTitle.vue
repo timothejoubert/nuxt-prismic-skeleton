@@ -16,7 +16,8 @@ const items = computed(() => {
 })
 
 const itemElements = ref<(HTMLElement | ComponentPublicInstance)[]>([])
-const getItems = () => itemElements.value.map((instance) => (instance as ComponentPublicInstance)?.$el || instance)
+const getItems = () =>
+    itemElements.value.map((instance) => (instance as ComponentPublicInstance)?.$el || instance).filter((t) => !!t)
 
 function revealItems() {
     gsap.fromTo(
@@ -27,14 +28,18 @@ function revealItems() {
 }
 
 function leaveItems() {
-    console.log('PAGE_TRANSITION_LEAVE')
-
     gsap.fromTo(
         getItems(),
         { y: 0, opacity: 1 },
         { opacity: 0, y: '100%', stagger: 0.04, duration: 0.3, ease: 'power2.out' },
     )
 }
+
+const isFirstPageVisited = useFirstPageVisited()
+
+onMounted(() => {
+    if (isFirstPageVisited.value) revealItems()
+})
 
 usePageTransitionEvent(EventType.PAGE_TRANSITION_ENTER, revealItems)
 usePageTransitionEvent(EventType.PAGE_TRANSITION_LEAVE, leaveItems)
@@ -44,7 +49,7 @@ usePageTransitionEvent(EventType.PAGE_TRANSITION_LEAVE, leaveItems)
     <h1 :class="$style.root" class="text-h1">
         <template v-for="(word, wordIndex) in items" :key="wordIndex">
             <template v-if="word === 'button'">
-                <br />
+                <br v-if="wordIndex !== 0" />
                 <VButton ref="itemElements" filled :class="$style.button">button</VButton>
             </template>
             <div
@@ -64,8 +69,8 @@ usePageTransitionEvent(EventType.PAGE_TRANSITION_LEAVE, leaveItems)
 }
 
 .wrapper-letter {
-    overflow: hidden;
     display: inline-flex;
+    overflow: hidden;
     align-items: center;
     line-height: 0.8;
 }
@@ -75,6 +80,7 @@ usePageTransitionEvent(EventType.PAGE_TRANSITION_LEAVE, leaveItems)
     display: inline-block;
     line-height: 0.8;
     opacity: 0;
+
     //translate: 0 100%;
 }
 </style>

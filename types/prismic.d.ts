@@ -12,7 +12,7 @@ export type DocumentWithoutUidType = ExtractDocumentType<IntersectDocument<AllDo
 export type ReachableDocumentType = ExtractDocumentType<ReachableDocument>
 
 // Page
-export type VPageProps<T extends PrismicDocument['data']> = { webResponse: PrismicDocument<T> }
+export type VPageProps<T = PrismicDocument['data']> = { webResponse: PrismicDocument<T> }
 
 
 //  UTILS

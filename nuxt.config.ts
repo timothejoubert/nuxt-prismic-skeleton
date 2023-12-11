@@ -51,7 +51,7 @@ export default defineNuxtConfig({
     // https://github.com/storybook-vue/storybook-nuxt/issues/57
     components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],
 
-    modules: ['@nuxtjs/i18n', '@nuxt/image', '@nuxtjs/prismic', '@nuxtjs/svg-sprite'],
+    modules: ['@nuxtjs/i18n', '@nuxt/image', '@nuxtjs/prismic', '@nuxtjs/svg-sprite', '@vueuse/nuxt'],
 
     runtimeConfig: {
         // The private keys which are only available server-side
@@ -76,6 +76,35 @@ export default defineNuxtConfig({
             routes: generatePrismicUrlList(),
         },
     },
+
+    image: {
+        provider: 'prismic' || 'imgix',
+        prismic: {},
+        domains: ['images.prismic.io'],
+        quality: 80,
+        screens: {
+            xs: 375, // override size to match our breakpoints
+            xl: 1440, // override size to match our breakpoints
+            hd: 1920, // additional size
+            qhd: 2500, // additional size
+        },
+        // @ts-ignore not working with [1]
+        densities: '1',
+        presets: {
+            fullscreen: {
+                format: 'webp',
+                sizes: 'xs:100vw md:100vw lg:100vw vl:100vw xl:100vw hd:100vw qhd:100vw',
+            },
+            avatar: {
+                modifiers: {
+                    format: 'jpg',
+                    width: 50,
+                    height: 50,
+                },
+            },
+        },
+    },
+
     i18n: {
         // Use no_prefix strategy to avoid redirecting localized paths without locale prefix
         strategy: 'no_prefix',

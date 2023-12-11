@@ -1,33 +1,80 @@
 <script setup lang="ts">
+import gsap from 'gsap'
+import type { ComponentPublicInstance } from 'vue'
 import { getDocumentData } from '~/utils/prismic/document-data'
+import { getHtmlElement } from '~/utils/ref/get-html-element'
+import { useSetGlobalCssVar } from '~/composables/use-set-global-css-var'
 
 const { mainMenu } = useCommonContent()
 
+const indicator = ref<HTMLElement | null>(null)
+const linkItem = ref<ComponentPublicInstance[]>([])
 const links = (mainMenu && getDocumentData(mainMenu, 'links')) || []
 
-const selectedIndex = ref(0)
+// ROUTE CHANGED
+const selectedIndex = ref<number | null>(null)
 const route = useRoute()
 
-watch(
-    () => route.path,
-    () => {
-        selectedIndex.value = links?.findIndex((link) => link.document?.url === route.path) || 0
-    },
-    { immediate: true },
-)
-
-function onFocus() {
-    // TODO: update selectedIndex ?
+function setSelectedIndexByRoute() {
+    selectedIndex.value = links?.findIndex((link) => link.document?.url === route.path) || 0
 }
+
+function setIndicatorPosition() {
+    const el = getHtmlElement(linkItem.value[selectedIndex.value || 0])
+    if (!el) return
+
+    gsap.to(indicator.value, {
+        x: el.offsetLeft,
+        y: el.offsetTop,
+        width: el.offsetWidth,
+        height: el.offsetHeight,
+        ease: 'power2.out',
+        duration: 0.3,
+    })
+}
+
+watch(() => route.path, setSelectedIndexByRoute)
+watch(selectedIndex, setIndicatorPosition)
+onMounted(setSelectedIndexByRoute)
+
+function onFocus(i: number) {
+    selectedIndex.value = i
+}
+
+// GET NAV HEIGHT
+const root = ref<HTMLElement | null>(null)
+const rootHeight = ref(0)
+let resizeObserver: ResizeObserver | null = null
+
+onMounted(() => {
+    if (root.value) {
+        resizeObserver = new ResizeObserver(
+            ([entry]) => (rootHeight.value = (entry.target as HTMLElement).offsetHeight),
+        )
+        resizeObserver.observe(root.value)
+    } else {
+        console.warn('main nav root not found')
+    }
+})
+
+onUnmounted(() => {
+    resizeObserver?.disconnect()
+    resizeObserver = null
+})
+
+watch(rootHeight, () => {
+    useSetGlobalCssVar('v-top-bar-height', rootHeight)
+})
 </script>
 
 <template>
-    <nav :class="$style.root">
+    <nav ref="root" :class="$style.root">
         <ul v-if="links.length" :class="$style.list">
-            <li v-for="item in links" :key="item" :class="$style.item">
-                <VLink :reference="item.document" :class="$style.link" @focus="onFocus"
+            <li v-for="(item, i) in links" :key="item" :class="$style.item">
+                <VLink ref="linkItem" :reference="item.document" :class="$style.link" @focus="onFocus(i)"
                     >{{ item.label }}
                     <VAppSymbol />
+                    <div v-if="i === 0" ref="indicator" :class="$style.indicator"></div>
                 </VLink>
             </li>
         </ul>
@@ -35,23 +82,6 @@ function onFocus() {
 </template>
 
 <style lang="scss" module>
-.root {
-    position: sticky;
-    z-index: 11;
-    top: 0;
-    display: flex;
-    height: var(--v-top-bar-height);
-    align-items: center;
-
-    &::after {
-        position: absolute;
-        z-index: -2;
-        background-color: color(primary);
-        content: '';
-        inset: 0;
-    }
-}
-
 .list {
     display: contents;
 }
@@ -64,21 +94,16 @@ function onFocus() {
     position: relative;
     z-index: 2;
     display: flex;
-    height: 100%;
-    flex-basis: 100%;
+    width: 100%;
     align-items: center;
     justify-content: space-between;
-    padding-inline: rem(30);
+    padding: rem(12) rem(30);
+}
 
-    .item:first-child &::before {
-        position: absolute;
-        z-index: -1;
-        background-color: color(secondary);
-        content: '';
-        inset: 0;
-        opacity: 0.6;
-        transition: translate 0.4s;
-        translate: calc(v-bind('selectedIndex') * 100%) 0;
-    }
+.indicator {
+    position: absolute;
+    inset: 0;
+    background-color: red;
+    z-index: -1;
 }
 </style>

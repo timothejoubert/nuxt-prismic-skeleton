@@ -1,15 +1,23 @@
+$margins: (
+    0: rem(12),
+    lg: rem(44),
+) !default;
+
 $gutters: (
-    0: rem(16),
-    lg: rem(32),
+    0: rem(12),
+    lg: rem(24),
 ) !default;
+
 $grid-widths: (
-    0: calc(100% - 2 * var(--gutter)),
+    0: calc(100% - 2 * var(--grid-margin-inline)),
 ) !default;
+
 $grid-max-widths: (
     // 0: 1920px,
 ) !default;
+
 $grid-columns: (
-    0: 12,
-    lg: 24,
+    0: 8,
+    lg: 14,
 ) !default;
 

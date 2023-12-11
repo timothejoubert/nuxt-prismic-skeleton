@@ -14,6 +14,7 @@ interface UsePageOptions extends Page {}
 export function usePage(options?: UsePageOptions) {
     const nextPage = useNextPage()
     const currentPage = useCurrentPage()
+    const isFirstPageVisited = useFirstPageVisited()
 
     nextPage.value = {
         title: options?.title,
@@ -29,7 +30,12 @@ export function usePage(options?: UsePageOptions) {
         // useAlternateLinks(currentPage.value.alternateLinks)
     })
 
-    if (!currentPage.value) currentPage.value = { ...nextPage.value }
+    if (!currentPage.value?.webResponse) currentPage.value = { ...nextPage.value }
 
-    usePageTransitionEvent(EventType.PAGE_TRANSITION_AFTER_LEAVE, () => (currentPage.value = { ...nextPage.value }))
+    function onPageTransitionAfterLeave() {
+        isFirstPageVisited.value = false
+        currentPage.value = { ...nextPage.value }
+    }
+
+    usePageTransitionEvent(EventType.PAGE_TRANSITION_AFTER_LEAVE, onPageTransitionAfterLeave)
 }

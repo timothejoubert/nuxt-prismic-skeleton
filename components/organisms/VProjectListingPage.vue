@@ -1,15 +1,13 @@
-<script lang="ts" setup>
-import type { ProjectDocument, ProjectListingDocumentData } from '~/prismicio-types'
+<script setup lang="ts">
+import type { ProjectListingDocumentData } from '~/prismicio-types'
 import type { VPageProps } from '~/types/prismic'
 
-defineProps<VPageProps<ProjectListingDocumentData>>()
+const props = defineProps<VPageProps<ProjectListingDocumentData>>()
+const pageData = computed(() => props.webResponse.data)
 
 const prismic = usePrismic()
-const route = useRoute()
 
-const projects = ref<ProjectDocument[] | null>(null)
-
-const { data } = await useAsyncData(route.params.uid.toString(), async () => {
+const { data: projects } = await useAsyncData('projects', async () => {
     const document = await prismic.client.getAllByType('project', {
         orderings: [
             {
@@ -34,7 +32,6 @@ const { data } = await useAsyncData(route.params.uid.toString(), async () => {
         })
     }
 })
-projects.value = data.value
 
 // useAllPrismicDocumentsByTag()
 const { data: tagData } = await useAsyncData('tags', async () => {
@@ -54,41 +51,70 @@ const { data: tagData } = await useAsyncData('tags', async () => {
 })
 
 const tags = tagData.value
+
+const projectLayout = ref<'grid' | 'row'>('grid')
 </script>
 
 <template>
-    <div v-if="projects?.length" :class="$style.root">
-        <div :class="$style.filter">
-            Tags: <button v-for="tag in tags" :key="tag">{{ tag }}</button>
+    <div :class="$style.root" class="grid">
+        <VHeaderTitle v-if="pageData.title" class="text-h1 grid-page-content" :content="pageData.title" />
+        <div :class="$style.filter" class="grid-aside-content">
+            <div :class="$style.layout">
+                <div :class="$style.layout__title">Layout</div>
+                <button :class="$style.layout__button">Grid</button>
+                <button :class="$style.layout__button">Row</button>
+            </div>
+            <div :class="$style.tags">
+                <div :class="$style.tags__title">Filtres</div>
+                <button v-for="tag in tags" :key="tag" :class="$style.tags__button">{{ tag }}</button>
+            </div>
         </div>
-        <VProjectCard v-for="project in projects" :key="project.uid" :prismic-project="project" layout="condensed" />
+        <template v-if="projects?.length">
+            <VProjectCard
+                v-for="project in projects"
+                :key="project.uid"
+                class="grid-page-content"
+                :prismic-project="project"
+                layout="condensed" />
+        </template>
     </div>
 </template>
 
 <style lang="scss" module>
 .root {
-    --v-project-listing-columns: 1;
-
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(var(--v-project-listing-columns), 1fr);
-
-    @include media('>=md') {
-        --v-project-listing-columns: 2;
-    }
-
-    @include media('>=vl') {
-        --v-project-listing-columns: 3;
-    }
-
-    @include media('>=hd') {
-        --v-project-listing-columns: 4;
-    }
 }
-</style>
 
-<style lang="scss" module>
 .filter {
+    position: sticky;
+    top: var(--v-top-bar-height);
+    grid-row: 2;
+    align-self: flex-start;
+}
+
+.layout {
     display: flex;
+    align-items: center;
+}
+
+.layout__title {
+    padding-inline: rem(20);
+}
+
+.layout__button {
+    flex-basis: 40%;
+}
+
+.tags {
+    display: flex;
+    flex-direction: column;
+}
+
+.layout > *,
+.tags > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: rem(24);
+    outline: 1px solid color(dark);
 }
 </style>

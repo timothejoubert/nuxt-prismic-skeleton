@@ -23,7 +23,6 @@ function scrollTop() {
     justify-content: center;
     background-color: color(dark);
     color: color(primary);
-    padding-inline: rem(34);
 }
 
 .scroll-top {

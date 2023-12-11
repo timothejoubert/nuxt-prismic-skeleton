@@ -20,21 +20,24 @@
           "placeholder": ""
         }
       },
-      "content": {
+      "tagline": {
         "type": "StructuredText",
         "config": {
-          "label": "content",
+          "label": "Tag line",
           "placeholder": "",
           "allowTargetBlank": true,
           "multi": "strong,em,hyperlink"
         }
       },
-      "media": {
-        "type": "Link",
+      "header_media": {
+        "type": "Image",
         "config": {
-          "label": "Media",
-          "placeholder": "",
-          "select": "media"
+          "label": "Header media",
+          "constraint": {
+            "height": 587,
+            "width": 295
+          },
+          "thumbnails": []
         }
       },
       "slices": {

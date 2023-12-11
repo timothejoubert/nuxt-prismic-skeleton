@@ -1,0 +1,7 @@
+@import "../variables/colors";
+
+@each $key, $value in $colors {
+    :export {
+        color-#{$key}: $value;
+    }
+}

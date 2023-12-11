@@ -108,26 +108,26 @@ interface HomePageDocumentData {
   title: prismic.KeyTextField
 
   /**
-   * content field in *home page*
+   * Tag line field in *home page*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.content
+   * - **API ID Path**: home_page.tagline
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  content: prismic.RichTextField
+  tagline: prismic.RichTextField
 
   /**
-   * Media field in *home page*
+   * Header media field in *home page*
    *
-   * - **Field Type**: Link to Media
+   * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.media
+   * - **API ID Path**: home_page.header_media
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
-  media: prismic.LinkToMediaField
+  header_media: prismic.ImageField<never>
 
   /**
    * Slice Zone field in *home page*

@@ -6,13 +6,13 @@ import {
     isProjectDocument,
     isProjectListingDocument,
 } from '~/utils/prismic/document-type'
-import { components } from '~/slices'
+import type { VPageProps } from '~/types/prismic'
 
 definePageMeta({
     pageTransition: defaultPageTransition,
 })
 
-const { webResponse, itemData, title, error } = await useFetchPage()
+const { webResponse, title, error } = await useFetchPage()
 
 if (error) {
     showError(error)
@@ -36,20 +36,35 @@ const pageComponentName = isHome
     ? 'VProjectPage'
     : 'VDefaultPage'
 
-const pageComponent = defineAsyncComponent(() => import(`~/components/organisms/${pageComponentName}.vue`))
+const pageComponent = defineAsyncComponent<Component<VPageProps>>(
+    () => import(`~/components/organisms/${pageComponentName}.vue`),
+)
+
+// const pageComponent = defineAsyncComponent<Component<VPageProps>>({
+//     loader: () => import(`~/components/organisms/${pageComponentName}`),
+//     // loadingComponent: LoadingComponent /* shows while loading */,
+//     // errorComponent: ErrorComponent /* shows if there's an error */,
+//     delay: 0 /* delay in ms before showing loading component */,
+//     timeout: 3000 /* timeout after this many ms */,
+// })
 </script>
 
 <template>
-    <div v-if="webResponse" :class="$style.root">
-        <component :is="pageComponent" v-if="pageComponent" :web-response="webResponse" />
-        <SliceZone v-if="itemData?.slices" wrapper="main" :slices="itemData.slices" :components="components" />
+    <div :class="$style.root">
+        <Suspense>
+            <template #default>
+                <component :is="pageComponent" v-if="pageComponent" :web-response="webResponse" />
+            </template>
+            <template #fallback>
+                <p>Loading...</p>
+            </template>
+        </Suspense>
+        <!--        <SliceZone v-if="itemData?.slices" wrapper="main" :slices="itemData.slices" :components="components" />-->
     </div>
 </template>
 
 <style lang="scss" module>
 .root {
-    position: relative;
-    overflow: auto;
-    min-height: var(--min-page-content-height);
+    min-height: 300vh;
 }
 </style>

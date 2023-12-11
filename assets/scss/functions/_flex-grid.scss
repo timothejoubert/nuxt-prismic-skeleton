@@ -13,3 +13,20 @@
 
     @return $result;
 }
+
+@function flex-margin-grid($columns: 1, $total-columns: 1, $length: '%', $fullscreen: false) {
+    @return calc(#{flex-margin-grid-value($columns, $total-columns, $length, $fullscreen)});
+}
+
+@function flex-margin-grid-value($columns: 1, $total-columns: 1, $length: '%', $fullscreen: false) {
+    $margin-width: '(var(--grid-margin-inline) * 2)';
+
+    $total-width: '(100#{$length} - #{$total-columns - 1} * var(--gutter))#{if($fullscreen == true, '', ' - #{$margin-width}')}';
+    $result: '((#{$total-width}) / #{$total-columns})';
+
+    @if $columns != 1 {
+        $result: '#{$result} * #{$columns} + #{$columns - 1} * var(--gutter)';
+    }
+
+    @return $result;
+}

@@ -17,7 +17,7 @@ function getDocumentTypeByUrl(url: PossibleUrl | string): ReachableDocumentType 
 export async function useFetchPage() {
     const route = useRoute()
     const uidParams = route.params.uid
-    const uid = Array.isArray(uidParams) ? uidParams.at(-1) : uidParams
+    const uid = (Array.isArray(uidParams) ? uidParams.at(-1) : uidParams) || 'home'
     const key = `fetch-page-${uid}`
 
     // TODO: use getCachedData() into the useAsyncData() options (not released yet) instead of this

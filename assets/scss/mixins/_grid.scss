@@ -1,4 +1,4 @@
-@mixin grid($width: null) {
+@mixin grid($width: null, $padding: null) {
     @include grid-gap;
 
     display: grid;
@@ -13,4 +13,14 @@
         /* autoprefixer grid: off */
         gap: 0 var(--gutter);
     }
+}
+
+@mixin inner-grid-fullscreen {
+    width: calc(100% + var(--grid-margin-inline) * 2);
+    margin-left: calc(var(--grid-margin-inline) * -1);
+}
+
+@mixin fullscreen-background {
+    box-shadow: 0 0 0 100vmax var(--fullscreen-background-color), inset 0 0 0 100vmax var(--fullscreen-background-color);
+    clip-path: inset(0 -100vmax);
 }

@@ -3,27 +3,93 @@ import eventBus from '~/utils/event-bus'
 import EventType from '~/constants/event-type'
 
 const preferReduceMotion = usePrefersReducedMotion()
+let mediaQuery: MediaQueryList | null = null
 
-const getMediaQuery = () => window.matchMedia('(prefers-reduced-motion: reduce)')
-const setPreferReduceMotion = () => (preferReduceMotion.value = getMediaQuery().matches)
+const setPreferReduceMotion = () => (preferReduceMotion.value = !!mediaQuery?.matches)
 
 onMounted(() => {
+    mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     setPreferReduceMotion()
-    getMediaQuery().addEventListener('change', setPreferReduceMotion)
-})
-onUnmounted(() => getMediaQuery().removeEventListener('change', setPreferReduceMotion))
 
-// First enter
+    mediaQuery.addEventListener('change', setPreferReduceMotion)
+})
+onUnmounted(() => mediaQuery?.removeEventListener('change', setPreferReduceMotion))
+
 onMounted(() => {
     eventBus.emit(EventType.PAGE_TRANSITION_ENTER)
+})
+
+const globalVars = useGlobalCssVar()
+const globalStyle = computed(() => {
+    return Object.entries(globalVars.value).reduce((acc: { [key: string]: string }, [key, value]) => {
+        Object.assign(acc, { [`--${key}`]: value })
+        return acc
+    }, {})
 })
 </script>
 
 <template>
-    <div>
-        <NuxtLoadingIndicator :height="5" color="yellow" />
-        <VMainNav />
-        <NuxtPage />
-        <VFooter />
+    <div :class="$style.root" :style="globalStyle">
+        <!--            <NuxtLoadingIndicator :height="5" color="yellow" />-->
+        <VGridVisualizer :class="$style['grid-visualizer']" />
+
+        <VMainNav :class="$style.nav" />
+        <NuxtPage :class="$style.page" />
+
+        <VFooter :class="$style.footer" />
     </div>
 </template>
+
+<style lang="scss" module>
+.root {
+    --grid-aside-column: -4 / -1;
+    --grid-page-column: 1 / -1;
+
+    position: relative;
+
+    @include media('>=lg') {
+        --grid-page-column: 1 / -4;
+    }
+}
+
+.grid-visualizer {
+    grid-column: 1 / -1;
+    margin-inline: var(--grid-margin-inline);
+}
+
+.page {
+    position: relative;
+    min-height: var(--min-page-content-height);
+    grid-column: var(--grid-page-column);
+    grid-row: 1;
+}
+
+.nav {
+    position: sticky;
+    z-index: 101;
+    top: 0;
+    right: 0;
+    width: calc((#{flex-margin-grid-value(3, 14)}) + var(--grid-margin-inline));
+    align-self: flex-start;
+    margin-left: auto;
+    background-color: color(primary);
+
+    &::after {
+        position: absolute;
+        content: '';
+        width: 1px;
+        left: 0;
+        top: 0;
+        height: 100lvh;
+        background-color: color(dark);
+    }
+}
+
+.footer {
+    --fullscreen-background-color: #{color(dark)};
+
+    @include fullscreen-background;
+
+    grid-column: 1 / -1;
+}
+</style>
