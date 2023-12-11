@@ -7,8 +7,8 @@ const pageData = computed(() => props.webResponse.data)
 
 const prismic = usePrismic()
 
-const { data: projects } = await useAsyncData('projects', async () => {
-    const document = await prismic.client.getAllByType('project', {
+const { data: projects } = await useAsyncData('projects', () => {
+    return prismic.client.getAllByType('project', {
         orderings: [
             {
                 field: 'my.project.creation',
@@ -22,42 +22,28 @@ const { data: projects } = await useAsyncData('projects', async () => {
         fetch: ['project.title', 'project.main_media', 'project.creation'],
         pageSize: 12,
     })
-
-    if (document) {
-        return document
-    } else {
-        throw createError({
-            statusCode: 404,
-            message: 'Error during fetch all projects',
-        })
-    }
 })
 
 // useAllPrismicDocumentsByTag()
-const { data: tagData } = await useAsyncData('tags', async () => {
-    const tags = await prismic.client.getTags()
-
-    // TODO: check if tag are used in project
-    // ForEach tag try to fetch one project with this tag if no response remove this tag
-    // tags.filter(async (tag) => {
-    //     const filteredProject = await prismic.client.getByTag(tag, { fetch: '', pageSize: 1 });
-    //     console.log(tag, filteredProject)
-    //     return filteredProject
-    // })
-
-    if (!tags) return null
-
-    return tags
+const { data: tags } = await useAsyncData('tags', () => {
+    return prismic.client.getTags()
 })
 
-const tags = tagData.value
-
 const projectLayout = ref<'grid' | 'row'>('grid')
+
+const $style = useCssModule()
+const rootClasses = computed(() => {
+    return [$style.root, projectLayout.value === 'row' && $style['root--layout-row']]
+})
 </script>
 
 <template>
-    <div :class="$style.root" class="grid">
-        <VHeaderTitle v-if="pageData.title" class="text-h1 grid-page-content" :content="pageData.title" />
+    <div :class="rootClasses" class="grid">
+        <VHeaderTitle
+            v-if="pageData.title"
+            :class="$style.title"
+            class="text-h1 grid-page-content"
+            :content="pageData.title" />
         <div :class="$style.filter" class="grid-aside-content">
             <div :class="$style.layout">
                 <div :class="$style.layout__title">Layout</div>
@@ -73,7 +59,7 @@ const projectLayout = ref<'grid' | 'row'>('grid')
             <VProjectCard
                 v-for="project in projects"
                 :key="project.uid"
-                class="grid-page-content"
+                :class="$style.card"
                 :prismic-project="project"
                 layout="condensed" />
         </template>
@@ -82,12 +68,25 @@ const projectLayout = ref<'grid' | 'row'>('grid')
 
 <style lang="scss" module>
 .root {
+    padding-bottom: rem(200);
+    grid-auto-flow: dense;
+
+    &::before {
+        position: relative;
+        background-color: red;
+        content: '';
+        grid-column: -3 / -1;
+        grid-row: 1;
+    }
+}
+
+.title {
+    position: relative;
 }
 
 .filter {
     position: sticky;
     top: var(--v-top-bar-height);
-    grid-row: 2;
     align-self: flex-start;
 }
 
@@ -112,9 +111,18 @@ const projectLayout = ref<'grid' | 'row'>('grid')
 .layout > *,
 .tags > * {
     display: flex;
+    min-height: rem(24);
     align-items: center;
     justify-content: center;
-    min-height: rem(24);
     outline: 1px solid color(dark);
+}
+
+.card {
+    align-self: flex-start;
+    grid-column: span 5;
+
+    &:last-of-type {
+        margin-bottom: rem(300);
+    }
 }
 </style>

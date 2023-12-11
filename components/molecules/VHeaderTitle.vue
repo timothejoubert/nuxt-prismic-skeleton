@@ -42,7 +42,7 @@ onMounted(() => {
 })
 
 usePageTransitionEvent(EventType.PAGE_TRANSITION_ENTER, revealItems)
-usePageTransitionEvent(EventType.PAGE_TRANSITION_LEAVE, leaveItems)
+// usePageTransitionEvent(EventType.PAGE_TRANSITION_LEAVE, leaveItems)
 </script>
 
 <template>

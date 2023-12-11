@@ -36,7 +36,9 @@ function setIndicatorPosition() {
 watch(() => route.path, setSelectedIndexByRoute)
 watch(selectedIndex, setIndicatorPosition)
 onMounted(setSelectedIndexByRoute)
-
+useEventListener('resize', () => {
+    gsap.set(indicator.value, { clearProps: 'width' })
+})
 function onFocus(i: number) {
     selectedIndex.value = i
 }
@@ -102,8 +104,8 @@ watch(rootHeight, () => {
 
 .indicator {
     position: absolute;
-    inset: 0;
-    background-color: red;
     z-index: -1;
+    background-color: red;
+    inset: 0;
 }
 </style>
