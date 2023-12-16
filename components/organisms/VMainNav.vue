@@ -70,7 +70,7 @@ watch(rootHeight, () => {
 </script>
 
 <template>
-    <nav ref="root" :class="$style.root">
+    <nav ref="root">
         <ul v-if="links.length" :class="$style.list">
             <li v-for="(item, i) in links" :key="item" :class="$style.item">
                 <VLink ref="linkItem" :reference="item.document" :class="$style.link" @focus="onFocus(i)"

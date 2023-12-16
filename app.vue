@@ -53,7 +53,9 @@ const globalStyle = computed(() => {
 }
 
 .grid-visualizer {
+    position: absolute;
     grid-column: 1 / -1;
+    inset: 0;
     margin-inline: var(--grid-margin-inline);
 }
 
@@ -68,20 +70,19 @@ const globalStyle = computed(() => {
     position: sticky;
     z-index: 101;
     top: 0;
-    right: 0;
     width: calc((#{flex-margin-grid-value(3, 14)}) + var(--grid-margin-inline));
-    align-self: flex-start;
     margin-left: auto;
     background-color: color(primary);
+    overflow-x: clip;
 
     &::after {
         position: absolute;
-        content: '';
-        width: 1px;
-        left: 0;
         top: 0;
+        left: 0;
+        width: 1px;
         height: 100lvh;
         background-color: color(dark);
+        content: '';
     }
 }
 

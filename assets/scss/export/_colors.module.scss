@@ -2,6 +2,6 @@
 
 @each $key, $value in $colors {
     :export {
-        color-#{$key}: $value;
+        color-#{''+$key}: $value;
     }
 }

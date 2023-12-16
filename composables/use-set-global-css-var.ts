@@ -6,8 +6,6 @@ export function useSetGlobalCssVar(key: KnowGlobalVarKey, input: MaybeRefOrGette
 
     function set() {
         const value = toValue(input) + 'px'
-
-        console.log('set', key, value)
         if (data.value?.[key]) Object.assign(data.value, { [key]: value })
         else data.value[key] = value
     }
@@ -17,7 +15,6 @@ export function useSetGlobalCssVar(key: KnowGlobalVarKey, input: MaybeRefOrGette
     if (isRef(input)) {
         watch(input, () => {
             set()
-            console.log('value update', key, input.value)
         })
     }
 

@@ -3,14 +3,14 @@ import { gsap } from 'gsap'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import eventBus from '~/utils/event-bus'
 import EventType from '~/constants/event-type'
-import cssColor from '~/assets/scss/export/_colors.module.scss'
+// import cssColor from '~/assets/scss/export/_colors.module.scss'
 
 function foregroundElement() {
     const foreground = document.createElement('div')
     foreground.style.position = 'fixed'
     foreground.style.inset = '0'
     foreground.style.zIndex = '5'
-    foreground.style.background = cssColor['color-secondary']
+    foreground.style.background = 'transparent' // cssColor['color-secondary']
 
     return foreground
 }

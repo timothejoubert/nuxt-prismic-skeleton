@@ -51,8 +51,6 @@ useEventListener('keydown', onKeyDown)
 
 <style lang="scss" module>
 .root {
-    position: fixed;
-    height: 100vh;
     pointer-events: none;
     user-select: none;
 }
