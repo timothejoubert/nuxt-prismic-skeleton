@@ -1,6 +1,4 @@
 import type { PrismicDocument } from '@prismicio/types'
-import { useNextPage } from '~/composables/use-next-page'
-import { useCurrentPage } from '~/composables/use-current-page'
 import EventType from '~/constants/event-type'
 
 export interface Page {
@@ -14,7 +12,7 @@ interface UsePageOptions extends Page {}
 export function usePage(options?: UsePageOptions) {
     const nextPage = useNextPage()
     const currentPage = useCurrentPage()
-    const isFirstPageVisited = useFirstPageVisited()
+    const isFirstPageVisited = useFirstPageEnter()
 
     nextPage.value = {
         title: options?.title,

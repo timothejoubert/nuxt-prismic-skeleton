@@ -39,14 +39,6 @@ const pageComponentName = isHome
 const pageComponent = defineAsyncComponent<Component<VPageProps>>(
     () => import(`~/components/organisms/${pageComponentName}.vue`),
 )
-
-// const pageComponent = defineAsyncComponent<Component<VPageProps>>({
-//     loader: () => import(`~/components/organisms/${pageComponentName}`),
-//     // loadingComponent: LoadingComponent /* shows while loading */,
-//     // errorComponent: ErrorComponent /* shows if there's an error */,
-//     delay: 0 /* delay in ms before showing loading component */,
-//     timeout: 3000 /* timeout after this many ms */,
-// })
 </script>
 
 <template>

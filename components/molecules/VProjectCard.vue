@@ -64,6 +64,7 @@ const media = props.media || projectMedia
 .media {
     width: 100%;
     aspect-ratio: 439 / 302;
+    background-color: rgba(255, 255, 255, 0.15);
 }
 
 .information {

@@ -71,7 +71,7 @@ export default defineNuxtConfig({
 
     prismic: {
         endpoint: prismicProjectData.repositoryName || 'nuxt3-starter',
-        preview: prismicProjectData.previewEndpoint || '/preview',
+        preview: false, // prismicProjectData.previewEndpoint || '/preview',
         clientConfig: {
             routes: generatePrismicUrlList(),
         },

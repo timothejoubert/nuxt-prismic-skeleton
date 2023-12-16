@@ -28,7 +28,6 @@ const defaultPageTransition: TransitionProps = {
             document.body.appendChild(foreground)
 
             disableBodyScroll(document.body, { reserveScrollBarGap: true })
-
             gsap.from(foreground, {
                 opacity: 0,
                 duration: 0.5,
@@ -40,9 +39,12 @@ const defaultPageTransition: TransitionProps = {
         }
     },
     onAfterLeave() {
+        console.log('transition PAGE_TRANSITION_AFTER_LEAVE')
         eventBus.emit(EventType.PAGE_TRANSITION_AFTER_LEAVE)
     },
     onEnter(element, done) {
+        console.log('transition PAGE_TRANSITION_ENTER')
+
         if (usePrefersReducedMotion().value) {
             eventBus.emit(EventType.PAGE_TRANSITION_ENTER)
             done()

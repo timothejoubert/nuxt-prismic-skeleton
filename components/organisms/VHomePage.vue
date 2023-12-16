@@ -27,7 +27,6 @@ const data = computed(() => props.webResponse.data)
 
 .title {
     position: relative;
-    min-height: calc(100vw / (587 / 295));
 }
 
 .header-media {
@@ -40,10 +39,19 @@ const data = computed(() => props.webResponse.data)
 }
 
 .tagline {
-    padding-block: rem(130) rem(84);
+    position: relative;
+    padding-block: rem(130) rem(110);
     grid-column: var(--grid-page-column);
-    border-top: 1px solid color(dark);
-    border-bottom: 1px solid color(dark);
+
+    &:after {
+        position: absolute;
+        content: '';
+        background-color: color(dark);
+        height: 1px;
+        width: calc(100% + var(--gutter));
+        left: 0;
+        bottom: 0;
+    }
 
     > * {
         max-width: 20ch;

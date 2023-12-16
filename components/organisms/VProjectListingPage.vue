@@ -55,14 +55,14 @@ const rootClasses = computed(() => {
                 <button v-for="tag in tags" :key="tag" :class="$style.tags__button">{{ tag }}</button>
             </div>
         </div>
-        <template v-if="projects?.length">
+        <div v-if="projects?.length" :class="$style.projects" class="grid-page-content">
             <VProjectCard
                 v-for="project in projects"
                 :key="project.uid"
                 :class="$style.card"
                 :prismic-project="project"
                 layout="condensed" />
-        </template>
+        </div>
     </div>
 </template>
 
@@ -117,12 +117,16 @@ const rootClasses = computed(() => {
     outline: 1px solid color(dark);
 }
 
+.projects {
+    display: grid;
+    gap: rem(20) var(--gutter);
+    grid-template-columns: repeat(2, 1fr);
+    margin-block: rem(82) rem(300);
+}
+
 .card {
     align-self: flex-start;
-    grid-column: span 5;
 
-    &:last-of-type {
-        margin-bottom: rem(300);
-    }
+    //grid-column: span 2;
 }
 </style>

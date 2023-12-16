@@ -64,9 +64,13 @@ onUnmounted(() => {
     resizeObserver = null
 })
 
-watch(rootHeight, () => {
-    useSetGlobalCssVar('v-top-bar-height', rootHeight)
-})
+watch(
+    rootHeight,
+    (height) => {
+        if (height) useSetGlobalCssVar('v-top-bar-height', rootHeight)
+    },
+    { flush: 'post' },
+)
 </script>
 
 <template>
