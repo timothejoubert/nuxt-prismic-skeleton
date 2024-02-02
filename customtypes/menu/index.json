@@ -1,0 +1,43 @@
+{
+  "id": "menu",
+  "label": "Menu",
+  "format": "custom",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "link": {
+        "type": "Group",
+        "config": {
+          "label": "Link",
+          "repeat": true,
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Label",
+                "placeholder": ""
+              }
+            },
+            "internal_link": {
+              "type": "Link",
+              "config": {
+                "label": "Internal link",
+                "select": "document"
+              }
+            },
+            "external_link": {
+              "type": "Link",
+              "config": {
+                "label": "External link",
+                "placeholder": "",
+                "allowTargetBlank": true,
+                "select": null
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
