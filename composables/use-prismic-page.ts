@@ -1,7 +1,7 @@
-import type {DocumentType} from "~/types/api";
+import type { DocumentType } from '~/types/api'
 
 export function usePrismicPage(type: DocumentType) {
-    return useAsyncData(type, async () => {
-        return await usePrismic().client.getSingle(type);
-    })
+  return useAsyncData(type, () => {
+    return usePrismic().client.getSingle(type)
+  })
 }

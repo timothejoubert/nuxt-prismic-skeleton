@@ -34,6 +34,22 @@
         "config": {
           "choices": {}
         }
+      },
+      "media_link": {
+        "type": "Link",
+        "config": {
+          "label": "Media link",
+          "placeholder": "",
+          "select": "media"
+        }
+      },
+      "image_field": {
+        "type": "Image",
+        "config": {
+          "label": "Image field",
+          "constraint": {},
+          "thumbnails": []
+        }
       }
     },
     "SEO & Metadata": {

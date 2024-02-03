@@ -1,0 +1,63 @@
+@use 'sass:map';
+@use 'sass:list';
+
+/**
+ * Get css vars for a specific size
+ */
+@mixin v-button-size($size, $variant: default) {
+    @if  map-has-key($v-button-size-vars-by-variant, $variant) {
+        $vars: map-get($v-button-size-vars-by-variant, $variant);
+
+        @each $value in $vars {
+            @if  map-has-key($value, vars) and map-has-key($value, prefix) {
+                @include v-button-css-vars-by-size(map-get($value, vars), $size, map-get($value, prefix));
+            }
+        }
+    }
+}
+
+@mixin v-button-default-css-vars($vars, $prefix: '', $default: 's') {
+    @include default-css-vars('v-button', $vars, $prefix, $default);
+}
+
+@mixin v-button-css-vars-by-size($vars, $size, $prefix: '') {
+    @include css-vars-by-size('v-button', $vars, $size, $prefix);
+}
+
+
+// Update button size with media queries
+@mixin all-variant-button-css-vars-by-size($variant: default, $size: s) {
+    @if map-has-key($v-button-size-vars-by-variant, $variant) {
+        $vars: map-get($v-button-size-vars-by-variant, $variant);
+
+        @each $value in $vars {
+            @if map-has-key($value, vars) and map-has-key($value, prefix) {
+                $items-vars: map-get($value, vars);
+                $items-vars-prefix: map-get($value, prefix);
+
+                @include css-vars-by-size('v-button', $items-vars, $size, $items-vars-prefix);
+            }
+        }
+    }
+}
+
+
+// Set the size of the button according to the breakpoints.
+@mixin v-button-responsive-sizes($sizes: (xs: s, lg: m), $variant: default) {
+    @if  type-of($sizes) != 'map' or length($sizes) < 2 {
+        @error "Set multiple breakpoints values";
+    }
+
+    $first-value: list.nth(map.values($sizes), 1);
+
+    @include v-button-size($first-value, $variant);
+
+    $first-breakpoint: list.nth(map.keys($sizes), 1);
+    $sizes: map-remove($sizes, $first-breakpoint);
+
+    @each $breakpoint, $size in $sizes {
+        @include media('>=#{$breakpoint}') {
+            @include v-button-size($size, $variant);
+        }
+    }
+}

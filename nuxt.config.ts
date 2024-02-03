@@ -5,6 +5,8 @@ import prismicData from './slicemachine.config.json'
 const locales = ['fr']
 const defaultLocale = 'fr'
 
+// @ts-ignore
+// @ts-ignore
 export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
@@ -23,6 +25,7 @@ export default defineNuxtConfig({
       ],
     },
   },
+  css: ['~/assets/scss/main.scss'],
   modules: ['@nuxtjs/prismic', '@nuxt/image'],
   runtimeConfig: {
     public: {
@@ -33,15 +36,31 @@ export default defineNuxtConfig({
   prismic: {
     endpoint: prismicData.repositoryName,
   },
-  components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],
+  components: {
+    dirs: [{ path: '~/components', pathPrefix: false }],
+  },
+  // components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],
   image: {
-    quality: 80,
+    prismic: {},
+    quality: 75,
     screens: {
-      // @nuxt/image breakpoints are not exactly the same as ours
-      // TODO: import our breakpoints here
-      '2xl': false,
-      // remove useless 2xl size (duplicate with xxl size)
-      hd: 1920,
+      xs: 375,
+      sm: 480,
+      md: 768,
+      lg: 1024,
+      vl: 1280,
+      xl: 1440,
+      xxl: 1600,
+      hd: 1920, // additional size
+      qhd: 2500, // additional size
+    },
+    // @ts-ignore not working with [1]
+    densities: '1',
+    presets: {
+      fullscreen: {
+        sizes: 'xs:100vw md:100vw lg:100vw vl:100vw xl:100vw hd:100vw qhd:100vw',
+        provider: 'prismic',
+      },
     },
   },
 })

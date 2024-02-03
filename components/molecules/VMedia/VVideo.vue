@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-interface VBackgroundMedia {
+export interface VVideoProps {
   src: string
   isEmbed?: boolean
 }
 
-defineProps<VBackgroundMedia>()
+defineProps<VVideoProps>()
 
 const video = ref<HTMLVideoElement | null>(null)
 const playState = ref(false)
@@ -35,17 +35,7 @@ watch(playState, (play) => {
     :src="src"
     allow="autoplay"
   ></iframe>
-  <video
-    v-else
-    ref="video"
-    :class="$style.root"
-    playsinline
-    autoplay
-    muted
-    loop
-    @click.prevent="onClick"
-    @canplay="onVideoReady"
-  >
+  <video v-else ref="video" :class="$style.root" @click.prevent="onClick" @canplay="onVideoReady">
     <source :src="src" type="video/mp4" />
   </video>
 </template>

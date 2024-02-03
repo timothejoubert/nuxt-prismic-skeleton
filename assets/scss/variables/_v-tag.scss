@@ -1,0 +1,23 @@
+@use "sass:map";
+@use "sass:math";
+
+$v-tag: (
+    s: (
+        font-size: rem(12),
+        min-width: rem(50),
+        height: rem(28),
+        padding: 0 rem(12),
+        border-radius: math.div(rem(28), 2),
+    ),
+    m: (
+        font-size: rem(14),
+        min-width: rem(60),
+        height: rem(32),
+        padding: 0 rem(14),
+        border-radius: math.div(rem(32), 2),
+    ),
+);
+$v-tag-colors: (
+    color-outline: color(black-15),
+    color-background: color(black-05),
+);
