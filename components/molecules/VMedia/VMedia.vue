@@ -1,17 +1,22 @@
 <script lang="ts" setup>
+import { asImageSrc, asImageWidthSrcSet } from '@prismicio/client'
 import type { VVideoProps } from '~/components/molecules/VMedia/VVideo.vue'
-import { useMedia, type PrismicMedia } from '~/composables/component/use-media'
+import type { CustomPrismicMedia } from '~/types/media'
+import type { VPictureProps } from '~/components/molecules/VMedia/VPicture.vue'
+import { useMedia } from '~/composables/component/use-media'
 
 export interface VMediaSrcProps {
-  media?: PrismicMedia
+  media?: CustomPrismicMedia
   src?: string
   embedUrl?: string
 }
 
 interface VMediaProps extends VMediaSrcProps {
   background?: boolean
+  ratio?: number
+  cover?: boolean
   videoProps?: VVideoProps
-  imageProps?: unknown
+  imageProps?: VPictureProps
 }
 
 const props = defineProps<VMediaProps>()
@@ -21,8 +26,6 @@ const { src, mediaType, filledMedia, embedPlatform } = useMedia({
   src: props.src,
   embedUrl: props.embedUrl,
 })
-
-console.log(props.media, src.value, mediaType.value)
 </script>
 
 <template>
@@ -38,7 +41,7 @@ console.log(props.media, src.value, mediaType.value)
         muted
         loop
       />
-      <VVideo v-else :media="media" v-bind="videoProps" />
+      <VVideo v-else :src="src" v-bind="videoProps" controls />
     </template>
     <template v-else-if="mediaType === 'image'">
       <VPicture :media="filledMedia" v-bind="imageProps" />

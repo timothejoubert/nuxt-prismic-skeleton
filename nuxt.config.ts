@@ -63,4 +63,13 @@ export default defineNuxtConfig({
       },
     },
   },
+  stories: {
+    route: {
+      name: '_stories',
+      path: '/_stories',
+      file: '~/stories/VStoriesPage.vue',
+    },
+    include: '**/*.stories.vue',
+    root: ['components', 'stories'],
+  },
 })

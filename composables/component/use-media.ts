@@ -1,12 +1,5 @@
-import type { ImageField, LinkToMediaField, FilledLinkToMediaField, FilledImageFieldImage } from '@prismicio/types'
-import { isLinkToFieldFilled } from '~/utils/prismic/prismic-link-to'
-import { isPrismicImageField } from '~/utils/prismic/prismic-image'
+import type { FilledLinkToMediaField } from '@prismicio/types'
 import type { VMediaSrcProps } from '~/components/molecules/VMedia/VMedia.vue'
-
-export type PrismicMedia = LinkToMediaField | ImageField
-export type FilledPrismicMedia = FilledLinkToMediaField | FilledImageFieldImage
-
-export type UseMediaOptions = VMediaSrcProps & {}
 
 const videoExtension = ['mp4', 'mov', 'quick', 'webm', 'mkv', 'avi', 'mpeg']
 const imgExtension = ['jpg', 'png', 'webp', 'gif', 'avif', 'jpeg', 'svg']
@@ -20,15 +13,16 @@ const getEmbedPlatform = (src: string | undefined) => {
   else if (src?.includes('player.vimeo.com/')) return 'vimeoEmbed'
 }
 
-export function useMedia(options: UseMediaOptions) {
-  const filledMedia = computed<FilledPrismicMedia | undefined>(() => {
-    const field = options.media
-
-    if (isLinkToFieldFilled(field)) return field as FilledLinkToMediaField
-    else if (isPrismicImageField(field)) return field
+export function useMedia(options: VMediaSrcProps) {
+  const filledMedia = computed(() => {
+    if (options.media?.url) return options.media
+    else return undefined
   })
 
-  const src = computed(() => options.src || filledMedia.value?.url || options.embedUrl)
+  const src = computed(() => options.src || options.embedUrl || filledMedia.value?.url)
+  const alt = computed(() => options.media?.alt)
+  const copyright = computed(() => options.media?.copyright)
+
   const extension = computed(() => {
     const ext =
       getExtension(filledMedia.value?.url) ||
@@ -39,9 +33,7 @@ export function useMedia(options: UseMediaOptions) {
 
   const mediaType = computed(() => {
     const isPrismicImage =
-      isImage(extension.value) ||
-      (filledMedia.value as FilledLinkToMediaField)?.kind === 'image' ||
-      src.value?.includes('images.prismic.io/')
+      isImage(extension.value) || filledMedia.value?.kind === 'image' || src.value?.includes('images.prismic.io/')
 
     if (isVideo(extension.value)) {
       return 'video'
@@ -54,5 +46,5 @@ export function useMedia(options: UseMediaOptions) {
 
   const embedPlatform = computed(() => getEmbedPlatform(src.value))
 
-  return { src, filledMedia, mediaType, extension, embedPlatform }
+  return { src, filledMedia, mediaType, extension, embedPlatform, alt, copyright }
 }

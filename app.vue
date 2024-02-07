@@ -1,9 +1,7 @@
-<script  lang="ts" setup>
-
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <div>Topbar</div>
-  <NuxtPage />
-  <div>Footer</div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>

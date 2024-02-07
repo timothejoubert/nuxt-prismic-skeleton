@@ -34,6 +34,9 @@ devDependencies:
   include-media:
     specifier: ^2.0.0
     version: 2.0.0
+  minimatch:
+    specifier: ^9.0.3
+    version: 9.0.3
   nuxt:
     specifier: ^3.10.0
     version: 3.10.0(eslint@8.56.0)(sass@1.70.0)(stylelint@15.11.0)(typescript@5.3.3)(vite@5.0.12)
