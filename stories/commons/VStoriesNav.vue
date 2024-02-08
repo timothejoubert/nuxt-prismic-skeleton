@@ -123,7 +123,7 @@ const filteredItemList = computed(() => {
   font-size: 14px;
   overflow-y: auto;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     position: sticky;
     overflow: auto;
     width: 17vw;
@@ -152,7 +152,7 @@ const filteredItemList = computed(() => {
 .toggle {
   margin-left: auto;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     display: none;
   }
 }

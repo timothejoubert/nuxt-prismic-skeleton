@@ -1,16 +1,9 @@
-// vendors
+//Vendors
 @import "include-media/dist/include-media";
-@import "vendors/include-media";
 
-// functions
+// Utils
 @import "functions";
-
-// variables
-@import "export/ease-curves";
-@import "export/colors";
 @import "variables";
-
-// mixins
 @import "mixins";
 
 // common
@@ -19,11 +12,3 @@
 @import "common";
 @import "grid";
 @import "typography";
-
-// @import "theme";
-
-// Components
-//@import "components";
-
-// transitions
-// @import "transitions/fade";

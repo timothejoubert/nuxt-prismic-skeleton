@@ -1,30 +1,9 @@
 :root {
-    --size: 375;
-
     font-optical-sizing: auto;
-
-    @each $color, $value in $colors {
-        --color-#{"" + $color}: #{$value};
-    }
-
-    @include media('>=md') {
-        --size: #{breakpoint(md, $strip-unit: true)};
-    }
-
-    @include media('>=vl') {
-        --size: #{breakpoint(vl, $strip-unit: true)};
-    }
-
-    @include media('>=xl') {
-        --size: #{breakpoint(xl, $strip-unit: true)};
-    }
 }
 
-//html {
-//    --vw-ratio: 0.4;
-//
-//    font-size: calc((100vw / var(--size)) * (16 * var(--vw-ratio)) + 1rem * calc(1 - var(--vw-ratio)));
-//}
+html {
+}
 
 body {
     margin: 0;

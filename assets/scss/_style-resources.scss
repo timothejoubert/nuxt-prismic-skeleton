@@ -3,16 +3,11 @@
 // ⚠️ do not include css file
 
 // vendors
-//@import "include-media/dist/include-media";
-@import "vendors/include-media";
+@import "include-media/dist/include-media";
 
-// functions
+// utils
 @import "functions";
-
-// variables
 @import "variables";
-
-// mixins
 @import "mixins";
 
 // Components

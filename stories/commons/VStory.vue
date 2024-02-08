@@ -1,30 +1,42 @@
 <script setup lang="ts">
+interface VStoryProps {
+  propsObject?: Object
+  layout?: 'default' | 'fullscreen'
+}
+
 defineOptions({
   inheritAttrs: false,
 })
 
-withDefaults(
-  defineProps<{
-    layout?: 'default' | 'fullscreen'
-  }>(),
-  {
-    layout: 'default',
-  },
-)
+const props = withDefaults(defineProps<VStoryProps>(), {
+  layout: 'default',
+})
 
-const settingIsOpen = ref(true)
+const slots = defineSlots()
+const hasSetting = slots.settings?.()
+
+const stringifyProps = computed(() => {
+  if (!props.propsObject) return
+
+  const string = JSON.stringify(
+    props.propsObject,
+    (_key, value) => {
+      if (Array.isArray(value)) return `[${value.join(', ')}]`
+      return value
+    },
+    ' ',
+  ).replace(/"([^"]+)":/g, '$1:')
+  return string.substring(2, string.length - 1)
+})
 </script>
 
 <template>
-  <div v-if="$slots.settings" :class="$style.setting">
-    <button :class="$style.title" @click="() => (settingIsOpen = !settingIsOpen)">
-      Component settings
-      <span> [{{ settingIsOpen ? '−' : '+' }}]</span>
-    </button>
-    <div v-show="settingIsOpen" :class="$style.content">
-      <slot name="settings" />
-    </div>
-  </div>
+  <VStorySetting v-if="hasSetting" title="Settings">
+    <slot name="settings" />
+  </VStorySetting>
+  <VStorySetting v-if="stringifyProps" title="Props type">
+    <pre>{{ stringifyProps }}</pre>
+  </VStorySetting>
   <div :class="[$style.root, $style['root--layout-' + layout]]" v-bind="$attrs">
     <slot />
   </div>
@@ -36,36 +48,6 @@ const settingIsOpen = ref(true)
 
   &--layout-fullscreen {
     padding: 0;
-  }
-}
-
-.setting {
-  position: sticky;
-  z-index: 2;
-  top: 0;
-  padding: 20px 40px 15px;
-  border-top: 1px solid #e3e3e3;
-  border-bottom: 1px solid #e3e3e3;
-  background-color: #f1f1f1;
-  font-size: 14px;
-}
-
-.title {
-  min-height: 20px;
-}
-
-.content {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 20px;
-  gap: 40px;
-}
-
-.input {
-  border: 1px solid rgba(#000, 0.2);
-
-  &:focus {
-    outline: none;
   }
 }
 </style>
