@@ -1,8 +1,14 @@
 import type { FilledLinkToMediaField } from '@prismicio/types'
-import type { VMediaSrcProps } from '~/components/molecules/VMedia/VMedia.vue'
+import type { CustomPrismicMedia } from '~/types/media'
 
 const videoExtension = ['mp4', 'mov', 'quick', 'webm', 'mkv', 'avi', 'mpeg']
 const imgExtension = ['jpg', 'png', 'webp', 'gif', 'avif', 'jpeg', 'svg']
+
+export interface VMediaSrcProps {
+  mediaEntity?: CustomPrismicMedia
+  src?: string
+  embedUrl?: string
+}
 
 const getExtension = (src: string | undefined) => src?.match(/\.[0-9a-z]+$/i)?.[0].toLowerCase()
 
@@ -15,14 +21,20 @@ const getEmbedPlatform = (src: string | undefined) => {
 
 export function useMedia(options: VMediaSrcProps) {
   const filledMedia = computed(() => {
-    if (options.media?.url) return options.media
+    if (options.mediaEntity?.url) return options.mediaEntity
     else return undefined
   })
 
   const src = computed(() => options.src || options.embedUrl || filledMedia.value?.url)
-  const alt = computed(() => options.media?.alt)
-  const copyright = computed(() => options.media?.copyright)
-
+  const alt = computed(() => options.mediaEntity?.alt)
+  const copyright = computed(() => options.mediaEntity?.copyright)
+  const isPrismicImg = computed(() => src.value?.includes('images.prismic.io'))
+  const dimension = computed(() => {
+    return {
+      width: filledMedia.value?.width || filledMedia.value?.dimensions?.width,
+      height: filledMedia.value?.height || filledMedia.value?.dimensions?.height,
+    }
+  })
   const extension = computed(() => {
     const ext =
       getExtension(filledMedia.value?.url) ||
@@ -46,5 +58,5 @@ export function useMedia(options: VMediaSrcProps) {
 
   const embedPlatform = computed(() => getEmbedPlatform(src.value))
 
-  return { src, filledMedia, mediaType, extension, embedPlatform, alt, copyright }
+  return { src, filledMedia, mediaType, extension, embedPlatform, alt, copyright, isPrismicImg, dimension }
 }

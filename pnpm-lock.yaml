@@ -64,6 +64,9 @@ devDependencies:
   stylelint-config-standard-vue:
     specifier: ^1.0.0
     version: 1.0.0(postcss-html@1.6.0)(stylelint@15.11.0)
+  typescript-imgix-url-params:
+    specifier: ^0.3.1
+    version: 0.3.1
   vue:
     specifier: ^3.4.15
     version: 3.4.15(typescript@5.3.3)
@@ -9685,6 +9688,10 @@ packages:
       call-bind: 1.0.5
       for-each: 0.3.3
       is-typed-array: 1.1.13
+    dev: true
+
+  /typescript-imgix-url-params@0.3.1:
+    resolution: {integrity: sha512-ojFlQSARkY8yNej/Rkb0Qjvxa8tlcu+jWlum5u7X+fjn/XLeHolb35gnqonpdHGkS0vZje2Imif7JdzrzLeb6g==}
     dev: true
 
   /typescript@5.3.3:

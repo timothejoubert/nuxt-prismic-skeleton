@@ -1,51 +1,34 @@
 <script lang="ts" setup>
-import { asImageSrc, asImageWidthSrcSet } from '@prismicio/client'
 import type { VVideoProps } from '~/components/molecules/VMedia/VVideo.vue'
-import type { CustomPrismicMedia } from '~/types/media'
 import type { VPictureProps } from '~/components/molecules/VMedia/VPicture.vue'
 import { useMedia } from '~/composables/component/use-media'
-
-export interface VMediaSrcProps {
-  media?: CustomPrismicMedia
-  src?: string
-  embedUrl?: string
-}
+import type { VMediaSrcProps } from '~/composables/component/use-media'
 
 interface VMediaProps extends VMediaSrcProps {
   background?: boolean
-  ratio?: number
-  cover?: boolean
-  videoProps?: VVideoProps
-  imageProps?: VPictureProps
+  image?: VPictureProps
+  video?: VVideoProps
 }
 
 const props = defineProps<VMediaProps>()
 
 const { src, mediaType, filledMedia, embedPlatform } = useMedia({
-  media: props.media,
+  mediaEntity: props.mediaEntity,
   src: props.src,
   embedUrl: props.embedUrl,
 })
+
+const displayVideo = computed(() => (src.value && mediaType.value === 'video') || mediaType.value === 'embed')
+const displayImage = computed(() => mediaType.value === 'image')
 </script>
 
 <template>
-  <template v-if="src">
-    <template v-if="mediaType === 'video' || mediaType === 'embed'">
-      <VVideo
-        v-if="background"
-        :src="src"
-        :is-embed="!!embedPlatform"
-        v-bind="videoProps"
-        playsinline
-        autoplay
-        muted
-        loop
-      />
-      <VVideo v-else :src="src" v-bind="videoProps" controls />
-    </template>
-    <template v-else-if="mediaType === 'image'">
-      <VPicture :media="filledMedia" v-bind="imageProps" />
-    </template>
+  <template v-if="displayVideo">
+    <VVideo v-if="background" :src="src" :is-embed="!!embedPlatform" v-bind="video" playsinline autoplay muted loop />
+    <VVideo v-else :src="src" v-bind="video" controls />
+  </template>
+  <template v-else-if="displayImage">
+    <VPicture :media-entity="filledMedia" v-bind="image" />
   </template>
 </template>
 

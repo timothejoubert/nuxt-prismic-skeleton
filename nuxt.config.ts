@@ -42,6 +42,9 @@ export default defineNuxtConfig({
   // components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],
   image: {
     prismic: {},
+    imgix: {
+      baseURL: '',
+    },
     quality: 75,
     screens: {
       xs: 375,
@@ -56,12 +59,6 @@ export default defineNuxtConfig({
     },
     // @ts-ignore not working with [1]
     densities: '1',
-    presets: {
-      fullscreen: {
-        sizes: 'xs:100vw md:100vw lg:100vw vl:100vw xl:100vw hd:100vw qhd:100vw',
-        provider: 'prismic',
-      },
-    },
   },
   stories: {
     route: {
