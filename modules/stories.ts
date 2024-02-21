@@ -2,6 +2,7 @@ import path from 'path'
 import { defineNuxtModule, resolveFiles } from '@nuxt/kit'
 import type { NuxtPage } from '@nuxt/schema'
 import { minimatch } from 'minimatch'
+import { joinURL } from 'ufo'
 import { trimSlashes } from '../utils/string/trim-slashes'
 import { pascalToKebabCase } from '../utils/string/pascal-to-kebab-case'
 
@@ -47,10 +48,10 @@ export default defineNuxtModule<ModuleOptions>({
         file,
       }
     }
+
     nuxt.hook('components:dirs', (dirs) => {
       dirs.push({
-        priority: 2,
-        path: nuxt.options.rootDir + '/stories/commons',
+        path: joinURL(nuxt.options.rootDir, 'stories'),
         pathPrefix: false,
       })
     })
@@ -65,6 +66,7 @@ export default defineNuxtModule<ModuleOptions>({
 
         // INFO: Add meta crash
         // https://github.com/nuxt/nuxt/issues/25513
+        // route.children!.push(fileRoute)
         route.children!.push({ ...fileRoute, meta: {} })
       })
 

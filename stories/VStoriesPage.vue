@@ -16,6 +16,8 @@ definePageMeta({
 
 <style module lang="scss">
 .root {
+  --v-stories-top-bar-height: 56px;
+
   display: flex;
 }
 

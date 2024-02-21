@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { VVideoProps } from '~/components/molecules/VMedia/VVideo.vue'
-import type { VPictureProps } from '~/components/molecules/VMedia/VPicture.vue'
+import type { VVideoProps } from '~/components/molecules/VVideo/VVideo.vue'
+import type { VPictureProps } from '~/components/molecules/VPicture/VPicture.vue'
 import { useMedia } from '~/composables/component/use-media'
 import type { VMediaSrcProps } from '~/composables/component/use-media'
 
@@ -18,17 +18,18 @@ const { src, mediaType, filledMedia, embedPlatform } = useMedia({
   embedUrl: props.embedUrl,
 })
 
-const displayVideo = computed(() => (src.value && mediaType.value === 'video') || mediaType.value === 'embed')
-const displayImage = computed(() => mediaType.value === 'image')
+// TODO: Create VVideoContainer (add image placeholder and interaction functionality)
 </script>
 
 <template>
-  <template v-if="displayVideo">
-    <VVideo v-if="background" :src="src" :is-embed="!!embedPlatform" v-bind="video" playsinline autoplay muted loop />
-    <VVideo v-else :src="src" v-bind="video" controls />
-  </template>
-  <template v-else-if="displayImage">
-    <VPicture :media-entity="filledMedia" v-bind="image" />
+  <template v-if="src">
+    <template v-if="mediaType === 'video' || mediaType === 'embed'">
+      <VVideo v-if="background" :src="src" :is-embed="!!embedPlatform" v-bind="video" playsinline autoplay muted loop />
+      <VVideo v-else :src="src" v-bind="video" controls />
+    </template>
+    <template v-else-if="mediaType === 'image'">
+      <VPicture :media-entity="filledMedia" v-bind="image" />
+    </template>
   </template>
 </template>
 

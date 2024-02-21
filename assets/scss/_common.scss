@@ -1,18 +1,31 @@
-:root {
-    font-optical-sizing: auto;
-}
-
 html {
 }
 
 body {
-    margin: 0;
+    @include text-body-m;
+
+    font-family: $noi;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    min-height: 100svh;
 }
 
-button {
-    font-family: var(--font-family);
+/* Improved heading in supported browsers */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-wrap: balance;
+}
+
+/* prevent orphans in supported browsers */
+p,
+li {
+    max-width: var(--p-max-width, 65ch);
+    text-wrap: pretty;
 }
 
 a {
@@ -22,6 +35,33 @@ a {
     text-underline-offset: inherit;
 }
 
+button {
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    text-align: inherit;
+    text-transform: inherit;
+
+    &:disabled {
+        cursor: default;
+    }
+}
+
+input {
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+
+    &[type="submit"],
+    &[type="reset"] {
+        cursor: pointer;
+    }
+}
+
 textarea,
 select {
     color: inherit;
@@ -29,7 +69,17 @@ select {
     line-height: inherit;
 }
 
-*:focus-visible {
-    outline: 2px solid var(--theme-foreground-color, currentColor);
-    outline-offset: 6px;
+img,
+picture,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+    //-webkit-user-drag: none;
 }
+
+//::selection {
+//    background-color: color(orange);
+//    color: color(light);
+//    text-shadow: none;
+//}

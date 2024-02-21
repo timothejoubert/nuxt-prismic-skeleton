@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import prismicImageField from '~/stories/fixtures/media/image-field.json'
+import prismicImageField from 'assets/fixtures/media/image-field.json'
 
 const props = {
   mediaEntity: 'prismicImageField',

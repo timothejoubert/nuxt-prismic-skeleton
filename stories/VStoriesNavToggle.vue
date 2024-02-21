@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useStories } from '~/stories/commons/use-stories'
+import { useStories } from '~/stories/use-stories'
 
 const { storiesNavIsOpen, toggleStoriesNav } = useStories()
 </script>

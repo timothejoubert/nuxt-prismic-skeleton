@@ -8,11 +8,12 @@ module.exports = {
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+        'import/namespace': 'off', // issue with Nuxt #components import
         '@typescript-eslint/ban-ts-ignore': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
         'vue/require-default-prop': 'off', // props could be undefined
         'vue/padding-line-between-blocks': 'warn',
-        'vue/no-multiple-template-root': 'off',
+        'vue/no-v-text-v-html-on-component': 'off',
     },
     overrides: [
         {

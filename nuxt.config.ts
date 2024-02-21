@@ -1,12 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import prismicData from './slicemachine.config.json'
+import { hoistUseStatements } from './utils/vite/hoist-use-statements'
 
 // i18n
 const locales = ['fr']
 const defaultLocale = 'fr'
 
-// @ts-ignore
-// @ts-ignore
 export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
@@ -29,17 +28,14 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/prismic', '@nuxt/image'],
   runtimeConfig: {
     public: {
-      baseUrl: '',
+      siteUrl: '',
       siteName: '',
     },
   },
   prismic: {
     endpoint: prismicData.repositoryName,
   },
-  components: {
-    dirs: [{ path: '~/components', pathPrefix: false }],
-  },
-  // components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],
+  components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],
   image: {
     prismic: {},
     imgix: {
@@ -59,6 +55,15 @@ export default defineNuxtConfig({
     },
     // @ts-ignore not working with [1]
     densities: '1',
+  },
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: hoistUseStatements(`@import "~/assets/scss/_style-resources.scss";`),
+        },
+      },
+    },
   },
   stories: {
     route: {

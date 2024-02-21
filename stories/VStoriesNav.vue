@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { RouteRecordRaw } from 'vue-router'
 import type { ComponentPublicInstance } from 'vue'
-import type { Item } from '~/stories/commons/VStoriesNavItem.vue'
+import type { Item } from '~/stories/VStoriesNavItem.vue'
 import { trimSlashes } from '~/utils/string/trim-slashes'
-import { useStories } from '~/stories/commons/use-stories'
+import { useStories } from '~/stories/use-stories'
 
 const route = useRoute()
 

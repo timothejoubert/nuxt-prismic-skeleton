@@ -7,10 +7,7 @@
     Remove all the styles of the "User-Agent-Stylesheet", except for the 'display' property
     - The "symbol *" and "symbol" part is to solve Firefox SVG sprite bug
  */
-*:where(:not(html, iframe, canvas, img, svg, video, audio, symbol, svg *, symbol *)) {
-    padding: initial;
-    margin: initial;
-    background-color: initial;
+*:where(:not(html, iframe, canvas, img, svg, video, audio, symbol, svg *, symbol *, table, th, del, em)) {
     all: unset;
     display: revert;
 }
@@ -24,7 +21,7 @@
 
 /* Reapply the pointer cursor for anchor tags */
 a, button {
-    cursor: pointer;
+    cursor: revert;
 }
 
 /* Remove list styles (bullets/numbers) */
@@ -34,7 +31,6 @@ ol, ul, menu {
 
 /* For images to not be able to exceed their container */
 img {
-    display: block;
     max-width: 100%;
 }
 

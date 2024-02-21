@@ -1,8 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const splashScreenState = useSplashScreenState()
+</script>
 
 <template>
   <div :class="$style.root">
-    <div>Topbar</div>
+    <ClientOnly>
+      <!--      <VSplashScreen v-if="splashScreenState !== 'done'" />-->
+    </ClientOnly>
+    <VTopBar />
     <slot />
     <div>Footer</div>
   </div>
@@ -10,5 +15,6 @@
 
 <style lang="scss" module>
 .root {
+  position: relative;
 }
 </style>

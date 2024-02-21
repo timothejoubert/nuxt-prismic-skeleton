@@ -1,20 +1,9 @@
-
-// Heading
-
 .text-h1 {
     @include text-h1;
 }
 
-.text-h1-sm {
-    @include text-h1(28);
-}
-
 .text-h2 {
     @include text-h2;
-}
-
-.text-h2-sm {
-    @include text-h2(18);
 }
 
 .text-h3 {
@@ -29,21 +18,17 @@
     @include text-h5;
 }
 
-// Intermediarie
-
-.text-overtitle-fluid {
-    @include text-overtitle-fluid;
+.text-over-title-l {
+    @include text-over-title-l;
 }
 
-.text-overtitle-m {
-    @include text-overtitle-m;
+.text-over-title-m {
+    @include text-over-title-m;
 }
 
-.text-overtitle-s {
-    @include text-overtitle-s;
+.text-over-title-s {
+    @include text-over-title-s;
 }
-
-// Body
 
 .text-body-l {
     @include text-body-l;
@@ -59,30 +44,4 @@
 
 .text-body-xs {
     @include text-body-xs;
-}
-
-// Others
-
-.text-tag-m {
-    @include text-tag-m;
-}
-
-.text-tag-s {
-    @include text-tag-s;
-}
-
-.text-button-m {
-    @include text-button-m;
-}
-
-.text-button-l {
-    @include text-button-l;
-}
-
-.text-menu-m {
-    @include text-menu-m;
-}
-
-.text-menu-s {
-    @include text-menu-s;
 }
