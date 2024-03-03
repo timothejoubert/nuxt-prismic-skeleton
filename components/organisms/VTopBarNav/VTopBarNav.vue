@@ -13,8 +13,7 @@ interface JsonLdbBreadcrumb {
   item: JsonLdbBreadcrumbItem
 }
 
-const { mainMenu, siteName } = useCommonContent()
-// TODO: find why CommonContent fetch isn't working
+const { homeBasePath, mainMenu, siteName } = useCommonContent()
 
 const navItemList = computed(() => {
   const links = mainMenu.value?.links
@@ -53,14 +52,11 @@ function isHomePath(documentUid: string | undefined) {
   return !documentUid || documentUid === 'accueil'
 }
 
-const i18n = useI18n()
-const basePath = computed(() => (i18n.locale.value === 'en' ? '/en' : ''))
-
 function parseLinkUrl(uid: string | undefined) {
   if (isHomePath(uid)) {
-    return basePath.value
+    return homeBasePath.value
   } else {
-    return basePath.value + '/' + uid
+    return homeBasePath.value + '/' + uid
   }
 }
 </script>

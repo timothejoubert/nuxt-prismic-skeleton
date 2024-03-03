@@ -19,17 +19,10 @@
                 "placeholder": ""
               }
             },
-            "internal_link": {
+            "link": {
               "type": "Link",
               "config": {
-                "label": "Internal link",
-                "select": "document"
-              }
-            },
-            "external_link": {
-              "type": "Link",
-              "config": {
-                "label": "External link",
+                "label": "Link",
                 "placeholder": "",
                 "allowTargetBlank": true,
                 "select": null

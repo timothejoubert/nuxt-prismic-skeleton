@@ -1,6 +1,6 @@
 {
   "format": "page",
-  "id": "project_listing",
+  "id": "project_listing_page",
   "label": "Project listing page",
   "repeatable": false,
   "status": true,

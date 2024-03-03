@@ -4,107 +4,92 @@
 $v-button-size-vars-by-variant: () !default;
 
 // root
-// min-width is for icon-only
 $v-button: (
-    s: (
-        font-size: rem(12),
-        min-width: rem(40),
-        font-weight: 500,
-        height: rem(32),
-    ),
-    m: (
-        font-size: rem(14),
-        min-width: rem(52),
-        font-weight: 500,
-        height: rem(38),
-    ),
-    l: (
-        font-size: rem(17),
-        font-weight: 500,
-        min-width: rem(60),
-        height: rem(42),
-    ),
-    xl: (
-        text-transform: uppercase,
-        font-weight: 800,
-        font-style: italic,
-        font-size: rem(16),
-        min-width: rem(64),
-        height: rem(48),
-    )
+        s: (
+                font-size: rem(14),
+                min-width: rem(40), // width with icon-only
+                padding-inline: rem(8),
+                height: rem(32),
+                max-width: rem(200),
+        ),
+        m: (
+                font-size: rem(16),
+                min-width: rem(48),
+                padding-inline: rem(12),
+                height: rem(40),
+                max-width: rem(350),
+        ),
+        l: (
+                font-size: rem(20),
+                min-width: rem(48),
+                padding-inline: rem(12),
+                height: rem(48),
+                max-width: rem(350),
+        ),
+        xl: (
+                font-size: rem(24),
+                min-width: rem(48),
+                padding-inline: rem(8),
+                height: rem(48),
+                max-width: rem(350),
+        )
 );
 
 $v-button-rounded: (
-    xs: (
-        border-radius: 8px,
-    ),
-    s: (
-        border-radius: 8px,
-    ),
-    m: (
-        border-radius: 8px,
-    ),
-    l: (
-        border-radius: 8px,
-    ),
-    xl: (
-        border-radius: 8px,
-    ),
+        default: (
+                border-radius: rem(2),
+        ),
 );
+
 $v-button-filled: (
-    s: (
-        padding: 0 rem(8)
-    ),
-    m: (
-        padding: 0 rem(10)
-    ),
-    l: (
-        padding: 0 rem(16)
-    ),
-    xl: (
-        padding: 0 rem(16)
-    ),
+        default: (
+                background-color: var(--theme-foreground-color),
+                color: var(--theme-background-color),
+        ),
+);
+
+$v-button-outlined: (
+        default: (
+                border-width: 1px,
+                border-style: solid,
+                border-color: currentColor
+        ),
+);
+
+$v-button-disabled: (
+        default: (
+                color: var(--theme-v-button-disabled-color),
+                background-color: var(--v-button-disabled-filled-background-color),
+                border-color: var(--v-button-disabled-outlined-border-color),
+        ),
 );
 
 // icon
-$v-button-icon: (
-    s: (
-        margin-inline: 0,
-    ),
-    m: (
-        margin-inline: rem(2),
-    ),
-    l: (
-        margin-inline: rem(2),
-    ),
-    xl: (
-        margin-inline: rem(4),
-    ),
-);
+$v-button-icon: ();
 
 // label
 $v-button-label: (
-    s: (
-        margin-inline: rem(4),
-    ),
-    m: (
-        margin-inline: rem(4),
-    ),
-    l: (
-        margin-inline: rem(4),
-    ),
-    xl: (
-        margin-inline: rem(4),
-    ),
+        s: (
+                margin-inline: rem(4) rem(4),
+        ),
+        m: (
+                margin-inline: rem(4) rem(4),
+        ),
+        l: (
+                margin-inline: rem(4) rem(4),
+        ),
+        xl: (
+                margin-inline: rem(2) rem(2),
+        ),
 );
+
 $v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, (
-    default: (
-        (vars: $v-button, prefix: ''),
-        (vars: $v-button-rounded, prefix: 'rounded'),
-        (vars: $v-button-filled, prefix: 'filled'),
-        (vars: $v-button-icon, prefix: 'icon'),
-        (vars: $v-button-label, prefix: 'label'),
-    )
+        default: (
+                (vars: $v-button, prefix: ''),
+                (vars: $v-button-filled, prefix: 'filled'),
+                (vars: $v-button-outlined, prefix: 'outlined'),
+                (vars: $v-button-rounded, prefix: 'rounded'),
+                (vars: $v-button-icon, prefix: 'icon'),
+                (vars: $v-button-label, prefix: 'label'),
+        )
 ));
-
-

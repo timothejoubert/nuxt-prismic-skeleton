@@ -25,7 +25,7 @@ export async function useFetchPage<T extends PrismicDocument>(pageId?: DocumentT
     ? cachedData
     : await useAsyncData(key, async () => {
         try {
-          return await usePrismic().client.getSingle(pageId || 'home', queryOptions)
+          return await usePrismic().client.getSingle(pageId || 'home_page', queryOptions)
         } catch (error) {
           console.error('error=', error)
 

@@ -1,17 +1,12 @@
 <script lang="ts" setup>
 import LogoMain from '~/assets/images/logo.svg?component'
 
-const { siteName } = useCommonContent()
-
-const i18n = useI18n()
-const homeLink = computed(() => {
-  return i18n.locale.value === 'en' ? '/en' : '/'
-})
+const { siteName, homeBasePath } = useCommonContent()
 </script>
 
 <template>
   <div :class="$style.root" class="container">
-    <NuxtLink :to="homeLink" :class="$style.home">
+    <NuxtLink :to="homeBasePath" :class="$style.home">
       <LogoMain viewBox="0 0 86 80" :class="$style.logo" />
       <div :class="$style['logo-text']">{{ siteName }}</div>
     </NuxtLink>

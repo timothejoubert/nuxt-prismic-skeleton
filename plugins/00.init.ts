@@ -1,10 +1,12 @@
 import type { Link, Script } from '@unhead/schema'
 import { joinURL } from 'ufo'
 import type { AlternateLanguage, PrismicDocument } from '@prismicio/types'
+// @ts-ignore
+import type { PrismicPluginClient } from '@prismicio/vue/src/types'
 import type { CommonContent } from '~/composables/use-common-content'
 
 async function initCommonContent() {
-  const prismic = usePrismic()
+  const prismic = useNuxtApp().$prismic as PrismicPluginClient
 
   await useAsyncData<CommonContent>('common_content', async () => {
     const settingResponse = await prismic.client.getSingle('setting')

@@ -14,6 +14,8 @@ module.exports = {
         'vue/require-default-prop': 'off', // props could be undefined
         'vue/padding-line-between-blocks': 'warn',
         'vue/no-v-text-v-html-on-component': 'off',
+        '@typescript-eslint/camelcase': 'off', // Allow camelCase (used for prismic field name)
+        'camelcase': 'off',
     },
     overrides: [
         {

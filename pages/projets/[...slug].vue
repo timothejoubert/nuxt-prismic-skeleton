@@ -1,12 +1,12 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+import type { ProjectPageDocument } from '~/prismicio-types'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
-import type { AboutPageDocument } from '~/prismicio-types'
 
 definePageMeta({
   pageTransition: defaultPageTransition,
 })
 
-const { webResponse, pageData, alternateLinks, error } = await useFetchPage<AboutPageDocument>('about_page')
+const { webResponse, pageData, alternateLinks, error } = await useFetchPage<ProjectPageDocument>('project_page')
 
 if (error) {
   showError(error)
@@ -20,8 +20,8 @@ usePage({
 
 <template>
   <div :class="$style.root">
-    <h1>page bio</h1>
-    <div v-if="pageData">{{ pageData }}</div>
+    <h1>Page projet</h1>
+    <pre v-if="pageData">{{ pageData }}</pre>
   </div>
 </template>
 
