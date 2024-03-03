@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import prismicImage from 'assets/fixtures/media/image-field.json'
-import prismicRelationImage from 'assets/fixtures/media/relation-link-image.json'
-import prismicRelationVideo from 'assets/fixtures/media/relation-link-video.json'
+import prismicImage from 'assets/stories/fixtures/media/image-field.json'
+import prismicRelationImage from 'assets/stories/fixtures/media/relation-link-image.json'
+import prismicRelationVideo from 'assets/stories/fixtures/media/relation-link-video.json'
 </script>
 
 <template>

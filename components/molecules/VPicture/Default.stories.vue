@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import prismicImageField from 'assets/fixtures/media/image-field.json'
+import prismicImageField from 'assets/stories/fixtures/media/image-field.json'
 
 const props = {
   mediaEntity: 'prismicImageField',
@@ -12,7 +12,7 @@ const props = {
 </script>
 
 <template>
-  <VStory :class="$style.root" :props-object="props">
+  <NuxtStory :class="$style.root" :props-object="props">
     <VPicture :media-entity="prismicImageField" sizes="xs:400px lg:60vw" />
 
     <VPicture :media-entity="prismicImageField" sizes="xs:200px lg:40vw" alt="alt texte" />
@@ -27,7 +27,7 @@ const props = {
     />
 
     <VPicture :media-entity="prismicImageField" sizes="xs:200px lg:50vw" alt="alt texte" width="20" height="80" crop />
-  </VStory>
+  </NuxtStory>
 </template>
 
 <style lang="scss" module>

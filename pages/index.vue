@@ -1,27 +1,41 @@
 <script lang="ts" setup>
 import { InternalRouteName } from '~/constants/internal-route-name'
-import type { HomeDocumentData } from '~/prismicio-types'
-// import VMedia from '~/components/molecules/VMedia/VMedia.vue'
+import type { HomeDocument } from '~/prismicio-types'
+import { stringifyProps } from '~/utils/json'
 
 definePageMeta({
   name: InternalRouteName.HOME,
 })
 
-const { data: document } = await usePrismicPage('home')
-const documentData = computed(() => document.value?.data as HomeDocumentData)
+const { webResponse, pageData, alternateLinks, error } = await useFetchPage<HomeDocument>('home')
+if (error) showError(error)
 
-useWebPageSeoMeta({ webPage: documentData })
+usePage({
+  webResponse: webResponse.value,
+  alternateLinks: alternateLinks.value,
+})
 
-console.log(documentData.value)
+// const { data: document } = await usePrismicPage('home')
+// const documentData = computed(() => document.value?.data as HomeDocumentData)
+
+// useWebPageSeoMeta({ webPage: documentData })
+
+const parsedData = computed(() => stringifyProps(pageData.value))
 </script>
 
 <template>
-  <div>
-    <pre>
-      {{ documentData }}
+  <div v-if="pageData">
+    <pre :class="$style.content">
+      {{ parsedData }}
     </pre>
-    <h1>{{ documentData.title }}</h1>
-    <h2>{{ documentData.subtitle }}</h2>
-    <VMedia :media="documentData.media" background />
+    <h1>{{ pageData.title }}</h1>
+    <h2>{{ pageData.subtitle }}</h2>
+    <VMedia :media="pageData.media" background />
   </div>
 </template>
+
+<style lang="scss" module="">
+.content {
+  white-space: pre-wrap;
+}
+</style>

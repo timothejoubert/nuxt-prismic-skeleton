@@ -1,6 +1,6 @@
 {
   "id": "home",
-  "label": "Home",
+  "label": "Home page",
   "format": "page",
   "repeatable": false,
   "status": true,
@@ -28,13 +28,6 @@
           "select": "media"
         }
       },
-      "slices": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
-        "config": {
-          "choices": {}
-        }
-      },
       "media_link": {
         "type": "Link",
         "config": {
@@ -49,6 +42,13 @@
           "label": "Image field",
           "constraint": {},
           "thumbnails": []
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {}
         }
       }
     },

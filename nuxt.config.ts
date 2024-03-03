@@ -1,16 +1,15 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import svgLoader from 'vite-svg-loader'
 import prismicData from './slicemachine.config.json'
 import { hoistUseStatements } from './utils/vite/hoist-use-statements'
+import { version } from './package.json'
 
 // i18n
-const locales = ['fr']
+const locales = ['fr', 'en']
 const defaultLocale = 'fr'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
-    pageTransition: false,
-    layoutTransition: false,
     head: {
       htmlAttrs: {
         lang: defaultLocale,
@@ -25,11 +24,37 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/scss/main.scss'],
-  modules: ['@nuxtjs/prismic', '@nuxt/image'],
+  // https://nuxt.com/docs/api/configuration/nuxt-config#vite
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: hoistUseStatements(`@import "~/assets/scss/_style-resources.scss";`),
+        },
+      },
+    },
+    build: {
+      // Force to use inline sprite-sheet asset instead raw data:image file
+      // https://github.com/nuxt-modules/svg-sprite/issues/8
+      assetsInlineLimit: 0,
+    },
+    plugins: [
+      svgLoader({
+        defaultImport: 'url',
+      }),
+    ],
+  },
+  modules: ['@nuxtjs/i18n', '@nuxtjs/prismic', '@nuxtjs/svg-sprite', '@rezo-zero/nuxt-stories', '@nuxt/image'],
+  // https://github.com/nuxt-modules/svg-sprite#options
+  svgSprite: {
+    input: '~/assets/images/icons',
+    output: '~/assets/images/sprites',
+  },
   runtimeConfig: {
     public: {
       siteUrl: '',
       siteName: '',
+      version,
     },
   },
   prismic: {
@@ -56,22 +81,16 @@ export default defineNuxtConfig({
     // @ts-ignore not working with [1]
     densities: '1',
   },
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: hoistUseStatements(`@import "~/assets/scss/_style-resources.scss";`),
-        },
-      },
-    },
-  },
-  stories: {
-    route: {
-      name: '_stories',
-      path: '/_stories',
-      file: '~/stories/VStoriesPage.vue',
-    },
-    include: '**/*.stories.vue',
-    root: ['components', 'stories'],
+  i18n: {
+    // Use no_prefix strategy to avoid redirecting localized paths without locale prefix
+    strategy: 'no_prefix',
+    detectBrowserLanguage: false,
+    defaultLocale,
+    locales: locales.map((locale) => ({
+      code: locale,
+      file: `nuxt.${locale}.json`,
+    })),
+    lazy: true,
+    langDir: 'assets/locales/',
   },
 })

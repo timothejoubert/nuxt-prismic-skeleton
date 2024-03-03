@@ -4,14 +4,78 @@ import type * as prismic from '@prismicio/client'
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
 
+type AboutPageDocumentDataSlicesSlice = never
+
+/**
+ * Content for About page documents
+ */
+interface AboutPageDocumentData {
+  /**
+   * Slice Zone field in *About page*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: about_page.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<AboutPageDocumentDataSlicesSlice> /**
+   * Meta Description field in *About page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: about_page.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_description: prismic.KeyTextField
+
+  /**
+   * Meta Image field in *About page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: about_page.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  meta_image: prismic.ImageField<never>
+
+  /**
+   * Meta Title field in *About page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: about_page.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_title: prismic.KeyTextField
+}
+
+/**
+ * About page document from Prismic
+ *
+ * - **API ID**: `about_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type AboutPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
+  Simplify<AboutPageDocumentData>,
+  'about_page',
+  Lang
+>
+
 type HomeDocumentDataSlicesSlice = never
 
 /**
- * Content for Home documents
+ * Content for Home page documents
  */
 interface HomeDocumentData {
   /**
-   * Title field in *Home*
+   * Title field in *Home page*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -22,7 +86,7 @@ interface HomeDocumentData {
   title: prismic.KeyTextField
 
   /**
-   * SubTitle field in *Home*
+   * SubTitle field in *Home page*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -33,7 +97,7 @@ interface HomeDocumentData {
   subtitle: prismic.KeyTextField
 
   /**
-   * Media field in *Home*
+   * Media field in *Home page*
    *
    * - **Field Type**: Link to Media
    * - **Placeholder**: *None*
@@ -44,18 +108,7 @@ interface HomeDocumentData {
   media: prismic.LinkToMediaField
 
   /**
-   * Slice Zone field in *Home*
-   *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home.slices[]
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#slices
-   */
-  slices: prismic.SliceZone<HomeDocumentDataSlicesSlice>
-
-  /**
-   * Media link field in *Home*
+   * Media link field in *Home page*
    *
    * - **Field Type**: Link to Media
    * - **Placeholder**: *None*
@@ -66,7 +119,7 @@ interface HomeDocumentData {
   media_link: prismic.LinkToMediaField
 
   /**
-   * Image field field in *Home*
+   * Image field field in *Home page*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -74,8 +127,19 @@ interface HomeDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image_field: prismic.ImageField<never> /**
-   * Meta Title field in *Home*
+  image_field: prismic.ImageField<never>
+
+  /**
+   * Slice Zone field in *Home page*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<HomeDocumentDataSlicesSlice> /**
+   * Meta Title field in *Home page*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
@@ -86,7 +150,7 @@ interface HomeDocumentData {
   meta_title: prismic.KeyTextField
 
   /**
-   * Meta Description field in *Home*
+   * Meta Description field in *Home page*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
@@ -97,7 +161,7 @@ interface HomeDocumentData {
   meta_description: prismic.KeyTextField
 
   /**
-   * Meta Image field in *Home*
+   * Meta Image field in *Home page*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -109,7 +173,7 @@ interface HomeDocumentData {
 }
 
 /**
- * Home document from Prismic
+ * Home page document from Prismic
  *
  * - **API ID**: `home`
  * - **Repeatable**: `false`
@@ -124,35 +188,35 @@ export type HomeDocument<Lang extends string = string> = prismic.PrismicDocument
 >
 
 /**
- * Item in *Menu → Link*
+ * Item in *Menu → Links*
  */
-export interface MenuDocumentDataLinkItem {
+export interface MenuDocumentDataLinksItem {
   /**
-   * Label field in *Menu → Link*
+   * Label field in *Menu → Links*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: menu.link[].label
+   * - **API ID Path**: menu.links[].label
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   label: prismic.KeyTextField
 
   /**
-   * Internal link field in *Menu → Link*
+   * Internal link field in *Menu → Links*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: menu.link[].internal_link
+   * - **API ID Path**: menu.links[].internal_link
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   internal_link: prismic.ContentRelationshipField
 
   /**
-   * External link field in *Menu → Link*
+   * External link field in *Menu → Links*
    *
    * - **Field Type**: Link
    * - **Placeholder**: *None*
-   * - **API ID Path**: menu.link[].external_link
+   * - **API ID Path**: menu.links[].external_link
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   external_link: prismic.LinkField
@@ -163,15 +227,15 @@ export interface MenuDocumentDataLinkItem {
  */
 interface MenuDocumentData {
   /**
-   * Link field in *Menu*
+   * Links field in *Menu*
    *
    * - **Field Type**: Group
    * - **Placeholder**: *None*
-   * - **API ID Path**: menu.link[]
+   * - **API ID Path**: menu.links[]
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#group
    */
-  link: prismic.GroupField<Simplify<MenuDocumentDataLinkItem>>
+  links: prismic.GroupField<Simplify<MenuDocumentDataLinksItem>>
 }
 
 /**
@@ -189,97 +253,115 @@ export type MenuDocument<Lang extends string = string> = prismic.PrismicDocument
   Lang
 >
 
-type SettingsDocumentDataSlicesSlice = never
+type ProjectDocumentDataSlicesSlice = never
 
 /**
- * Item in *Settings → Socials*
+ * Content for Project page documents
  */
-export interface SettingsDocumentDataSocialsItem {
+interface ProjectDocumentData {
   /**
-   * Type field in *Settings → Socials*
-   *
-   * - **Field Type**: Select
-   * - **Placeholder**: Instagram
-   * - **API ID Path**: settings.socials[].type
-   * - **Documentation**: https://prismic.io/docs/field#select
-   */
-  type: prismic.SelectField<
-    'Instagram' | 'Facebook' | 'Vimeo' | 'Youtube' | 'Linkedin' | 'Behance' | 'TikTok' | 'Other'
-  >
-
-  /**
-   * Title field in *Settings → Socials*
+   * Title field in *Project page*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: settings.socials[].title
+   * - **API ID Path**: project.title
+   * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   title: prismic.KeyTextField
 
   /**
-   * Link field in *Settings → Socials*
+   * Excerpt field in *Project page*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.excerpt
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  excerpt: prismic.RichTextField
+
+  /**
+   * Description field in *Project page*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField
+
+  /**
+   * Main media field in *Project page*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.main_media
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  main_media: prismic.LinkToMediaField
+
+  /**
+   * Creation date field in *Project page*
+   *
+   * - **Field Type**: Date
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.creation_date
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#date
+   */
+  creation_date: prismic.DateField
+
+  /**
+   * External link field in *Project page*
    *
    * - **Field Type**: Link
    * - **Placeholder**: *None*
-   * - **API ID Path**: settings.socials[].link
+   * - **API ID Path**: project.external_link
+   * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link: prismic.LinkField
-}
+  external_link: prismic.LinkField
 
-/**
- * Content for Settings documents
- */
-interface SettingsDocumentData {
   /**
-   * Slice Zone field in *Settings*
+   * Slice Zone field in *Project page*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: settings.slices[]
+   * - **API ID Path**: project.slices[]
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
-  slices: prismic.SliceZone<SettingsDocumentDataSlicesSlice>
-
-  /**
-   * Socials field in *Settings*
-   *
-   * - **Field Type**: Group
-   * - **Placeholder**: *None*
-   * - **API ID Path**: settings.socials[]
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#group
-   */
-  socials: prismic.GroupField<Simplify<SettingsDocumentDataSocialsItem>> /**
-   * Meta Description field in *Settings*
+  slices: prismic.SliceZone<ProjectDocumentDataSlicesSlice> /**
+   * Meta Description field in *Project page*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: settings.meta_description
+   * - **API ID Path**: project.meta_description
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   meta_description: prismic.KeyTextField
 
   /**
-   * Meta Image field in *Settings*
+   * Meta Image field in *Project page*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: settings.meta_image
+   * - **API ID Path**: project.meta_image
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#image
    */
   meta_image: prismic.ImageField<never>
 
   /**
-   * Meta Title field in *Settings*
+   * Meta Title field in *Project page*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: settings.meta_title
+   * - **API ID Path**: project.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
@@ -287,21 +369,183 @@ interface SettingsDocumentData {
 }
 
 /**
- * Settings document from Prismic
+ * Project page document from Prismic
  *
- * - **API ID**: `settings`
+ * - **API ID**: `project`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ProjectDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+  Simplify<ProjectDocumentData>,
+  'project',
+  Lang
+>
+
+type ProjectListingDocumentDataSlicesSlice = never
+
+/**
+ * Content for Project listing page documents
+ */
+interface ProjectListingDocumentData {
+  /**
+   * Title field in *Project listing page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project_listing.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField
+
+  /**
+   * Slice Zone field in *Project listing page*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project_listing.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<ProjectListingDocumentDataSlicesSlice> /**
+   * Meta Description field in *Project listing page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: project_listing.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_description: prismic.KeyTextField
+
+  /**
+   * Meta Image field in *Project listing page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project_listing.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  meta_image: prismic.ImageField<never>
+
+  /**
+   * Meta Title field in *Project listing page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: project_listing.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_title: prismic.KeyTextField
+}
+
+/**
+ * Project listing page document from Prismic
+ *
+ * - **API ID**: `project_listing`
  * - **Repeatable**: `false`
  * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
-  Simplify<SettingsDocumentData>,
-  'settings',
+export type ProjectListingDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
+  Simplify<ProjectListingDocumentData>,
+  'project_listing',
   Lang
 >
 
-export type AllDocumentTypes = HomeDocument | MenuDocument | SettingsDocument
+/**
+ * Item in *setting → Socials*
+ */
+export interface SettingDocumentDataSocialsItem {
+  /**
+   * Name field in *setting → Socials*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: setting.socials[].name
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  name: prismic.KeyTextField
+
+  /**
+   * type field in *setting → Socials*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: Others
+   * - **API ID Path**: setting.socials[].type
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  type: prismic.SelectField<
+    'Others' | 'Instagram' | 'Facebook' | 'Vimeo' | 'Youtube' | 'Linkedin' | 'Behance' | 'TikTok',
+    'filled'
+  >
+
+  /**
+   * Link field in *setting → Socials*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: setting.socials[].link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField
+}
+
+/**
+ * Content for setting documents
+ */
+interface SettingDocumentData {
+  /**
+   * Site name field in *setting*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: setting.site_name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  site_name: prismic.KeyTextField
+
+  /**
+   * Socials field in *setting*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: setting.socials[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  socials: prismic.GroupField<Simplify<SettingDocumentDataSocialsItem>>
+}
+
+/**
+ * setting document from Prismic
+ *
+ * - **API ID**: `setting`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SettingDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
+  Simplify<SettingDocumentData>,
+  'setting',
+  Lang
+>
+
+export type AllDocumentTypes =
+  | AboutPageDocument
+  | HomeDocument
+  | MenuDocument
+  | ProjectDocument
+  | ProjectListingDocument
+  | SettingDocument
 
 /**
  * Primary content in *MediaBlock → Primary*
@@ -378,16 +622,24 @@ declare module '@prismicio/client' {
 
   namespace Content {
     export type {
+      AboutPageDocument,
+      AboutPageDocumentData,
+      AboutPageDocumentDataSlicesSlice,
       HomeDocument,
       HomeDocumentData,
       HomeDocumentDataSlicesSlice,
       MenuDocument,
       MenuDocumentData,
-      MenuDocumentDataLinkItem,
-      SettingsDocument,
-      SettingsDocumentData,
-      SettingsDocumentDataSlicesSlice,
-      SettingsDocumentDataSocialsItem,
+      MenuDocumentDataLinksItem,
+      ProjectDocument,
+      ProjectDocumentData,
+      ProjectDocumentDataSlicesSlice,
+      ProjectListingDocument,
+      ProjectListingDocumentData,
+      ProjectListingDocumentDataSlicesSlice,
+      SettingDocument,
+      SettingDocumentData,
+      SettingDocumentDataSocialsItem,
       AllDocumentTypes,
       MediaBlockSlice,
       MediaBlockSliceDefaultPrimary,

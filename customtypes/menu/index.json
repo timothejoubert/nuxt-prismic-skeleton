@@ -6,10 +6,10 @@
   "status": true,
   "json": {
     "Main": {
-      "link": {
+      "links": {
         "type": "Group",
         "config": {
-          "label": "Link",
+          "label": "Links",
           "repeat": true,
           "fields": {
             "label": {

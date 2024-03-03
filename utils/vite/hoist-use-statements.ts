@@ -14,22 +14,22 @@ const useRegexTest = new RegExp(useRegex, 'm')
 const useRegexReplace = new RegExp(`${useRegex}(?![\\s\\S]*${useRegex})`, 'gm')
 
 export function hoistUseStatements(resources: string): (key: string) => string {
-    return function (source: string): string {
-        if (useRegexTest.test(source)) {
-            const output = source.replace(useRegexReplace, (useStatements) => `${useStatements}\n${resources}`)
+  return function (source: string): string {
+    if (useRegexTest.test(source)) {
+      const output = source.replace(useRegexReplace, (useStatements) => `${useStatements}\n${resources}`)
 
-            // De-duplicate identical imports
-            const importedResources: Record<string, boolean | undefined> = {}
-            return output.replace(new RegExp(useRegex, 'mg'), (importedResource: string) => {
-                if (importedResources[importedResource]) {
-                    return ''
-                }
-
-                importedResources[importedResource] = true
-                return importedResource
-            })
+      // De-duplicate identical imports
+      const importedResources: Record<string, boolean | undefined> = {}
+      return output.replace(new RegExp(useRegex, 'mg'), (importedResource: string) => {
+        if (importedResources[importedResource]) {
+          return ''
         }
 
-        return `${resources}\n${source}`
+        importedResources[importedResource] = true
+        return importedResource
+      })
     }
+
+    return `${resources}\n${source}`
+  }
 }
