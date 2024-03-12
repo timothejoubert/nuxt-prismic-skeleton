@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import { getSlotInnerText } from '~/utils/slots/get-slot-inner-text'
 
+interface letterContent {
+  id: string
+  character: string
+  isAfterSpace: boolean
+}
+
 interface VSplitWordProps {
   tag?: string
   content?: string
@@ -10,23 +16,25 @@ interface VSplitWordProps {
 const props = defineProps<VSplitWordProps>()
 const slots = useSlots()
 
-const slotContent = computed((): string | undefined => {
-  return getSlotInnerText(slots.default)
+const characterList = computed(() => {
+  const string = props.content || getSlotInnerText(slots.default) || ''
+  return string.split('')
 })
 
-const letters = computed((): { content: string; isAfterSpace: boolean }[] | undefined => {
-  const letters = props.content?.split('') || slotContent.value?.split('')
+const letterList = computed((): letterContent[] | undefined => {
+  const letters = characterList.value
 
-  if (!letters?.length) return undefined
+  if (!letters?.length) return
 
   return letters
     .map((letter: string, i: number) => {
       return {
-        content: letter,
-        isAfterSpace: i > 0 && letters[i - 1] === ' ',
+        id: letter + '-' + i,
+        character: letter,
+        isAfterSpace: i > 0 && letters?.[i - 1] === ' ',
       }
     })
-    .filter((letter) => letter.content !== ' ')
+    .filter((letter) => letter.character !== ' ')
 })
 
 const $style = useCssModule()
@@ -36,15 +44,15 @@ const rootClasses = computed(() => {
 </script>
 
 <template>
-  <component :is="tag || 'div'" :class="rootClasses">
+  <component :is="tag || 'div'" v-if="characterList?.length" :class="rootClasses">
     <div
-      v-for="(letter, i) in letters"
-      :key="i"
+      v-for="(letter, i) in letterList"
+      :key="letter.id"
       :class="[$style.letter, letter.isAfterSpace && $style['letter--after-space']]"
       :style="{ '--letter-index': i }"
-      :data-content="letter.content"
+      :data-content="letter.character"
     >
-      {{ letter.content }}
+      {{ letter.character }}
     </div>
   </component>
 </template>

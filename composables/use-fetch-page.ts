@@ -21,6 +21,7 @@ export async function useFetchPage<T extends PrismicDocument>(pageId?: DocumentT
     route.fullPath.includes('/en') || route.fullPath.includes('/en-gb') ? { lang: 'en-gb' } : undefined
 
   const cachedData = useNuxtData(key)
+
   const { data } = cachedData.data.value
     ? cachedData
     : await useAsyncData(key, async () => {

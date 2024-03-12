@@ -90,7 +90,7 @@ export default defineNuxtConfig({
       code: locale,
       file: `nuxt.${locale}.json`,
     })),
-    lazy: true,
+    // lazy: true,
     langDir: 'assets/locales/',
   },
 })

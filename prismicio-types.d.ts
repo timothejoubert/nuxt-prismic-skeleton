@@ -130,37 +130,48 @@ interface HomePageDocumentData {
   subtitle: prismic.KeyTextField
 
   /**
-   * Media field in *Home page*
+   * Embed video url field in *Home page*
    *
-   * - **Field Type**: Link to Media
+   * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.media
+   * - **API ID Path**: home_page.embed_video_url
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  media: prismic.LinkToMediaField
+  embed_video_url: prismic.KeyTextField
 
   /**
-   * Media link field in *Home page*
+   * Sub section title field in *Home page*
    *
-   * - **Field Type**: Link to Media
+   * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.media_link
+   * - **API ID Path**: home_page.sub_section_title
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  media_link: prismic.LinkToMediaField
+  sub_section_title: prismic.KeyTextField
 
   /**
-   * Image field field in *Home page*
+   * Sub section content field in *Home page*
    *
-   * - **Field Type**: Image
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.image_field
+   * - **API ID Path**: home_page.sub_section_content
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  image_field: prismic.ImageField<never>
+  sub_section_content: prismic.RichTextField
+
+  /**
+   * Sub section aside field in *Home page*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home_page.sub_section_aside
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  sub_section_aside: prismic.RichTextField
 
   /**
    * Slice Zone field in *Home page*

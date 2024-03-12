@@ -1,7 +1,20 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const splashScreenState = useSplashScreenState()
+</script>
 
 <template>
-  <NuxtLayout>
+  <div :class="$style.root">
+    <ClientOnly>
+      <VSplashScreen v-if="splashScreenState !== 'done'" />
+    </ClientOnly>
+    <VTopBar />
     <NuxtPage />
-  </NuxtLayout>
+    <div>Footer</div>
+  </div>
 </template>
+
+<style lang="scss" module>
+.root {
+  position: relative;
+}
+</style>

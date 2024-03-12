@@ -24,8 +24,8 @@ const { src, mediaType, filledMedia, embedPlatform } = useMedia({
 <template>
   <template v-if="src">
     <template v-if="mediaType === 'video' || mediaType === 'embed'">
-      <VVideo v-if="background" :src="src" :is-embed="!!embedPlatform" v-bind="video" playsinline autoplay muted loop />
-      <VVideo v-else :src="src" v-bind="video" controls />
+      <!--      <VVideo v-if="background" :src="src" :is-embed="!!embedPlatform" v-bind="video" playsinline autoplay muted loop />-->
+      <!--      <VVideo v-else :src="src" v-bind="video" controls />-->
     </template>
     <template v-else-if="mediaType === 'image'">
       <VPicture :media-entity="filledMedia" v-bind="image" />

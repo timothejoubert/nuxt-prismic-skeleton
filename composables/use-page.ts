@@ -21,18 +21,16 @@ export function usePage(options?: UsePageOptions) {
     alternateLinks: options?.alternateLinks,
   }
 
+  if (!currentPage.value?.webResponse) currentPage.value = { ...nextPage.value }
+
   watch(currentPage, (page) => {
     // useHead({
     //   title: page.title,
     // })
-    // useAlternateLinks(page.alternateLinks)
+    useAlternateLinks(page.alternateLinks)
   })
 
-  if (!currentPage.value?.webResponse) currentPage.value = { ...nextPage.value }
-
-  function onPageTransitionAfterLeave() {
+  usePageTransitionEvent(EventType.PAGE_TRANSITION_AFTER_LEAVE, () => {
     currentPage.value = { ...nextPage.value }
-  }
-
-  usePageTransitionEvent(EventType.PAGE_TRANSITION_AFTER_LEAVE, onPageTransitionAfterLeave)
+  })
 }

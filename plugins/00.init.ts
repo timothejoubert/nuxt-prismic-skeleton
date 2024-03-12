@@ -4,6 +4,7 @@ import type { AlternateLanguage, PrismicDocument } from '@prismicio/types'
 // @ts-ignore
 import type { PrismicPluginClient } from '@prismicio/vue/src/types'
 import type { CommonContent } from '~/composables/use-common-content'
+import { getLocaleLanguage } from '~/utils/locale'
 
 async function initCommonContent() {
   const prismic = useNuxtApp().$prismic as PrismicPluginClient
@@ -25,7 +26,7 @@ function initI18n(locale?: string) {
   if (locale) {
     const { $i18n } = nuxtApp
 
-    $i18n.locale.value = locale
+    $i18n.locale.value = getLocaleLanguage(locale)
   }
 }
 
@@ -114,6 +115,13 @@ export default defineNuxtPlugin(async () => {
   const pageResponse = isWildCardRoute ? await useFetchPage() : undefined
 
   if (pageResponse) {
+    // Make currentPage data accessible in layout during initialization
+    const currentPage = useCurrentPage()
+    currentPage.value = {
+      webResponse: pageResponse.webResponse.value,
+      alternateLinks: pageResponse.alternateLinks.value,
+    }
+
     initI18n(pageResponse?.locale.value)
     useAlternateLinks(pageResponse?.alternateLinks.value)
   }

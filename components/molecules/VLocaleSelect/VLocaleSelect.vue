@@ -12,14 +12,13 @@ interface Lang {
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
 const currentPageData = useCurrentPage()
+const { alternateLinks } = useAlternateLinks()
 
 const currentPageLang = computed(() => currentPageData.value.webResponse?.lang || '')
-
+const availableLocales = computed(() => alternateLinks.value?.map((l) => formatAlternateLink(l)) || [])
 const currentLang = computed(() => {
   return formatAlternateLink({ lang: currentPageLang.value })
 })
-
-const availableLocales = computed(() => currentPageData.value?.alternateLinks?.map((l) => formatAlternateLink(l)) || [])
 
 function formatAlternateLink(locale: Lang) {
   const langCondensed = locale.lang?.split('-')?.[0] || locale.lang

@@ -20,28 +20,36 @@
           "placeholder": ""
         }
       },
-      "media": {
-        "type": "Link",
+      "embed_video_url": {
+        "type": "Text",
         "config": {
-          "label": "Media",
-          "placeholder": "",
-          "select": "media"
+          "label": "Embed video url",
+          "placeholder": ""
         }
       },
-      "media_link": {
-        "type": "Link",
+      "sub_section_title": {
+        "type": "Text",
         "config": {
-          "label": "Media link",
-          "placeholder": "",
-          "select": "media"
+          "label": "Sub section title",
+          "placeholder": ""
         }
       },
-      "image_field": {
-        "type": "Image",
+      "sub_section_content": {
+        "type": "StructuredText",
         "config": {
-          "label": "Image field",
-          "constraint": {},
-          "thumbnails": []
+          "label": "Sub section content",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+        }
+      },
+      "sub_section_aside": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Sub section aside",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
         }
       },
       "slices": {

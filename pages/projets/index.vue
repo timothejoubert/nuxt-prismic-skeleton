@@ -23,7 +23,6 @@ const listingResponse = await useAsyncData('project_listing', () => {
 })
 
 const projects = computed(() => listingResponse.data.value)
-console.log(projects.value)
 </script>
 
 <template>
