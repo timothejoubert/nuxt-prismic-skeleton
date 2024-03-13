@@ -13,7 +13,6 @@ export interface VButtonProps {
   iconName?: string
   label?: string | false | TranslateResult
   size?: VButtonSize | false
-  elevated?: boolean
   rounded?: boolean
   outlined?: boolean
   disabled?: boolean
@@ -22,7 +21,6 @@ export interface VButtonProps {
   to?: string | Object | boolean // internal link (use NuxtLink)
   iconLast?: boolean
   variant?: Variant
-  emphasis?: VButtonStyle
   theme?: Theme | false
 }
 
@@ -62,15 +60,6 @@ const linkProps = computed((): Record<string, any> => {
   return result
 })
 
-// Emphasis changes
-const isFilled = computed(() => {
-  return props.emphasis !== 'ternary' && (props.filled || props.emphasis === 'primary')
-})
-
-const isOutlined = computed(() => {
-  return props.outlined || props.emphasis === 'secondary'
-})
-
 // slots
 const slots = defineSlots<{
   default: (props: unknown) => unknown
@@ -80,35 +69,25 @@ const hasIconSlot = computed(() => !!slots.icon)
 const hasIcon = computed(() => hasIconSlot.value || !!props.iconName)
 const hasLabel = computed(() => !!slots.default || !!props.label)
 
-// const { themeClass } = useTheme({ props })
+const { themeClass } = useTheme({ props })
 
 const $style = useCssModule()
 const rootClasses = computed(() => {
   return [
     $style.root,
-    isOutlined.value && $style['root--outlined'],
-    isFilled.value && $style['root--filled'],
-    props.elevated && $style['root--elevated'],
+    props.outlined && $style['root--outlined'],
+    props.filled && $style['root--filled'],
     props.disabled && $style['root--disabled'],
     props.rounded && $style['root--rounded'],
     props.iconLast && $style['root--icon-last'],
     hasIcon.value && $style['root--has-icon'],
     hasLabel.value && $style['root--has-label'],
     props.loading && $style['root--loading'],
-    !!props.emphasis && $style[`root--emphasis-${props.emphasis}`],
-    typeof props.size === 'string' && $style[`root--size-${props.size}`],
-    $style['root--variant-' + (props.variant || 'unset')],
-    // themeClass.value,
+    !!props.size && $style[`root--size-${props.size}`],
+    !!props.variant && $style['root--variant-' + props.variant],
+    themeClass.value,
   ]
 })
-
-const emit = defineEmits<{
-  click: [event: MouseEvent]
-}>()
-
-function onClick(event: MouseEvent) {
-  emit('click', event)
-}
 </script>
 
 <template>
@@ -117,7 +96,6 @@ function onClick(event: MouseEvent) {
     :class="rootClasses"
     :disabled="(internalTag === 'button' && disabled) || undefined"
     v-bind="linkProps"
-    @click="onClick"
   >
     <VLoadingDots v-if="hasIcon && loading" ref="icon" :class="$style.icon" />
     <VIcon v-else-if="iconName" :name="iconName" :class="$style.icon" />
@@ -131,7 +109,7 @@ function onClick(event: MouseEvent) {
 
 <style lang="scss" module>
 .root {
-  @include v-button-default-css-vars($v-button, '', 'm');
+  @include v-button-default-css-vars($v-button);
   @include theme-variants;
 
   position: var(--v-button-position, relative);
@@ -153,12 +131,13 @@ function onClick(event: MouseEvent) {
     }
   }
 
-  &--rounded {
-    @include v-button-default-css-vars($v-button-rounded, 'rounded');
-  }
-
   &--icon-last {
     flex-direction: row-reverse;
+  }
+
+  // BUTTON PROPS STYLES
+  &--rounded {
+    @include v-button-default-css-vars($v-button-rounded, 'rounded');
   }
 
   &--outlined {
@@ -167,53 +146,22 @@ function onClick(event: MouseEvent) {
 
   &--filled {
     @include v-button-default-css-vars($v-button-filled, 'filled');
-
-    --v-button-disabled-filled-background-color: #e3e3e3;
   }
 
-  &--elevated {
-    box-shadow: 0 2px 32px 0 rgba(#000, 0.1);
-  }
-
-  // DISABLED
   &--disabled {
-    @include v-button-default-css-vars($v-button-disabled, 'disabled');
+    //@include v-button-default-css-vars($v-button-disabled, 'disabled');
 
     // prevents click on disabled link (<a> or <nuxt-link>)
-    // cursor property can't be styled with pointer-events: none
     pointer-events: none;
     user-select: none;
   }
 
-  // Loading
+  // LOADING
   &--loading {
     cursor: wait;
     pointer-events: none; // prevents click on disabled link (<a> or <nuxt-link>)
   }
 
-  // VARIANTS
-  //&--variant-menu {
-  //    @include v-button-css-vars-by-size($v-button-menu-rounded, 's', 'rounded');
-  //    @include v-button-default-css-vars($v-button-menu);
-  //
-  //    @each $key, $value in $v-button-menu {
-  //        &--size-#{$key} {
-  //            @include v-button-size($key, menu);
-  //        }
-  //    }
-  //}
-  //
-  //&--variant-anchor {
-  //    @include v-button-default-css-vars($v-button-anchor);
-  //
-  //    @each $key, $value in $v-button-anchor {
-  //        &--size-#{$key} {
-  //            @include v-button-size($key, anchor);
-  //        }
-  //    }
-  //}
-
-  // When prop size is explicitly set
   @each $key, $value in $v-button {
     &--size-#{$key} {
       @include v-button-size($key);

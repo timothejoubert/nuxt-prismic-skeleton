@@ -16,7 +16,7 @@
     }
 }
 
-@mixin v-button-default-css-vars($vars, $prefix: '', $default: 's') {
+@mixin v-button-default-css-vars($vars, $prefix: '', $default: 'm') {
     @include default-css-vars('v-button', $vars, $prefix, $default);
 }
 
@@ -26,7 +26,7 @@
 
 
 // Update button size with media queries
-@mixin all-variant-button-css-vars-by-size($variant: default, $size: s) {
+@mixin all-variant-button-css-vars-by-size($variant: default, $size: m) {
     @if map-has-key($v-button-size-vars-by-variant, $variant) {
         $vars: map-get($v-button-size-vars-by-variant, $variant);
 

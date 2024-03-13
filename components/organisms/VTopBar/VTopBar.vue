@@ -5,7 +5,7 @@ const { siteName, homeBasePath } = useCommonContent()
 </script>
 
 <template>
-  <div :class="$style.root" class="container">
+  <div :class="$style.root">
     <NuxtLink :to="homeBasePath" :class="$style.home">
       <LogoMain viewBox="0 0 86 80" :class="$style.logo" />
       <div :class="$style['logo-text']">{{ siteName }}</div>
@@ -26,6 +26,7 @@ const { siteName, homeBasePath } = useCommonContent()
   color: color(white);
   mix-blend-mode: difference;
   background-color: black;
+  margin-inline: var(--main-content-margin);
 }
 
 .home {
