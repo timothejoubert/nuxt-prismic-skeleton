@@ -1,6 +1,7 @@
 import { joinURL } from 'ufo'
 import type { PrismicDocument } from '@prismicio/types'
 import type { DocumentType } from '~/types/api'
+import { DocumentType as documentType } from '~/constants/document-type'
 
 export function getFetchPageMeta(pageId?: string) {
   const route = useRoute()
@@ -22,11 +23,12 @@ export async function useFetchPage<T extends PrismicDocument>(pageId?: DocumentT
 
   const cachedData = useNuxtData(key)
 
+  console.log('use fetch page', pageId || documentType.HOME, queryOptions)
   const { data } = cachedData.data.value
     ? cachedData
     : await useAsyncData(key, async () => {
         try {
-          return await usePrismic().client.getSingle(pageId || 'home_page', queryOptions)
+          return await usePrismic().client.getSingle(pageId || documentType.HOME, queryOptions)
         } catch (error) {
           console.error('error=', error)
 

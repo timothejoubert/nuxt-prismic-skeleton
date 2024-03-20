@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import type { ProjectPageDocument } from '~/prismicio-types'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
+import { DocumentType } from '~/constants/document-type'
 
 definePageMeta({
   pageTransition: defaultPageTransition,
+  name: DocumentType.PROJECT,
 })
 
-const { webResponse, pageData, alternateLinks, error } = await useFetchPage<ProjectPageDocument>('project_page')
+defineI18nRoute({
+  paths: {
+    fr: '/projets/[slug]',
+    en: '/projects/[slug]',
+  },
+})
+
+const { webResponse, pageData, alternateLinks, error } = await useFetchPage<ProjectPageDocument>(DocumentType.PROJECT)
 
 if (error) {
   showError(error)

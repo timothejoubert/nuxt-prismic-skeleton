@@ -2,10 +2,11 @@ import svgLoader from 'vite-svg-loader'
 import prismicData from './slicemachine.config.json'
 import { hoistUseStatements } from './utils/vite/hoist-use-statements'
 import { version } from './package.json'
+import routeResolver from './utils/prismic/route-resolver'
 
 // i18n
 const locales = ['fr', 'en']
-const defaultLocale = 'fr'
+export const defaultLocale = 'fr'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -18,7 +19,7 @@ export default defineNuxtConfig({
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png' },
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon/favicon-32x32.png' },
         { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon/favicon-16x16.png' },
-        { rel: 'manifest', href: '/site.webmanifest' },
+        { rel: 'manifest', href: '/favicon/site.webmanifest' },
         { rel: 'mask-icon', href: '/favicon/safari-pinned-tab.svg', color: '#000' },
       ],
     },
@@ -44,7 +45,21 @@ export default defineNuxtConfig({
       }),
     ],
   },
-  modules: ['@nuxtjs/i18n', '@nuxtjs/prismic', '@nuxtjs/svg-sprite', '@rezo-zero/nuxt-stories', '@nuxt/image'],
+  modules: [
+    [
+      '@nuxtjs/prismic',
+      {
+        endpoint: prismicData.repositoryName,
+        // clientConfig: {
+        //   routes: routeResolver,
+        // },
+      },
+    ],
+    '@nuxtjs/i18n',
+    '@nuxtjs/svg-sprite',
+    '@rezo-zero/nuxt-stories',
+    '@nuxt/image',
+  ],
   // https://github.com/nuxt-modules/svg-sprite#options
   svgSprite: {
     input: '~/assets/images/icons',
@@ -57,9 +72,12 @@ export default defineNuxtConfig({
       version,
     },
   },
-  prismic: {
-    endpoint: prismicData.repositoryName,
-  },
+  // prismic: {
+  //   endpoint: prismicData.repositoryName,
+  // clientConfig: {
+  //   routes: routeResolver,
+  // },
+  // },
   components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],
   image: {
     prismic: {},
@@ -82,15 +100,15 @@ export default defineNuxtConfig({
     densities: '1',
   },
   i18n: {
-    // Use no_prefix strategy to avoid redirecting localized paths without locale prefix
-    strategy: 'no_prefix',
+    // all routes will have a locale prefix added except for the default language
+    strategy: 'prefix_except_default',
     detectBrowserLanguage: false,
     defaultLocale,
     locales: locales.map((locale) => ({
       code: locale,
       file: `nuxt.${locale}.json`,
     })),
-    // lazy: true,
+    lazy: true,
     langDir: 'assets/locales/',
   },
 })

@@ -1,30 +1,19 @@
-// https://prismic.io/docs/route-resolver#resolvers
+import type { PrismicDocument, LinkField } from '@prismicio/types'
+import { defaultLocale } from '../../nuxt.config'
+import { getLocaleLanguage } from '~/utils/locale'
+import routeResolver from '~/utils/prismic/route-resolver'
 
-export default [
-  {
-    type: 'home_page',
-    lang: 'fr-fr',
-    path: '/',
-  },
-  {
-    type: 'home_page',
-    lang: 'en-gb',
-    path: '/en',
-  },
-  {
-    type: 'about_page',
-    path: '/:uid',
-  },
-  {
-    type: 'project_listing_page',
-    path: '/:uid',
-  },
-  {
-    type: 'page',
-    path: '/:uid',
-  },
-  {
-    type: 'project_page',
-    path: '/:lang?/projects/:uid',
-  },
-]
+export function linkResolver(doc: PrismicDocument | LinkField) {
+  const localeDocument = doc?.lang || ''
+  const localePath = getLocaleLanguage(localeDocument) === defaultLocale ? '' : getLocaleLanguage(localeDocument)
+
+  const currentRoute = routeResolver.find((route) => route.type === doc?.type)
+  const path = currentRoute?.path.replace(':lang?', localePath).replace(':uid', doc?.uid || '') || '/'
+
+  console.log('doc', doc)
+  console.log('localePath', localePath)
+  console.log('currentRoute', currentRoute)
+  console.log('outputPath', path)
+
+  return path
+}

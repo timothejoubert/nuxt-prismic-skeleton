@@ -123,8 +123,9 @@ function onFullscreenLeave() {
           <VButton
             v-if="videoUrl"
             filled
-            theme="light"
+            theme="dark"
             icon-name="fullscreen"
+            :class="$style['button-fullscreen']"
             @mouseenter="isCtaHovered = true"
             @mouseleave="isCtaHovered = false"
           />
@@ -270,6 +271,10 @@ function onFullscreenLeave() {
   .video-cta:hover & {
     opacity: 1;
   }
+}
+
+.button-fullscreen {
+  --v-button-padding-inline: 0;
 }
 
 .bottom {

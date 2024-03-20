@@ -1,12 +1,14 @@
 <script lang="ts" setup>
-import type { HomePageDocument } from '~/prismicio-types'
+import type { WebPageDocument } from '~/prismicio-types'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
+import { DocumentType } from '~/constants/document-type'
 
 definePageMeta({
   pageTransition: defaultPageTransition,
+  name: DocumentType.WEB_PAGE,
 })
 
-const { webResponse, pageData, alternateLinks, error } = await useFetchPage<HomePageDocument>('home_page')
+const { webResponse, pageData, alternateLinks, error } = await useFetchPage<WebPageDocument>(DocumentType.WEB_PAGE)
 
 if (error) {
   showError(error)

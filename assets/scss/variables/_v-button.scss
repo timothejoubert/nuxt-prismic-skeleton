@@ -5,13 +5,13 @@ $v-button-size-vars-by-variant: () !default;
 $v-button: (
         s: (
                 font-size: rem(11),
-                min-width: rem(22),
+                min-width: rem(18),
                 height: rem(18),
                 padding-inline: rem(10),
         ),
         m: (
                 font-size: rem(14),
-                min-width: rem(32),
+                min-width: rem(36),
                 height: rem(36),
                 padding-inline: rem(12),
         ),
@@ -23,17 +23,17 @@ $v-button: (
         ),
         xl: (
                 font-size: rem(17),
-                min-width: rem(64),
+                min-width: rem(42),
                 height: rem(42),
                 padding-inline: rem(18),
         )
 );
 $v-button-icon: (
         s: (
-                margin: 0 rem(4),
+                margin-inline: rem(4),
         ),
         m: (
-                margin: 0 rem(6) 0 rem(12),
+                margin-inline: rem(6),
         ),
 );
 $v-button-label: (

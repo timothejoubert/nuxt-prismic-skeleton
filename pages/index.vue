@@ -7,6 +7,7 @@ import { DocumentType } from '~/constants/document-type'
 definePageMeta({
   pageTransition: defaultPageTransition,
   name: DocumentType.HOME,
+  alias: ['/'],
 })
 
 const { webResponse, pageData, alternateLinks, error } = await useFetchPage<HomePageDocument>(DocumentType.HOME)

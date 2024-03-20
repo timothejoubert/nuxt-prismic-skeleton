@@ -573,6 +573,103 @@ export type SettingDocument<Lang extends string = string> = prismic.PrismicDocum
   Lang
 >
 
+type WebPageDocumentDataSlicesSlice = never
+
+/**
+ * Content for Web page documents
+ */
+interface WebPageDocumentData {
+  /**
+   * Title field in *Web page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: web_page.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField
+
+  /**
+   * Sub title field in *Web page*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: web_page.sub_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  sub_title: prismic.RichTextField
+
+  /**
+   * Content field in *Web page*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: web_page.content
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField
+
+  /**
+   * Slice Zone field in *Web page*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: web_page.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<WebPageDocumentDataSlicesSlice> /**
+   * Meta Description field in *Web page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: web_page.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_description: prismic.KeyTextField
+
+  /**
+   * Meta Image field in *Web page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: web_page.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  meta_image: prismic.ImageField<never>
+
+  /**
+   * Meta Title field in *Web page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: web_page.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_title: prismic.KeyTextField
+}
+
+/**
+ * Web page document from Prismic
+ *
+ * - **API ID**: `web_page`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type WebPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+  Simplify<WebPageDocumentData>,
+  'web_page',
+  Lang
+>
+
 export type AllDocumentTypes =
   | AboutPageDocument
   | HomePageDocument
@@ -580,6 +677,7 @@ export type AllDocumentTypes =
   | ProjectListingPageDocument
   | ProjectPageDocument
   | SettingDocument
+  | WebPageDocument
 
 /**
  * Primary content in *MediaBlock → Primary*
@@ -674,6 +772,9 @@ declare module '@prismicio/client' {
       SettingDocument,
       SettingDocumentData,
       SettingDocumentDataSocialsItem,
+      WebPageDocument,
+      WebPageDocumentData,
+      WebPageDocumentDataSlicesSlice,
       AllDocumentTypes,
       MediaBlockSlice,
       MediaBlockSliceDefaultPrimary,

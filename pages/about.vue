@@ -1,10 +1,27 @@
 <script lang="ts" setup>
+import { DocumentType } from '~/constants/document-type'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import type { AboutPageDocument } from '~/prismicio-types'
 
 definePageMeta({
   pageTransition: defaultPageTransition,
+  name: DocumentType.ABOUT,
+  alias: ['/info', '/a-propos', '/bio'],
 })
+
+defineI18nRoute({
+  paths: {
+    fr: '/bio',
+    en: '/about',
+  },
+})
+
+// defineI18nRoute({
+//   paths: {
+//     fr: '/a-propos',
+//     en: '/about',
+//   },
+// })
 
 const { webResponse, pageData, alternateLinks, error } = await useFetchPage<AboutPageDocument>('about_page')
 

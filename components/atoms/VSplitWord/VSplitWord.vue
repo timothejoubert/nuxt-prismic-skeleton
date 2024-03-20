@@ -44,17 +44,19 @@ const rootClasses = computed(() => {
 </script>
 
 <template>
-  <component :is="tag || 'div'" v-if="characterList?.length" :class="rootClasses">
-    <div
-      v-for="(letter, i) in letterList"
-      :key="letter.id"
-      :class="[$style.letter, letter.isAfterSpace && $style['letter--after-space']]"
-      :style="{ '--letter-index': i }"
-      :data-content="letter.character"
-    >
-      {{ letter.character }}
-    </div>
-  </component>
+  <ClientOnly :placeholder-tag="tag" :placeholder="content">
+    <component :is="tag || 'div'" v-if="characterList?.length" :class="rootClasses">
+      <div
+        v-for="(letter, i) in letterList"
+        :key="letter.id"
+        :class="[$style.letter, letter.isAfterSpace && $style['letter--after-space']]"
+        :style="{ '--letter-index': i }"
+        :data-content="letter.character"
+      >
+        {{ letter.character }}
+      </div>
+    </component>
+  </ClientOnly>
 </template>
 
 <style lang="scss" module>
@@ -66,7 +68,7 @@ const rootClasses = computed(() => {
 
 .letter {
   position: relative;
-  display: block;
+  //display: block;
   opacity: 1;
 
   &--after-space {

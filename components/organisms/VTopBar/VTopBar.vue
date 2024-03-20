@@ -2,6 +2,8 @@
 import LogoMain from '~/assets/images/logo.svg?component'
 
 const { siteName, homeBasePath } = useCommonContent()
+
+const { locale } = useI18n()
 </script>
 
 <template>
@@ -10,6 +12,7 @@ const { siteName, homeBasePath } = useCommonContent()
       <LogoMain viewBox="0 0 86 80" :class="$style.logo" />
       <div :class="$style['logo-text']">{{ siteName }}</div>
     </NuxtLink>
+    <div>{{ locale }}</div>
     <VTopBarNav :class="$style.nav" />
     <VLocaleSelect />
   </div>

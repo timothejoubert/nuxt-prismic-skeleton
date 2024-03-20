@@ -1,0 +1,24 @@
+<script lang="ts" setup>
+const splashScreenState = useSplashScreenState()
+
+useHead({
+  titleTemplate: '%s | Portfolio',
+})
+</script>
+
+<template>
+  <div :class="$style.root">
+    <ClientOnly>
+      <VSplashScreen v-if="splashScreenState !== 'done'" />
+    </ClientOnly>
+    <VTopBar />
+    <slot />
+    <div>Footer</div>
+  </div>
+</template>
+
+<style lang="scss" module>
+.root {
+  position: relative;
+}
+</style>
