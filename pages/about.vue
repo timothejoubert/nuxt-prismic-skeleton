@@ -6,7 +6,7 @@ import type { AboutPageDocument } from '~/prismicio-types'
 definePageMeta({
   pageTransition: defaultPageTransition,
   name: DocumentType.ABOUT,
-  alias: ['/info', '/a-propos', '/bio'],
+  alias: ['/info', '/a-propos', '/bio', '/en/bio'],
 })
 
 defineI18nRoute({

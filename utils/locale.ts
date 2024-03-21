@@ -1,5 +1,5 @@
 // Convert fr-fr to fr
-export function getLocaleLanguage(locale: string) {
-  if (locale.split('-').length) return locale.split('-')[0]
-  else return locale
+export function getLocaleLanguage(localeCode: string) {
+  if (localeCode.split('-').length) return localeCode.split('-')[0]
+  else return localeCode
 }

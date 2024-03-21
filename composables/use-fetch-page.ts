@@ -3,27 +3,21 @@ import type { PrismicDocument } from '@prismicio/types'
 import type { DocumentType } from '~/types/api'
 import { DocumentType as documentType } from '~/constants/document-type'
 
-export function getFetchPageMeta(pageId?: string) {
-  const route = useRoute()
-  const runtimeConfig = useRuntimeConfig()
-  const i18n = useNuxtApp().$i18n
-
-  const url = joinURL(runtimeConfig.public.siteUrl, route.path)
-  const path = (pageId || route.path === '/' ? 'home' : route.path) + '-' + i18n.locale.value
-
-  return { url, key: `page-key-${path}` }
-}
-
 export async function useFetchPage<T extends PrismicDocument>(pageId?: DocumentType) {
-  const { key } = getFetchPageMeta(pageId)
   const route = useRoute()
+  const { $i18n } = useNuxtApp()
 
-  const queryOptions =
-    route.fullPath.includes('/en') || route.fullPath.includes('/en-gb') ? { lang: 'en-gb' } : undefined
+  const path = joinURL('/', route.path)
+  const key = `fetch-page-${path}`
+
+  const queryOptions: Record<string, unknown> = {}
+  const extractLocaleFromUrl = $i18n.locales.value.find((locale) => {
+    return route.fullPath.includes(locale.code) || route.fullPath.includes(getLocaleLanguage(locale.code))
+  })?.code
+  if (extractLocaleFromUrl) queryOptions.lang = extractLocaleFromUrl
+  console.log('useFetchPage', pageId || documentType.HOME, queryOptions)
 
   const cachedData = useNuxtData(key)
-
-  console.log('use fetch page', pageId || documentType.HOME, queryOptions)
   const { data } = cachedData.data.value
     ? cachedData
     : await useAsyncData(key, async () => {

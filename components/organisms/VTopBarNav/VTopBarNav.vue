@@ -9,6 +9,7 @@ const navItemList = computed(() => {
     links
       ?.filter((group) => group?.link)
       .map((group) => {
+        console.log()
         return {
           label: group.label,
           url: $getPrismicUrl(group.link),

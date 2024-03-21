@@ -2,11 +2,10 @@ import svgLoader from 'vite-svg-loader'
 import prismicData from './slicemachine.config.json'
 import { hoistUseStatements } from './utils/vite/hoist-use-statements'
 import { version } from './package.json'
-import routeResolver from './utils/prismic/route-resolver'
 
 // i18n
-const locales = ['fr', 'en']
-export const defaultLocale = 'fr'
+const locales = ['fr-fr', 'en-gb']
+export const defaultLocale = 'fr-fr'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },

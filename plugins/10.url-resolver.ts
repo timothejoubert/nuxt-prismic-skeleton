@@ -4,7 +4,6 @@ import type { LinkField, PrismicDocument } from '@prismicio/types'
 import { getLocaleLanguage } from '~/utils/locale'
 import routeResolver from '~/utils/prismic/route-resolver'
 import { isContentRelationshipField, isDocumentEntity } from '~/utils/prismic/guard'
-import { objectHasAllKeys } from '~/utils/object/object-has-all-keys'
 
 function isInternalUrl(url: string | undefined) {
   return url?.charAt(0) === '/' || url?.charAt(0) === '#'
@@ -17,7 +16,7 @@ function isExternalUrl(url: string | undefined, siteUrl?: string) {
 export default defineNuxtPlugin(() => {
   const runtimeConfig = useRuntimeConfig()
 
-  const siteUrl = runtimeConfig.public.siteUrl
+  const siteUrl = runtimeConfig.public.siteUrl || ''
   const route = useRoute()
 
   const canonicalUrl = computed(() => joinURL(siteUrl, route.path))

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { joinURL } from 'ufo'
 import { getLocaleLanguage } from '~/utils/locale'
 
 interface Lang {
@@ -10,22 +9,20 @@ interface Lang {
   uid?: string
 }
 
-const route = useRoute()
-const { $joinSiteUrl } = useNuxtApp()
-const currentPageData = useCurrentPage()
+const { locale: currentLocale } = useI18n()
 const { alternateLinks } = useAlternateLinks()
-
-const currentPageLang = computed(() => currentPageData.value.webResponse?.lang || '')
 const availableLocales = computed(() => alternateLinks.value?.map((l) => formatAlternateLink(l)) || [])
-const displayedLanguage = computed(() => getLocaleLanguage(currentPageLang.value))
 
+const { $joinSiteUrl } = useNuxtApp()
+const route = useRoute()
 function formatAlternateLink(locale: Lang) {
-  const langCondensed = getLocaleLanguage(locale.lang)
+  const filteredRoutePath = route.path.replace(currentLocale.value, '')
 
-  const filteredRoutePath = route.path.replace(displayedLanguage.value, '')
-  const url = $joinSiteUrl(langCondensed, filteredRoutePath)
-
-  return { ...locale, langCondensed, url }
+  return {
+    ...locale,
+    langCondensed: getLocaleLanguage(locale.lang),
+    url: $joinSiteUrl(locale.lang, filteredRoutePath),
+  }
 }
 </script>
 
@@ -33,7 +30,7 @@ function formatAlternateLink(locale: Lang) {
   <div :class="$style.root">
     <template v-if="availableLocales.length">
       <div :class="[$style.link, $style['link--current']]" class="text-over-title-s">
-        <span>{{ displayedLanguage }} </span>
+        <span>{{ getLocaleLanguage(currentLocale) }} </span>
         <VIcon name="chevron-down" />
       </div>
       <div :class="$style.list">
