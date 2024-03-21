@@ -171,7 +171,7 @@ const rootClasses = computed(() => {
 
 // can't apply class to icon slot directly
 // be aware than all nested svg are styled
-svg,
+//svg,
 .icon {
   @include v-button-default-css-vars($v-button-icon, 'icon');
 

@@ -10,20 +10,24 @@ interface Lang {
 }
 
 const { locale: currentLocale } = useI18n()
-const { alternateLinks } = useAlternateLinks()
-const availableLocales = computed(() => alternateLinks.value?.map((l) => formatAlternateLink(l)) || [])
 
+const { alternateLinks } = useAlternateLinks()
 const { $joinSiteUrl } = useNuxtApp()
 const route = useRoute()
-function formatAlternateLink(locale: Lang) {
-  const filteredRoutePath = route.path.replace(currentLocale.value, '')
 
-  return {
-    ...locale,
-    langCondensed: getLocaleLanguage(locale.lang),
-    url: $joinSiteUrl(locale.lang, filteredRoutePath),
-  }
-}
+const availableLocales = computed(() => {
+  if (!alternateLinks.value?.length) return []
+
+  return alternateLinks.value?.map((locale) => {
+    const filteredRoutePath = route.fullPath.replace(currentLocale.value, '')
+
+    return {
+      ...locale,
+      langCondensed: getLocaleLanguage(locale.lang),
+      url: $joinSiteUrl(locale.lang, filteredRoutePath),
+    }
+  })
+})
 </script>
 
 <template>

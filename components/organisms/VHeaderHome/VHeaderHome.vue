@@ -160,7 +160,7 @@ function onFullscreenLeave() {
   background-color: color(black);
   color: color(white);
   isolation: isolate;
-  padding-inline: var(--main-content-margin);
+  padding-inline: var(--page-gutter);
 }
 
 .tagline {

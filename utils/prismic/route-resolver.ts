@@ -5,13 +5,7 @@ import { DocumentType } from './../../constants/document-type'
 export default [
   {
     type: DocumentType.HOME,
-    lang: 'fr-fr',
     path: '/',
-  },
-  {
-    type: DocumentType.HOME,
-    lang: 'en-gb',
-    path: '/en',
   },
   {
     type: DocumentType.ABOUT,

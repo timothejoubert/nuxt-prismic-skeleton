@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { ImageModifiers } from '@nuxt/image'
 import type { ImgixUrl } from 'typescript-imgix-url-params'
-import type { VMediaSrcProps } from '~/composables/component/use-media'
-import { useMedia } from '~/composables/component/use-media'
+import type { VMediaSrcProps } from '~/composables/use-prismic-media'
+import { usePrismicMedia } from '~/composables/use-prismic-media'
 
 export type VImageProps = {
   sizes?: string
@@ -28,7 +28,7 @@ export type VPictureProps = VMediaSrcProps &
 const props = defineProps<VPictureProps>()
 
 // Getters
-const { src, alt, copyright, dimension } = useMedia({ mediaEntity: props.mediaEntity, src: props.src })
+const { src, alt, copyright, dimension } = usePrismicMedia({ mediaEntity: props.mediaEntity, src: props.src })
 const imgWidth = computed(() => props.width || dimension.value?.width)
 const imgHeight = computed(() => props.height || dimension.value?.height)
 const hasDimension = computed(() => !!imgWidth.value && !!imgHeight.value)
@@ -94,7 +94,7 @@ const hasWebp = computed(() => props.format !== 'webp' && !src.value?.endsWith('
 }
 
 .img {
-  width: var(--v-picture-image-width, auto);
+  width: var(--v-picture-image-width);
   height: var(--v-picture-image-height, auto);
 }
 </style>

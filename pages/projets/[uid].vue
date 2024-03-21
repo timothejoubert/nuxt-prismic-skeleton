@@ -6,13 +6,7 @@ import { DocumentType } from '~/constants/document-type'
 definePageMeta({
   pageTransition: defaultPageTransition,
   name: DocumentType.PROJECT,
-})
-
-defineI18nRoute({
-  paths: {
-    fr: '/projets/[slug]',
-    en: '/projects/[slug]',
-  },
+  alias: ['/en-gb/projets/:uid'],
 })
 
 const { webResponse, pageData, alternateLinks, error } = await useFetchPage<ProjectPageDocument>(DocumentType.PROJECT)
@@ -24,6 +18,7 @@ if (error) {
 usePage({
   webResponse: webResponse.value,
   alternateLinks: alternateLinks.value,
+  title: webResponse.value.data.meta_title || webResponse.value.data.title || webResponse.value.uid || '',
 })
 </script>
 

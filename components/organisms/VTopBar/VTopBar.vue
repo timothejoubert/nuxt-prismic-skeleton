@@ -28,8 +28,7 @@ const { locale } = useI18n()
   align-items: center;
   color: color(white);
   mix-blend-mode: difference;
-  background-color: black;
-  margin-inline: var(--main-content-margin);
+  padding-inline: var(--page-gutter);
 }
 
 .home {

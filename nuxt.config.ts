@@ -4,8 +4,8 @@ import { hoistUseStatements } from './utils/vite/hoist-use-statements'
 import { version } from './package.json'
 
 // i18n
-const locales = ['fr-fr', 'en-gb']
-export const defaultLocale = 'fr-fr'
+const locales = ['fr-FR', 'en-GB']
+const defaultLocale = 'fr-FR'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -45,15 +45,8 @@ export default defineNuxtConfig({
     ],
   },
   modules: [
-    [
-      '@nuxtjs/prismic',
-      {
-        endpoint: prismicData.repositoryName,
-        // clientConfig: {
-        //   routes: routeResolver,
-        // },
-      },
-    ],
+    '@nuxt/image',
+    '@nuxtjs/prismic',
     '@nuxtjs/i18n',
     '@nuxtjs/svg-sprite',
     '@rezo-zero/nuxt-stories',
@@ -71,12 +64,12 @@ export default defineNuxtConfig({
       version,
     },
   },
-  // prismic: {
-  //   endpoint: prismicData.repositoryName,
-  // clientConfig: {
-  //   routes: routeResolver,
-  // },
-  // },
+  prismic: {
+    endpoint: prismicData.repositoryName,
+    // clientConfig: {
+    //   routes: routeResolver,
+    // },
+  },
   components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],
   image: {
     prismic: {},
@@ -100,7 +93,8 @@ export default defineNuxtConfig({
   },
   i18n: {
     // all routes will have a locale prefix added except for the default language
-    strategy: 'prefix_except_default',
+    strategy: 'no_prefix',
+    routesNameSeparator: '___',
     detectBrowserLanguage: false,
     defaultLocale,
     locales: locales.map((locale) => ({

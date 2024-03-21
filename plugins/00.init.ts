@@ -5,13 +5,15 @@ import type { AlternateLanguage, PrismicDocument } from '@prismicio/types'
 import type { PrismicPluginClient } from '@prismicio/vue/src/types'
 import type { CommonContent } from '~/composables/use-common-content'
 import { getLocaleLanguage } from '~/utils/locale'
+import { useLocale } from '~/composables/use-locale'
 
 async function initCommonContent() {
   const prismic = useNuxtApp().$prismic as PrismicPluginClient
+  const { fetchLocaleOption } = useLocale()
 
   await useAsyncData<CommonContent>('common_content', async () => {
     const settingResponse = await prismic.client.getSingle('setting')
-    const menuResponse = await prismic.client.getSingle('menu')
+    const menuResponse = await prismic.client.getSingle('menu', fetchLocaleOption.value)
 
     return {
       setting: settingResponse,
@@ -26,7 +28,7 @@ function initI18n(locale?: string) {
   if (locale) {
     const { $i18n } = nuxtApp
 
-    $i18n.locale.value = getLocaleLanguage(locale)
+    $i18n.locale.value = locale
   }
 }
 

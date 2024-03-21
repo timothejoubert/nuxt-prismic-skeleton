@@ -7,7 +7,7 @@ import { DocumentType } from '~/constants/document-type'
 definePageMeta({
   pageTransition: defaultPageTransition,
   name: DocumentType.HOME,
-  alias: ['/'],
+  alias: ['/en-gb'],
 })
 
 const { webResponse, pageData, alternateLinks, error } = await useFetchPage<HomePageDocument>(DocumentType.HOME)
@@ -19,6 +19,7 @@ if (error) {
 usePage({
   webResponse: webResponse.value,
   alternateLinks: alternateLinks.value,
+  title: webResponse.value.data.meta_title || webResponse.value.data.title || webResponse.value.uid || '',
 })
 
 const title = computed(() => pageData.value.meta_title || pageData.value.title)

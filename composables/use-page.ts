@@ -21,12 +21,12 @@ export function usePage(options?: UsePageOptions) {
     alternateLinks: options?.alternateLinks,
   }
 
-  if (!currentPage.value?.webResponse) currentPage.value = { ...nextPage.value }
+  if (!currentPage.value?.webResponse || !currentPage.value?.title) currentPage.value = { ...nextPage.value }
 
   watch(currentPage, (page) => {
-    // useHead({
-    //   title: page.title,
-    // })
+    useHead({
+      title: page.title,
+    })
     useAlternateLinks(page.alternateLinks)
   })
 

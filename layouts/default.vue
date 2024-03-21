@@ -2,7 +2,7 @@
 const splashScreenState = useSplashScreenState()
 
 useHead({
-  titleTemplate: '%s | Portfolio',
+  titleTemplate: (title) => `${title} | Portfolio`,
 })
 </script>
 
@@ -13,12 +13,13 @@ useHead({
     </ClientOnly>
     <VTopBar />
     <slot />
-    <div>Footer</div>
+    <VFooter />
   </div>
 </template>
 
 <style lang="scss" module>
 .root {
   position: relative;
+  background-color: #fff;
 }
 </style>

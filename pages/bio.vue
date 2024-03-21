@@ -6,22 +6,8 @@ import type { AboutPageDocument } from '~/prismicio-types'
 definePageMeta({
   pageTransition: defaultPageTransition,
   name: DocumentType.ABOUT,
-  alias: ['/info', '/a-propos', '/bio', '/en/bio'],
+  alias: ['/en-gb/bio'],
 })
-
-defineI18nRoute({
-  paths: {
-    fr: '/bio',
-    en: '/about',
-  },
-})
-
-// defineI18nRoute({
-//   paths: {
-//     fr: '/a-propos',
-//     en: '/about',
-//   },
-// })
 
 const { webResponse, pageData, alternateLinks, error } = await useFetchPage<AboutPageDocument>('about_page')
 
@@ -32,6 +18,7 @@ if (error) {
 usePage({
   webResponse: webResponse.value,
   alternateLinks: alternateLinks.value,
+  title: webResponse.value.data.meta_title || webResponse.value.data.title || webResponse.value.uid || '',
 })
 </script>
 

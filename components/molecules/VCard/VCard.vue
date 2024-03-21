@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { ImageField, RichTextField } from '@prismicio/types'
+import type { DefineComponent } from 'vue'
 
 export type VCardLayout = 'centered' | null
 
@@ -8,10 +9,11 @@ interface VCardProps {
   titleClass?: string
   image: ImageField
   tags?: string[]
-  date: string
-  imageProps: { [key: string]: unknown }
-  description: string | RichTextField
+  date?: string
+  imageProps?: { [key: string]: unknown }
+  description?: string | RichTextField
   layout?: VCardLayout
+  tag?: string | DefineComponent
 }
 
 defineProps<VCardProps>()
@@ -20,34 +22,42 @@ const isEnter = ref(false)
 </script>
 
 <template>
-  <div
+  <component
+    :is="tag || 'div'"
     :class="[$style.root, typeof layout === 'string' && $style[`root--layout-${layout}`]]"
     @mouseenter="isEnter = true"
     @mouseleave="isEnter = false"
   >
     <div :class="$style.media">
-      <!--      <v-pill v-if="date" :class="$style.date" :label="date" filled theme="light" size="xs" />-->
+      <VButton v-if="date" :class="$style.date" :label="date" filled theme="dark" size="xs" />
       <div v-if="date" :class="$style.date" />
-      <VPicture v-if="image" :media-entity="image" width="390" height="600" v-bind="imageProps" />
-      <VButton filled :class="$style.cta" icon-name="arrow-up-right" />
+      <slot>
+        <VPicture v-if="image" :media-entity="image" width="390" height="600" v-bind="imageProps" />
+      </slot>
+      <VButton filled theme="light" :class="$style.cta" icon-name="arrow-up-right" />
     </div>
     <div :class="$style.body">
       <div :class="$style.body__left">
-        <VSplitWord v-if="title" :class="titleClass || 'text-over-title-m'" :play-animation="isEnter">{{
-          title
-        }}</VSplitWord>
+        <VSplitWord
+          v-if="title"
+          tag="h2"
+          :content="title"
+          :class="titleClass || 'text-over-title-m'"
+          :play-animation="isEnter"
+        />
         <div v-if="tags?.length" :class="$style.tags">
           <span v-for="tag in tags" :key="'tag-' + tag" class="text-body-s" :class="$style.tag">{{ tag }}</span>
         </div>
       </div>
       <VText v-if="description" :content="description" :class="$style.description" class="text-body-s" />
     </div>
-  </div>
+  </component>
 </template>
 
 <style lang="scss" module>
 .root {
   position: relative;
+  display: inline-block;
 }
 
 .media {
@@ -73,7 +83,7 @@ const isEnter = ref(false)
 }
 
 .date {
-  position: absolute;
+  --v-button-position: absolute;
   z-index: 2;
   top: rem(12);
   left: rem(12);
@@ -81,7 +91,7 @@ const isEnter = ref(false)
 }
 
 .cta {
-  position: absolute;
+  --v-button-position: absolute;
   z-index: 2;
   right: rem(22);
   bottom: rem(22);

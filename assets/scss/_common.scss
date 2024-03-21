@@ -1,16 +1,15 @@
 html {
     --v-top-bar-height: #{rem(76)};
-    --main-content-margin: #{rem(24)};
+    --page-gutter: #{rem(24)};
 }
 
 body {
     @include text-body-m;
 
     font-family: $noi;
+    min-height: 100svh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
-    min-height: 100svh;
 }
 
 /* Improved heading in supported browsers */
@@ -71,8 +70,6 @@ select {
     line-height: inherit;
 }
 
-img,
-picture,
 svg,
 video {
     display: block;

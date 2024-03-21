@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { VVideoProps } from '~/components/molecules/VVideo/VVideo.vue'
 import type { VPictureProps } from '~/components/molecules/VPicture/VPicture.vue'
-import { useMedia } from '~/composables/component/use-media'
-import type { VMediaSrcProps } from '~/composables/component/use-media'
+import { usePrismicMedia } from '~/composables/use-prismic-media'
+import type { VMediaSrcProps } from '~/composables/use-prismic-media'
 
 interface VMediaProps extends VMediaSrcProps {
   background?: boolean
@@ -12,7 +12,7 @@ interface VMediaProps extends VMediaSrcProps {
 
 const props = defineProps<VMediaProps>()
 
-const { src, mediaType, filledMedia, embedPlatform } = useMedia({
+const { src, mediaType, filledMedia, embedPlatform } = usePrismicMedia({
   mediaEntity: props.mediaEntity,
   src: props.src,
   embedUrl: props.embedUrl,

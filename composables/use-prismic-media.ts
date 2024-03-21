@@ -19,7 +19,7 @@ const getEmbedPlatform = (src: string | undefined) => {
   else if (src?.includes('player.vimeo.com/')) return 'vimeoEmbed'
 }
 
-export function useMedia(options: VMediaSrcProps) {
+export function usePrismicMedia(options: VMediaSrcProps) {
   const filledMedia = computed(() => {
     if (options.mediaEntity?.url) return options.mediaEntity
     else return undefined
