@@ -72,7 +72,7 @@ export default defineNuxtConfig({
   },
   components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],
   image: {
-    prismic: {},
+    // prismic: {},
     imgix: {
       baseURL: '',
     },

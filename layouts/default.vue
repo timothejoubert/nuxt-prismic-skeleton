@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 const splashScreenState = useSplashScreenState()
 
+const currentPage = useCurrentPage()
 useHead({
-  titleTemplate: (title) => `${title} | Portfolio`,
+  titleTemplate: (title) => {
+    return `${title || currentPage.value.title} | Portfolio`
+  },
 })
 </script>
 

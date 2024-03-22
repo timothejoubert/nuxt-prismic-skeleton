@@ -2,7 +2,7 @@
 import type { ProjectListingPageDocument } from '~/prismicio-types'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import { DocumentType } from '~/constants/document-type'
-import { getCardProjectProps, getProjectTags } from '~/utils/prismic/project'
+import { getCardProjectProps } from '~/utils/prismic/project'
 import { NuxtLink } from '#components'
 import { useLocale } from '~/composables/use-locale'
 
@@ -57,21 +57,22 @@ const filteredProjectList = computed(() => {
   })
 })
 
+// TAG FILTER
+const isFilterBarOpen = ref(false)
+
 const tags = computed(() => {
   return projectCardPropList.value.map((project) => project.tags).flat(2) || []
 })
 
-const isFilterBarOpen = ref(false)
-
-// TAG FILTER
+// Initial tag
 const route = useRoute()
 const QUERY_TAG = 'tag'
 const tagQuery = route.query[QUERY_TAG]
 const initialQuery = (Array.isArray(tagQuery) ? tagQuery[0] : tagQuery)?.split('&')
 const selectedTags = ref(initialQuery || [])
 
+// Setter queries
 const router = useRouter()
-
 watch(
   selectedTags,
   (tag) => {
@@ -94,7 +95,7 @@ watch(
     <VProjectFilters v-model="selectedTags" :is-open="isFilterBarOpen" :tags="tags" />
     <main>
       <ul v-if="filteredProjectList?.length" :class="$style.list">
-        <li v-for="projectProps in filteredProjectList" :key="projectProps.id">
+        <li v-for="(projectProps, i) in filteredProjectList" :key="i">
           <VCard
             :tag="NuxtLink"
             :to="projectProps.url"
@@ -138,9 +139,8 @@ watch(
 
 .list {
   display: grid;
-
   margin-top: rem(12);
-  grid-gap: rem(40);
+  grid-gap: rem(24);
   grid-template-columns: 1fr;
 
   @include media('>=md') {

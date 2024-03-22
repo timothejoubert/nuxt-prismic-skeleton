@@ -11,3 +11,7 @@ export function isErrorDocument(type: string) {
 export function isWebPageDocument(type: string) {
   return type === DocumentType.WEB_PAGE
 }
+
+export function isProjectDocument(type: string) {
+  return type === DocumentType.PROJECT
+}

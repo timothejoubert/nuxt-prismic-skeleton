@@ -72,12 +72,13 @@ function onFullscreenLeave() {
 
 <template>
   <header :class="$style.root" class="container-fullscreen">
-    <div v-if="pageData.title && isSplashScreenDone" class="text-h1">{{ pageData.title }}</div>
+    <H1 v-if="pageData.title && isSplashScreenDone" class="text-h1">{{ pageData.title }}</H1>
     <VText
       v-if="pageData.subtitle && isSplashScreenDone"
       :content="pageData.subtitle"
       :class="$style.tagline"
       class="text-h5"
+      tag="h2"
     />
     <div v-if="videoUrl" :class="$style['media-wrapper']">
       <!--      <VEmbedVideo-->

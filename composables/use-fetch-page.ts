@@ -2,8 +2,7 @@ import type { PrismicDocument } from '@prismicio/types'
 import { PrismicError } from '@prismicio/client'
 import type { DocumentType } from '~/types/api'
 import { useLocale } from '~/composables/use-locale'
-import { isExistingDocumentType, isWebPageDocument } from '~/utils/prismic/document-type'
-import { DocumentType as documentType } from '~/constants/document-type'
+import { isExistingDocumentType, isProjectDocument, isWebPageDocument } from '~/utils/prismic/document-type'
 import { getSelfObjectOrFirstMapObject } from '~/utils/object/get-self-object-or-first-map-object'
 
 export async function useFetchPage<T extends PrismicDocument>(pageId?: DocumentType) {
@@ -19,14 +18,16 @@ export async function useFetchPage<T extends PrismicDocument>(pageId?: DocumentT
   }
 
   const prismicClient = usePrismic().client
+  const isDynamicUidDocument = (isWebPageDocument(prismicDocumentType) || isProjectDocument(prismicDocumentType)) && uid
 
+  console.log('fetchPage', isProjectDocument(prismicDocumentType), prismicDocumentType, uid, route.params?.uid)
   const cachedData = useNuxtData(key)
   const { data } = cachedData.data.value
     ? cachedData
     : await useAsyncData(key, async () => {
         try {
-          if (isWebPageDocument(prismicDocumentType) && uid) {
-            return await prismicClient.getByUID(documentType.WEB_PAGE, uid)
+          if (isDynamicUidDocument) {
+            return await prismicClient.getByUID(prismicDocumentType, uid)
           } else {
             return await prismicClient.getSingle(prismicDocumentType, fetchLocaleOption.value)
           }
