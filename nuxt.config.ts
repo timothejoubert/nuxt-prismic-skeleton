@@ -4,8 +4,8 @@ import { hoistUseStatements } from './utils/vite/hoist-use-statements'
 import { version } from './package.json'
 
 // i18n
-const locales = ['fr-FR', 'en-GB']
-const defaultLocale = 'fr-FR'
+const locales = ['fr-fr', 'en-gb']
+const defaultLocale = 'fr-fr'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },

@@ -4,7 +4,6 @@ import type { AlternateLanguage, PrismicDocument } from '@prismicio/types'
 // @ts-ignore
 import type { PrismicPluginClient } from '@prismicio/vue/src/types'
 import type { CommonContent } from '~/composables/use-common-content'
-import { getLocaleLanguage } from '~/utils/locale'
 import { useLocale } from '~/composables/use-locale'
 
 async function initCommonContent() {
@@ -41,7 +40,7 @@ function initHead(webResponse?: PrismicDocument, alternateLinks?: AlternateLangu
   const link: Link[] = [
     {
       rel: 'canonical',
-      href: joinURL(runtimeConfig.public.siteUrl, webResponse?.url || webResponse?.uid || route.path),
+      href: webResponse?.url || joinURL(runtimeConfig.public.siteUrl, route.path),
     },
   ]
 
@@ -112,7 +111,6 @@ function initSeoMeta(webResponse?: PrismicDocument) {
 export default defineNuxtPlugin(async () => {
   const route = useRoute()
   const isWildCardRoute = !!route.name
-  // const isWildCardRoute = route.name === 'slug'
 
   const pageResponse = isWildCardRoute ? await useFetchPage() : undefined
 
@@ -120,14 +118,14 @@ export default defineNuxtPlugin(async () => {
     // Make currentPage data accessible in layout during initialization
     const currentPage = useCurrentPage()
     currentPage.value = {
-      webResponse: pageResponse.webResponse.value,
-      alternateLinks: pageResponse.alternateLinks.value,
+      webResponse: pageResponse.webResponse,
+      alternateLinks: pageResponse.alternateLinks,
     }
 
-    initI18n(pageResponse?.locale.value)
-    useAlternateLinks(pageResponse?.alternateLinks.value)
+    initI18n(pageResponse?.locale)
+    useAlternateLinks(pageResponse?.alternateLinks)
   }
   await initCommonContent()
-  initHead(pageResponse?.webResponse.value, pageResponse?.alternateLinks.value)
-  initSeoMeta(pageResponse?.webResponse.value)
+  initHead(pageResponse?.webResponse, pageResponse?.alternateLinks)
+  initSeoMeta(pageResponse?.webResponse)
 })

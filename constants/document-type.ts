@@ -6,4 +6,5 @@ export enum DocumentType {
   WEB_PAGE = 'web_page',
   MENU = 'menu',
   SETTING = 'setting',
+  ERROR_PAGE = 'error_page',
 }

@@ -2,8 +2,9 @@
 import type { ProjectListingPageDocument } from '~/prismicio-types'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import { DocumentType } from '~/constants/document-type'
-import { getCardProjectProps } from '~/utils/prismic/project'
+import { getCardProjectProps, getProjectTags } from '~/utils/prismic/project'
 import { NuxtLink } from '#components'
+import { useLocale } from '~/composables/use-locale'
 
 definePageMeta({
   pageTransition: defaultPageTransition,
@@ -19,50 +20,81 @@ if (error) {
   showError(error)
 }
 
-console.log(webResponse.value)
-
 usePage({
-  webResponse: webResponse.value,
-  alternateLinks: alternateLinks.value,
-  title: webResponse.value.data.meta_title || webResponse.value.data.title || webResponse.value.uid || '',
+  webResponse,
+  alternateLinks,
+  title: webResponse.data.meta_title || webResponse.data.title || webResponse.uid || '',
 })
 
-console.log(webResponse.value.data.meta_title || webResponse.value.data.title || webResponse.value.uid || '')
+const { fetchLocaleOption } = useLocale()
 
 const prismic = usePrismic()
 const listingResponse = await useAsyncData('project_listing', () => {
-  return prismic.client.getAllByType('project_page')
+  return prismic.client.getAllByType('project_page', {
+    pageSize: 30,
+    orderings: [{ field: 'my.project_page.creation_date', direction: 'desc' }, { field: 'my.project_page.title' }],
+    lang: fetchLocaleOption.value?.lang,
+  })
 })
 
 const { getLocalizedUrl } = useLocale()
 
 const projectCardPropList = computed(() => {
-  return listingResponse.data.value?.map((project) => {
-    return {
-      ...getCardProjectProps(project),
-      url: getLocalizedUrl(`/projets/${project.uid}`),
-    }
+  return (
+    listingResponse.data.value?.map((project) => {
+      return {
+        ...getCardProjectProps(project),
+        url: getLocalizedUrl(`/projets/${project.uid}`),
+      }
+    }) || []
+  )
+})
+
+const filteredProjectList = computed(() => {
+  if (!selectedTags.value.length) return projectCardPropList.value
+  return projectCardPropList.value.filter((project) => {
+    return project.tags.some((tag) => selectedTags.value.includes(tag))
   })
 })
 
 const tags = computed(() => {
-  return listingResponse.data.value?.map((project) => project.tags).flat(2) || []
+  return projectCardPropList.value.map((project) => project.tags).flat(2) || []
 })
 
-const isOpen = ref(false)
-const selectedTags = ref([])
+const isFilterBarOpen = ref(false)
+
+// TAG FILTER
+const route = useRoute()
+const QUERY_TAG = 'tag'
+const tagQuery = route.query[QUERY_TAG]
+const initialQuery = (Array.isArray(tagQuery) ? tagQuery[0] : tagQuery)?.split('&')
+const selectedTags = ref(initialQuery || [])
+
+const router = useRouter()
+
+watch(
+  selectedTags,
+  (tag) => {
+    let parsedQuery
+    if (tag.length === 1) parsedQuery = tag[0]
+    else parsedQuery = tag.join('&').toString()
+
+    router.push({ query: { tag: parsedQuery } })
+  },
+  { deep: true },
+)
 </script>
 
 <template>
   <div :class="$style.root">
     <header :class="$style.head">
       <h1 class="text-h4">{{ pageData.title }}</h1>
-      <VFilterProjectButton v-model="isOpen" :has-tag-selected="!!selectedTags.length" />
+      <VFilterProjectButton v-model="isFilterBarOpen" :has-tag-selected="!!selectedTags.length" />
     </header>
-    <VProjectFilters v-model="selectedTags" :is-open="isOpen" :tags="tags" />
+    <VProjectFilters v-model="selectedTags" :is-open="isFilterBarOpen" :tags="tags" />
     <main>
-      <ul v-if="projectCardPropList?.length" :class="$style.list">
-        <li v-for="projectProps in projectCardPropList" :key="projectProps.id">
+      <ul v-if="filteredProjectList?.length" :class="$style.list">
+        <li v-for="projectProps in filteredProjectList" :key="projectProps.id">
           <VCard
             :tag="NuxtLink"
             :to="projectProps.url"
@@ -71,6 +103,7 @@ const selectedTags = ref([])
             :tags="projectProps.tags"
             :date="projectProps.date"
             layout="centered"
+            :class="$style.card"
           >
             <NuxtImg
               v-if="projectProps.image"
@@ -115,7 +148,12 @@ const selectedTags = ref([])
   }
 }
 
+.card {
+  width: 100%;
+}
+
 .media {
   border-radius: rem(22);
+  width: 100%;
 }
 </style>

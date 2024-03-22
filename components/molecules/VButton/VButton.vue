@@ -206,5 +206,9 @@ const rootClasses = computed(() => {
   .root--loading & {
     visibility: hidden;
   }
+
+  &:only-child {
+    --v-button-label-padding-inline: 0;
+  }
 }
 </style>

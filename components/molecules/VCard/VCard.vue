@@ -29,7 +29,7 @@ const isEnter = ref(false)
     @mouseleave="isEnter = false"
   >
     <div :class="$style.media">
-      <VButton v-if="date" :class="$style.date" :label="date" filled theme="dark" size="xs" />
+      <VButton v-if="date" :class="$style.date" :label="date" filled theme="dark" size="s" />
       <div v-if="date" :class="$style.date" />
       <slot>
         <VPicture v-if="image" :media-entity="image" width="390" height="600" v-bind="imageProps" />

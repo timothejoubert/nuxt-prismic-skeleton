@@ -53,7 +53,7 @@ const currentYear = computed(() => new Date().getFullYear())
   }
 
   & > *:first-child {
-    margin-left: rem(18);
+    margin-inline: rem(24) rem(4);
   }
 
   & > a {

@@ -101,6 +101,92 @@ export type AboutPageDocument<Lang extends string = string> = prismic.PrismicDoc
   Lang
 >
 
+type ErrorPageDocumentDataSlicesSlice = never
+
+/**
+ * Content for Error page documents
+ */
+interface ErrorPageDocumentData {
+  /**
+   * Title field in *Error page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: error_page.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField
+
+  /**
+   * Content field in *Error page*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: error_page.content
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField
+
+  /**
+   * Slice Zone field in *Error page*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: error_page.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<ErrorPageDocumentDataSlicesSlice> /**
+   * Meta Description field in *Error page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: error_page.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_description: prismic.KeyTextField
+
+  /**
+   * Meta Image field in *Error page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: error_page.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  meta_image: prismic.ImageField<never>
+
+  /**
+   * Meta Title field in *Error page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: error_page.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_title: prismic.KeyTextField
+}
+
+/**
+ * Error page document from Prismic
+ *
+ * - **API ID**: `error_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ErrorPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
+  Simplify<ErrorPageDocumentData>,
+  'error_page',
+  Lang
+>
+
 type HomePageDocumentDataSlicesSlice = never
 
 /**
@@ -672,6 +758,7 @@ export type WebPageDocument<Lang extends string = string> = prismic.PrismicDocum
 
 export type AllDocumentTypes =
   | AboutPageDocument
+  | ErrorPageDocument
   | HomePageDocument
   | MenuDocument
   | ProjectListingPageDocument
@@ -757,6 +844,9 @@ declare module '@prismicio/client' {
       AboutPageDocument,
       AboutPageDocumentData,
       AboutPageDocumentDataSlicesSlice,
+      ErrorPageDocument,
+      ErrorPageDocumentData,
+      ErrorPageDocumentDataSlicesSlice,
       HomePageDocument,
       HomePageDocumentData,
       HomePageDocumentDataSlicesSlice,

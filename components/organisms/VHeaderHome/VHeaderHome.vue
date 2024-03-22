@@ -41,8 +41,6 @@ async function setVideoFullscreen() {
 
   if (!el || (el && !document.fullscreenEnabled)) return
 
-  console.log(el)
-
   await el.requestFullscreen({ navigationUI: 'show' })
   isVideoFullscreen.value = true
   el.currentTime = 0

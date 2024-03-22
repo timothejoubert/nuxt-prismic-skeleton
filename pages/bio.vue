@@ -16,9 +16,9 @@ if (error) {
 }
 
 usePage({
-  webResponse: webResponse.value,
-  alternateLinks: alternateLinks.value,
-  title: webResponse.value.data.meta_title || webResponse.value.data.title || webResponse.value.uid || '',
+  webResponse,
+  alternateLinks,
+  title: webResponse.data.meta_title || webResponse.data.title || webResponse.uid || '',
 })
 </script>
 

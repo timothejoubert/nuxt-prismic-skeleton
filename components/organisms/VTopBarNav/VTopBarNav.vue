@@ -43,14 +43,14 @@ const navItemList = computed(() => {
 .item {
   position: relative;
 
-  :global(.nuxt-link-exact-active)::after,
+  &:global(.router-link-exact-active)::after,
   &:not(#{&}--home):global(.nuxt-link-active)::after {
     position: absolute;
     right: 0;
     bottom: rem(-2);
     left: 0;
     height: 1px;
-    background-color: color(black);
+    background-color: rgba(255, 255, 255, 0.1);
     content: '';
   }
 }
