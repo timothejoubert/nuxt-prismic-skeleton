@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { HomePageDocumentData } from '~/prismicio-types'
 import { encodeUrlParams } from '~/utils/url'
-import VEmbedVideo from '~/components/molecules/VEmbedVideo/VEmbedVideo.vue'
+// import VEmbedVideo from '~/components/molecules/VEmbedVideo/VEmbedVideo.vue'
 
 interface VHeaderHomeProps {
   pageData: HomePageDocumentData

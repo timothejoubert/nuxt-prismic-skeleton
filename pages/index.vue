@@ -2,6 +2,7 @@
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import type { HomePageDocument } from '~/prismicio-types'
 import { DocumentType } from '~/constants/document-type'
+import { components } from '~/slices'
 
 definePageMeta({
   pageTransition: defaultPageTransition,
@@ -20,12 +21,14 @@ usePage({
   alternateLinks,
   title: webResponse.data.meta_title || webResponse.data.title || webResponse.uid || '',
 })
+
+console.log('index slices', pageData.slices)
 </script>
 
 <template>
   <div :class="$style.root">
     <VHeaderHome :page-data="pageData" />
-    <pre>{{ pageData }}</pre>
+    <SliceZone :slices="pageData.slices" wrapper="main" :components="components" />
   </div>
 </template>
 

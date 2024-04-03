@@ -1,0 +1,29 @@
+{
+  "id": "project_push_slice",
+  "type": "SharedSlice",
+  "name": "ProjectPushSlice",
+  "description": "ProjectPushSlice",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "project_reference": {
+          "type": "Link",
+          "config": {
+            "label": "Project reference",
+            "select": "document",
+            "customtypes": [
+              "project_page"
+            ]
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

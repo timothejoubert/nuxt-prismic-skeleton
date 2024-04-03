@@ -1,0 +1,26 @@
+{
+  "id": "projects_feed_slice",
+  "type": "SharedSlice",
+  "name": "ProjectsFeedSlice",
+  "description": "ProjectsFeedSlice",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

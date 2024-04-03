@@ -92,7 +92,7 @@ export default defineNuxtConfig({
     densities: '1',
   },
   i18n: {
-    // all routes will have a locale prefix added except for the default language
+    // Default: all routes will have a locale prefix added except for the default language
     strategy: 'no_prefix',
     routesNameSeparator: '___',
     detectBrowserLanguage: false,
@@ -101,7 +101,6 @@ export default defineNuxtConfig({
       code: locale,
       file: `nuxt.${locale}.json`,
     })),
-    lazy: true,
     langDir: 'assets/locales/',
   },
 })

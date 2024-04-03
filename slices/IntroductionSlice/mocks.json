@@ -3,9 +3,16 @@
 		"__TYPE__": "SharedSliceContent",
 		"variation": "default",
 		"primary": {
-			"fullwidth": {
-				"__TYPE__": "BooleanContent",
-				"value": false
+			"content": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Nostrud id sunt ipsum sint esse aliqua laborum voluptate nostrud dolore culpa. In deserunt incididunt id sunt exercitation excepteur laboris laboris sit ea laboris cupidatat ex."
+						}
+					}
+				]
 			}
 		},
 		"items": [
@@ -13,7 +20,7 @@
 				"__TYPE__": "GroupItemContent",
 				"value": [
 					[
-						"media",
+						"medias",
 						{
 							"__TYPE__": "LinkContent",
 							"value": {
@@ -23,16 +30,6 @@
 								"url": "https://source.unsplash.com/daily",
 								"size": "0",
 								"__TYPE__": "FileLink"
-							}
-						}
-					],
-					[
-						"embed_url",
-						{
-							"__TYPE__": "LinkContent",
-							"value": {
-								"__TYPE__": "ExternalLink",
-								"url": "http://google.com"
 							}
 						}
 					]

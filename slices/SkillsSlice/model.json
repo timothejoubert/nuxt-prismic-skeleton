@@ -1,0 +1,59 @@
+{
+  "id": "skills_slice",
+  "type": "SharedSlice",
+  "name": "SkillsSlice",
+  "description": "SkillsSlice",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "content": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Content",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em,hyperlink,embed"
+          }
+        },
+        "side_title": {
+          "type": "Text",
+          "config": {
+            "label": "Side title",
+            "placeholder": ""
+          }
+        },
+        "side_content": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Side content",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,hyperlink,strong,em,embed"
+          }
+        }
+      }
+    }
+  ]
+}

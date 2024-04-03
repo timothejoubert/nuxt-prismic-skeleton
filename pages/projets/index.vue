@@ -2,7 +2,6 @@
 import type { ProjectListingPageDocument } from '~/prismicio-types'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import { DocumentType } from '~/constants/document-type'
-import { getCardProjectProps } from '~/utils/prismic/project'
 import { NuxtLink } from '#components'
 import { useLocale } from '~/composables/use-locale'
 
@@ -29,30 +28,24 @@ usePage({
 const { fetchLocaleOption } = useLocale()
 
 const prismic = usePrismic()
-const listingResponse = await useAsyncData('project_listing', () => {
-  return prismic.client.getAllByType('project_page', {
-    pageSize: 30,
-    orderings: [{ field: 'my.project_page.creation_date', direction: 'desc' }, { field: 'my.project_page.title' }],
-    lang: fetchLocaleOption.value?.lang,
-  })
-})
+const { data: listingResponse } = await useAsyncData(
+  'project_listing',
+  () => {
+    return prismic.client.getAllByType('project_page', {
+      pageSize: 30,
+      orderings: [{ field: 'my.project_page.creation_date', direction: 'desc' }, { field: 'my.project_page.title' }],
+      lang: fetchLocaleOption.value?.lang,
+    })
+  },
+  { deep: false },
+)
 
-const { getLocalizedUrl } = useLocale()
-
-const projectCardPropList = computed(() => {
-  return (
-    listingResponse.data.value?.map((project) => {
-      return {
-        ...getCardProjectProps(project),
-        url: getLocalizedUrl(`/projets/${project.uid}`),
-      }
-    }) || []
-  )
-})
+const fetchedProject = computed(() => listingResponse.value || [])
 
 const filteredProjectList = computed(() => {
-  if (!selectedTags.value.length) return projectCardPropList.value
-  return projectCardPropList.value.filter((project) => {
+  if (!selectedTags.value.length) return fetchedProject.value
+
+  return fetchedProject.value.filter((project) => {
     return project.tags.some((tag) => selectedTags.value.includes(tag))
   })
 })
@@ -61,7 +54,7 @@ const filteredProjectList = computed(() => {
 const isFilterBarOpen = ref(false)
 
 const tags = computed(() => {
-  return projectCardPropList.value.map((project) => project.tags).flat(2) || []
+  return fetchedProject.value.map((project) => project.tags).flat(2) || []
 })
 
 // Initial tag
@@ -95,28 +88,21 @@ watch(
     <VProjectFilters v-model="selectedTags" :is-open="isFilterBarOpen" :tags="tags" />
     <main>
       <ul v-if="filteredProjectList?.length" :class="$style.list">
-        <li v-for="(projectProps, i) in filteredProjectList" :key="i">
-          <VCard
-            :tag="NuxtLink"
-            :to="projectProps.url"
-            :image="projectProps.image"
-            :title="projectProps.title"
-            :tags="projectProps.tags"
-            :date="projectProps.date"
-            layout="centered"
-            :class="$style.card"
-          >
+        <li v-for="(project, i) in filteredProjectList" :key="i">
+          <VProjectCard :tag="NuxtLink" :project="project" layout="centered" :class="$style.card">
             <NuxtImg
-              v-if="projectProps.image"
-              :src="projectProps.image.url"
+              v-if="project.data.main_media"
+              :src="project.data.main_media.url"
               width="600"
               height="390"
-              provider="ipx"
+              provider="imgix"
+              placeholder="/images/placeholder.jpg"
               :class="$style.media"
-              :modifiers="{ width: 600, height: 390 }"
+              fit="cover"
+              :modifiers="{ crop: 'edges' }"
               sizes="xs:100vw sm:100vw md:50vw lg:33vw vl:33vw xl:33vw xxl:33vw hd:33vw qhd:33vw"
             />
-          </VCard>
+          </VProjectCard>
         </li>
       </ul>
     </main>

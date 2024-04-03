@@ -45,7 +45,7 @@ const rootClasses = computed(() => {
 
 <template>
   <ClientOnly :placeholder-tag="tag" :placeholder="content">
-    <component :is="tag || 'div'" v-if="characterList?.length" :class="rootClasses">
+    <component :is="tag || 'div'" v-if="characterList?.length" :class="[rootClasses, $attrs.class]">
       <div
         v-for="(letter, i) in letterList"
         :key="letter.id"

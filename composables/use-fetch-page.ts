@@ -20,7 +20,6 @@ export async function useFetchPage<T extends PrismicDocument>(pageId?: DocumentT
   const prismicClient = usePrismic().client
   const isDynamicUidDocument = (isWebPageDocument(prismicDocumentType) || isProjectDocument(prismicDocumentType)) && uid
 
-  console.log('fetchPage', isProjectDocument(prismicDocumentType), prismicDocumentType, uid, route.params?.uid)
   const cachedData = useNuxtData(key)
   const { data } = cachedData.data.value
     ? cachedData

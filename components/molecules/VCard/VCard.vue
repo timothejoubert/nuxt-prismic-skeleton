@@ -2,7 +2,7 @@
 import type { ImageField, RichTextField } from '@prismicio/types'
 import type { DefineComponent } from 'vue'
 
-export type VCardLayout = 'centered' | null
+export type VCardLayout = 'centered' | 'full' | null
 
 interface VCardProps {
   title: string
@@ -16,21 +16,20 @@ interface VCardProps {
   tag?: string | DefineComponent
 }
 
-defineProps<VCardProps>()
+const props = defineProps<VCardProps>()
 
 const isEnter = ref(false)
+
+const $style = useCssModule()
+const rootClasses = computed(() => {
+  return [$style.root, typeof props.layout === 'string' && $style[`root--layout-${props.layout}`]]
+})
 </script>
 
 <template>
-  <component
-    :is="tag || 'div'"
-    :class="[$style.root, typeof layout === 'string' && $style[`root--layout-${layout}`]]"
-    @mouseenter="isEnter = true"
-    @mouseleave="isEnter = false"
-  >
+  <component :is="tag || 'div'" :class="rootClasses" @mouseenter="isEnter = true" @mouseleave="isEnter = false">
     <div :class="$style.media">
-      <VButton v-if="date" :class="$style.date" :label="date" filled theme="dark" size="s" />
-      <div v-if="date" :class="$style.date" />
+      <VButton v-if="date" tag="div" :class="$style.date" :label="date" filled theme="dark" size="s" />
       <slot>
         <VPicture v-if="image" :media-entity="image" width="390" height="600" v-bind="imageProps" />
       </slot>
@@ -49,7 +48,12 @@ const isEnter = ref(false)
           <span v-for="tag in tags" :key="'tag-' + tag" class="text-body-s" :class="$style.tag">{{ tag }}</span>
         </div>
       </div>
-      <VText v-if="description" :content="description" :class="$style.description" class="text-body-s" />
+      <VText
+        v-if="description && layout !== 'centered'"
+        :content="description"
+        :class="$style.description"
+        class="text-body-s"
+      />
     </div>
   </component>
 </template>
@@ -101,8 +105,13 @@ const isEnter = ref(false)
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-top: rem(11);
+  padding-top: rem(11);
   gap: rem(16);
+
+  .root--layout-full & {
+    margin-top: rem(12);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
 }
 
 .body__left {
