@@ -22,6 +22,7 @@ export interface VButtonProps {
   iconLast?: boolean
   variant?: Variant
   theme?: Theme | false
+  playAnimation?: boolean
 }
 
 const props = withDefaults(defineProps<VButtonProps>(), {
@@ -86,6 +87,7 @@ const rootClasses = computed(() => {
     !!props.size && $style[`root--size-${props.size}`],
     !!props.variant && $style['root--variant-' + props.variant],
     themeClass.value,
+    props.playAnimation && $style['root--animate'],
   ]
 })
 </script>
@@ -128,6 +130,17 @@ const rootClasses = computed(() => {
   @media (hover: hover) {
     &:active {
       scale: 0.98;
+    }
+
+    &--outlined:not(#{&}--disabled):hover {
+      background-color: var(--theme-foreground-color);
+      color: var(--theme-background-color);
+    }
+
+    &--filled#{&}--animate:not(#{&}--disabled),
+    &--filled:not(#{&}--disabled):hover {
+      background-color: var(--theme-foreground-color);
+      color: var(--theme-background-color);
     }
   }
 
