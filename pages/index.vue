@@ -21,8 +21,6 @@ usePage({
   alternateLinks,
   title: webResponse.data.meta_title || webResponse.data.title || webResponse.uid || '',
 })
-
-console.log('index slices', pageData.slices)
 </script>
 
 <template>

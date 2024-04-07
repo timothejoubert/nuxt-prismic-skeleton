@@ -72,7 +72,7 @@ function onFullscreenLeave() {
 
 <template>
   <header :class="$style.root" class="container-fullscreen">
-    <H1 v-if="pageData.title && isSplashScreenDone" class="text-h1">{{ pageData.title }}</H1>
+    <h1 v-if="pageData.title && isSplashScreenDone" class="text-h1">{{ pageData.title }}</h1>
     <VText
       v-if="pageData.subtitle && isSplashScreenDone"
       :content="pageData.subtitle"

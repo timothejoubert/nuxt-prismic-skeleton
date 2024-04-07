@@ -42,8 +42,6 @@ let observer: undefined | IntersectionObserver
 function initIntersectionObserver() {
   if (!root.value) return
 
-  console.log('initIntersectionObserver', root.value)
-
   observer = new IntersectionObserver(([entry]) => (isVisible.value = entry.isIntersecting), {
     rootMargin: '-10% 0% -10% 0%',
   })
