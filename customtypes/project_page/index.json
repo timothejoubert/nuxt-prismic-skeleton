@@ -64,7 +64,17 @@
         "type": "Slices",
         "fieldset": "Slice Zone",
         "config": {
-          "choices": {}
+          "choices": {
+            "promote_slice": {
+              "type": "SharedSlice"
+            },
+            "media_slice": {
+              "type": "SharedSlice"
+            },
+            "marquee_slice": {
+              "type": "SharedSlice"
+            }
+          }
         }
       }
     },

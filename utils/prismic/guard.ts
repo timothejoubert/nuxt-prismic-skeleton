@@ -15,7 +15,9 @@ export function isDocumentEntity(entity: unknown): entity is PrismicDocument {
 
 export function isLinkField(entity: unknown): entity is LinkField {
   return (
-    isObject(entity) && objectHasAllKeys(entity, ['link_type']) && Object.values(LinkType).includes(entity.link_type)
+    isObject(entity) &&
+    objectHasAllKeys(entity, ['link_type']) &&
+    Object.values(LinkType).includes(entity.link_type as any)
   )
 }
 

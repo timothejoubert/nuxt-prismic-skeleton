@@ -25,7 +25,7 @@ const getSocialIconName = (name?: string): string => {
     case 'vimeo':
       return 'social-vimeo'
     case 'behance':
-      return 'social-'
+      return 'social-behance'
     case 'youtube':
       return 'social-youtube'
     case 'linkedin':
@@ -36,6 +36,7 @@ const getSocialIconName = (name?: string): string => {
 }
 
 const { setting } = useCommonContent()
+console.log(setting.value?.socials)
 const socialList = computed((): SocialsContent[] => {
   const socials = setting.value?.socials
 

@@ -1,0 +1,81 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "FieldContent",
+				"value": "shelf",
+				"type": "Text"
+			},
+			"content": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Dolore irure ullamco ex duis anim consequat cupidatat occaecat. Voluptate pariatur eiusmod Lorem ea magna."
+						}
+					}
+				]
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": [
+					[
+						"title",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "regular",
+							"type": "Text"
+						}
+					],
+					[
+						"content",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "sand",
+							"type": "Text"
+						}
+					],
+					[
+						"year",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "thing",
+							"type": "Text"
+						}
+					],
+					[
+						"link",
+						{
+							"__TYPE__": "LinkContent",
+							"value": {
+								"__TYPE__": "ExternalLink",
+								"url": "http://twitter.com"
+							}
+						}
+					],
+					[
+						"link_label",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "spite",
+							"type": "Text"
+						}
+					],
+					[
+						"place",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "ill",
+							"type": "Text"
+						}
+					]
+				]
+			}
+		]
+	}
+]

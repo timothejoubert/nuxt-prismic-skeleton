@@ -4,7 +4,12 @@ import type * as prismic from '@prismicio/client'
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
 
-type AboutPageDocumentDataSlicesSlice = never
+type AboutPageDocumentDataSlicesSlice =
+  | SkillsSliceSlice
+  | MarqueeSliceSlice
+  | ProjectsFeedSliceSlice
+  | IntroductionSliceSlice
+  | PromoteSliceSlice
 
 /**
  * Content for About page documents
@@ -22,15 +27,15 @@ interface AboutPageDocumentData {
   title: prismic.KeyTextField
 
   /**
-   * Description field in *About page*
+   * content field in *About page*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: about_page.description
+   * - **API ID Path**: about_page.content
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  description: prismic.RichTextField
+  content: prismic.RichTextField
 
   /**
    * Media field in *About page*
@@ -101,7 +106,7 @@ export type AboutPageDocument<Lang extends string = string> = prismic.PrismicDoc
   Lang
 >
 
-type ErrorPageDocumentDataSlicesSlice = never
+type ErrorPageDocumentDataSlicesSlice = ProjectsFeedSliceSlice | IntroductionSliceSlice
 
 /**
  * Content for Error page documents
@@ -453,7 +458,7 @@ export type ProjectListingPageDocument<Lang extends string = string> = prismic.P
   Lang
 >
 
-type ProjectPageDocumentDataSlicesSlice = never
+type ProjectPageDocumentDataSlicesSlice = PromoteSliceSlice | MediaSliceSlice | MarqueeSliceSlice
 
 /**
  * Content for Project page documents
@@ -636,6 +641,17 @@ interface SettingDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   site_name: prismic.KeyTextField
+
+  /**
+   * Email field in *setting*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: setting.email
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  email: prismic.KeyTextField
 
   /**
    * Socials field in *setting*
@@ -871,6 +887,146 @@ type MarqueeSliceSliceVariation = MarqueeSliceSliceDefault
 export type MarqueeSliceSlice = prismic.SharedSlice<'marquee_slice', MarqueeSliceSliceVariation>
 
 /**
+ * Primary content in *MediaSlice → Primary*
+ */
+export interface MediaSliceSliceDefaultPrimary {
+  /**
+   * Title field in *MediaSlice → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_slice.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField
+
+  /**
+   * Content field in *MediaSlice → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_slice.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  content: prismic.KeyTextField
+}
+
+/**
+ * Primary content in *MediaSlice → Items*
+ */
+export interface MediaSliceSliceDefaultItem {
+  /**
+   * Thumbnail field in *MediaSlice → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_slice.items[].thumbnail
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  thumbnail: prismic.ImageField<never>
+
+  /**
+   * Media field in *MediaSlice → Items*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_slice.items[].media
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  media: prismic.LinkToMediaField
+}
+
+/**
+ * Default variation for MediaSlice Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MediaSliceSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<MediaSliceSliceDefaultPrimary>,
+  Simplify<MediaSliceSliceDefaultItem>
+>
+
+/**
+ * Primary content in *MediaSlice → Primary*
+ */
+export interface MediaSliceSliceFullwidthPrimary {
+  /**
+   * Title field in *MediaSlice → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_slice.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField
+
+  /**
+   * Content field in *MediaSlice → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_slice.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  content: prismic.KeyTextField
+}
+
+/**
+ * Primary content in *MediaSlice → Items*
+ */
+export interface MediaSliceSliceFullwidthItem {
+  /**
+   * Thumbnail field in *MediaSlice → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_slice.items[].thumbnail
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  thumbnail: prismic.ImageField<never>
+
+  /**
+   * Media field in *MediaSlice → Items*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_slice.items[].media
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  media: prismic.LinkToMediaField
+}
+
+/**
+ * Fullwidth variation for MediaSlice Slice
+ *
+ * - **API ID**: `fullwidth`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MediaSliceSliceFullwidth = prismic.SharedSliceVariation<
+  'fullwidth',
+  Simplify<MediaSliceSliceFullwidthPrimary>,
+  Simplify<MediaSliceSliceFullwidthItem>
+>
+
+/**
+ * Slice variation for *MediaSlice*
+ */
+type MediaSliceSliceVariation = MediaSliceSliceDefault | MediaSliceSliceFullwidth
+
+/**
+ * MediaSlice Shared Slice
+ *
+ * - **API ID**: `media_slice`
+ * - **Description**: MediaSlice
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MediaSliceSlice = prismic.SharedSlice<'media_slice', MediaSliceSliceVariation>
+
+/**
  * Primary content in *ProjectPushSlice → Primary*
  */
 export interface ProjectPushSliceSliceDefaultPrimary {
@@ -953,6 +1109,123 @@ type ProjectsFeedSliceSliceVariation = ProjectsFeedSliceSliceDefault
  * - **Documentation**: https://prismic.io/docs/slice
  */
 export type ProjectsFeedSliceSlice = prismic.SharedSlice<'projects_feed_slice', ProjectsFeedSliceSliceVariation>
+
+/**
+ * Primary content in *PromoteSlice → Primary*
+ */
+export interface PromoteSliceSliceDefaultPrimary {
+  /**
+   * Title field in *PromoteSlice → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: promote_slice.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField
+
+  /**
+   * content field in *PromoteSlice → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: promote_slice.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField
+}
+
+/**
+ * Primary content in *PromoteSlice → Items*
+ */
+export interface PromoteSliceSliceDefaultItem {
+  /**
+   * Title field in *PromoteSlice → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: promote_slice.items[].title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField
+
+  /**
+   * Content field in *PromoteSlice → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: promote_slice.items[].content
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  content: prismic.KeyTextField
+
+  /**
+   * Place field in *PromoteSlice → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: promote_slice.items[].place
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  place: prismic.KeyTextField
+
+  /**
+   * Year field in *PromoteSlice → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: promote_slice.items[].year
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  year: prismic.KeyTextField
+
+  /**
+   * Link field in *PromoteSlice → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: promote_slice.items[].link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField
+
+  /**
+   * Link label field in *PromoteSlice → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: promote_slice.items[].link_label
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link_label: prismic.KeyTextField
+}
+
+/**
+ * Default variation for PromoteSlice Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type PromoteSliceSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<PromoteSliceSliceDefaultPrimary>,
+  Simplify<PromoteSliceSliceDefaultItem>
+>
+
+/**
+ * Slice variation for *PromoteSlice*
+ */
+type PromoteSliceSliceVariation = PromoteSliceSliceDefault
+
+/**
+ * PromoteSlice Shared Slice
+ *
+ * - **API ID**: `promote_slice`
+ * - **Description**: PromoteSlice
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type PromoteSliceSlice = prismic.SharedSlice<'promote_slice', PromoteSliceSliceVariation>
 
 /**
  * Primary content in *SkillsSlice → Primary*
@@ -1082,6 +1355,14 @@ declare module '@prismicio/client' {
       MarqueeSliceSliceDefaultItem,
       MarqueeSliceSliceVariation,
       MarqueeSliceSliceDefault,
+      MediaSliceSlice,
+      MediaSliceSliceDefaultPrimary,
+      MediaSliceSliceDefaultItem,
+      MediaSliceSliceFullwidthPrimary,
+      MediaSliceSliceFullwidthItem,
+      MediaSliceSliceVariation,
+      MediaSliceSliceDefault,
+      MediaSliceSliceFullwidth,
       ProjectPushSliceSlice,
       ProjectPushSliceSliceDefaultPrimary,
       ProjectPushSliceSliceVariation,
@@ -1090,6 +1371,11 @@ declare module '@prismicio/client' {
       ProjectsFeedSliceSliceDefaultPrimary,
       ProjectsFeedSliceSliceVariation,
       ProjectsFeedSliceSliceDefault,
+      PromoteSliceSlice,
+      PromoteSliceSliceDefaultPrimary,
+      PromoteSliceSliceDefaultItem,
+      PromoteSliceSliceVariation,
+      PromoteSliceSliceDefault,
       SkillsSliceSlice,
       SkillsSliceSliceDefaultPrimary,
       SkillsSliceSliceDefaultItem,

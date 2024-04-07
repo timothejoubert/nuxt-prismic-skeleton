@@ -13,13 +13,13 @@
           "placeholder": ""
         }
       },
-      "description": {
+      "content": {
         "type": "StructuredText",
         "config": {
-          "label": "Description",
+          "label": "content",
           "placeholder": "",
           "allowTargetBlank": true,
-          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          "multi": "paragraph,strong,em,hyperlink"
         }
       },
       "media": {
@@ -34,7 +34,23 @@
         "type": "Slices",
         "fieldset": "Slice Zone",
         "config": {
-          "choices": {}
+          "choices": {
+            "skills_slice": {
+              "type": "SharedSlice"
+            },
+            "marquee_slice": {
+              "type": "SharedSlice"
+            },
+            "projects_feed_slice": {
+              "type": "SharedSlice"
+            },
+            "introduction_slice": {
+              "type": "SharedSlice"
+            },
+            "promote_slice": {
+              "type": "SharedSlice"
+            }
+          }
         }
       }
     },
