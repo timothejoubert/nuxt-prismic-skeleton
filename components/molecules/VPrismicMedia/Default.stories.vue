@@ -6,13 +6,13 @@ import prismicRelationVideo from 'assets/stories/fixtures/media/relation-link-vi
 
 <template>
   <div :class="$style.root">
-    <VMedia :media-entity="prismicRelationVideo" />
-    <VMedia :media-entity="prismicRelationImage" />
-    <VMedia
-      :media-entity="prismicImage"
+    <VPrismicMedia :reference="prismicRelationVideo" />
+    <VPrismicMedia :reference="prismicRelationImage" />
+    <VPrismicMedia
+      :reference="prismicImage"
       :image="{ width: '600', height: '100', crop: true, sizes: 'xs:100vw lg:100vw' }"
     />
-    <VMedia :media-entity="prismicImage" :image="{ width: '100', height: '100', crop: true, sizes: 'xs:100vw' }" />
+    <VPrismicMedia :reference="prismicImage" :image="{ width: '100', height: '100', crop: true, sizes: 'xs:100vw' }" />
   </div>
 </template>
 

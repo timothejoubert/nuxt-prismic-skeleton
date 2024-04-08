@@ -3,7 +3,9 @@ import type { ProjectListingPageDocument } from '~/prismicio-types'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import { DocumentType } from '~/constants/document-type'
 import { parseProjectTags } from '~/utils/prismic/project'
-import {} from 'ufo'
+// import {} from 'ufo'
+// import { encodeUrlParams } from '~/utils/url'
+
 definePageMeta({
   pageTransition: defaultPageTransition,
   name: DocumentType.PROJECT_LISTING,

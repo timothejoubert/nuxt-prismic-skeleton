@@ -1,5 +1,6 @@
 import type { BuildQueryURLArgs } from '@prismicio/client'
 import { useLocale } from '~/composables/use-locale'
+import type { ProjectPageDocument } from '~/prismicio-types'
 
 type PrismicAllByTypeOptions = Partial<Omit<BuildQueryURLArgs, 'page'>> // Parameters<Client>
 
@@ -7,7 +8,7 @@ export function usePrismicProjectDocuments(options?: PrismicAllByTypeOptions) {
   const prismic = usePrismic()
   const { fetchLocaleOption } = useLocale()
 
-  return useAsyncData(
+  return useAsyncData<ProjectPageDocument[]>(
     'project_listing',
     () => {
       return prismic.client.getAllByType('project_page', {

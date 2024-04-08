@@ -110,7 +110,7 @@ function initSeoMeta(webResponse?: PrismicDocument) {
 
 export default defineNuxtPlugin(async () => {
   const route = useRoute()
-  const isWildCardRoute = !!route.name
+  const isWildCardRoute = !!route.name && !route.matched.find((r) => r.name === 'stories')
 
   const pageResponse = isWildCardRoute ? await useFetchPage() : undefined
 

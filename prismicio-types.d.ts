@@ -934,6 +934,26 @@ export interface MediaSliceSliceDefaultItem {
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   media: prismic.LinkToMediaField
+
+  /**
+   * Embed id field in *MediaSlice → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_slice.items[].embed_id
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  embed_id: prismic.KeyTextField
+
+  /**
+   * Embed platform field in *MediaSlice → Items*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_slice.items[].embed_platform
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  embed_platform: prismic.SelectField<'Youtube' | 'Vimeo'>
 }
 
 /**

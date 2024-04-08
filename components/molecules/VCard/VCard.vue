@@ -29,7 +29,7 @@ const rootClasses = computed(() => {
 <template>
   <component :is="tag || 'div'" :class="rootClasses" @mouseenter="isEnter = true" @mouseleave="isEnter = false">
     <div :class="$style.media">
-      <VButton v-if="date" tag="div" :class="$style.date" :label="date" filled theme="dark" size="s" />
+      <VButton v-if="date" tag="div" :class="$style.date" :label="date" filled theme="dark" size="xs" />
       <slot>
         <VPicture v-if="image" :media-entity="image" width="390" height="600" v-bind="imageProps" />
       </slot>

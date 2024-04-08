@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import type { HomePageDocumentData } from '~/prismicio-types'
-import { encodeUrlParams } from '~/utils/url'
-// import VEmbedVideo from '~/components/molecules/VEmbedVideo/VEmbedVideo.vue'
 
 interface VHeaderHomeProps {
   pageData: HomePageDocumentData
@@ -12,62 +10,13 @@ const props = defineProps<VHeaderHomeProps>()
 const splashScreenState = useSplashScreenState()
 const isSplashScreenDone = computed(() => splashScreenState.value === 'done')
 
-const embedFrame = ref<HTMLIFrameElement | null>(null)
 const isCtaHovered = ref(false)
 const isVideoFullscreen = ref(false)
 
-const ytOptions = {
-  iv_load_policy: '3',
-  cc_load_policy: '1',
-  modestbranding: '1',
-  playsinline: '1',
-  showinfo: '0',
-  rel: '0',
-  enablejsapi: '1',
-  mute: '1',
-  autoplay: '1',
-  loop: '1',
-  controls: '0',
-}
-const videoUrl = computed(() => {
-  const baseUrl = props.pageData?.embed_video_url
-  // return baseUrl
-  return baseUrl + '&' + encodeUrlParams(ytOptions)
-})
+const videoUrl = computed(() => props.pageData?.embed_video_url)
 
 // TODO: Create VEmbedVideo and use plyr for set video state
-async function setVideoFullscreen() {
-  const el = embedFrame.value?.querySelector('video') || embedFrame.value
-
-  if (!el || (el && !document.fullscreenEnabled)) return
-
-  await el.requestFullscreen({ navigationUI: 'show' })
-  isVideoFullscreen.value = true
-  el.currentTime = 0
-  el.muted = false
-  el.volume = 0.5
-  // el.setVolume(1)
-
-  // listener load callback immediately when fullscreen is launch
-  window.setTimeout(() => {
-    el.addEventListener('fullscreenchange', onFullscreenChange)
-  }, 200)
-}
-
-function onFullscreenChange() {
-  if (isVideoFullscreen.value) onFullscreenLeave()
-}
-
-function onFullscreenLeave() {
-  const el = embedFrame.value?.querySelector('video') || embedFrame.value
-
-  if (!el) return
-
-  el.muted = true
-  isVideoFullscreen.value = false
-
-  el.removeEventListener('fullscreenchange', onFullscreenChange)
-}
+function setVideoFullscreen() {}
 </script>
 
 <template>
@@ -75,34 +24,24 @@ function onFullscreenLeave() {
     <h1 v-if="pageData.title && isSplashScreenDone" class="text-h1">{{ pageData.title }}</h1>
     <VText
       v-if="pageData.subtitle && isSplashScreenDone"
-      :content="pageData.subtitle"
+      :content="pageData.subtitle + '-' + pageData?.embed_video_url"
       :class="$style.tagline"
       class="text-h5"
       tag="h2"
     />
     <div v-if="videoUrl" :class="$style['media-wrapper']">
-      <!--      <VEmbedVideo-->
-      <!--        :class="$style.iframe"-->
-      <!--        embed-platform="youtube"-->
-      <!--        embed-id="PriOYrrl_ec"-->
-      <!--        background-->
-      <!--        autoplay-->
-      <!--        muted-->
-      <!--        fit="cover"-->
-      <!--        :controls="false"-->
-      <!--        :youtube="ytOptions"-->
-      <!--      />-->
-      <iframe
-        ref="embedFrame"
-        width="560"
-        height="315"
-        :src="videoUrl"
+      <VVideoPlayer
+        v-if="pageData?.embed_video_url"
+        :src="pageData?.embed_video_url"
+        playsinline
+        background
+        fit="cover"
+        embed-id="PriOYrrl_ec"
+        embed-platform="youtube"
+        loop
         title="Showreel Hugo Tomasi"
-        frameborder="0"
-        allow="autoplay; encrypted-media;"
-        allowfullscreen
-        :class="$style.iframe"
-      ></iframe>
+        :class="$style.video"
+      />
     </div>
 
     <div :class="$style.body">
@@ -181,41 +120,20 @@ function onFullscreenLeave() {
     inset: 0;
     pointer-events: none;
   }
-
-  .iframe {
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-    height: 100%;
-  }
 }
 
-.iframe {
+.video {
   position: absolute;
+  inset: 0;
   width: 100%;
-  top: 0;
-  left: 0;
   height: 100%;
+  object-fit: cover;
 
-  //--video-width: 100vw;
-  //--video-height: 100vh;
-  //
-  //position: absolute;
-  //top: 50%;
-  //left: 50%;
-  //width: var(--video-width);
-  //height: var(--video-height);
-  //transform: translate(-50%, -50%);
-  //
-  //object-fit: cover;
-  //
-  //@media (min-aspect-ratio: 16/9) {
-  //  --video-height: 56.25vw;
-  //}
-  //@media (max-aspect-ratio: 16/9) {
-  //  --video-width: 177.78vh;
-  //}
+  :global(video) {
+    width: 100vw !important;
+    height: 100vh !important;
+    object-fit: cover;
+  }
 }
 
 .body {

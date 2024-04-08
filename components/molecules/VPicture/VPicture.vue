@@ -1,100 +1,118 @@
-<script lang="ts" setup>
-import type { ImageModifiers } from '@nuxt/image'
-import type { ImgixUrl } from 'typescript-imgix-url-params'
-import type { VMediaSrcProps } from '~/composables/use-prismic-media'
-import { usePrismicMedia } from '~/composables/use-prismic-media'
+<script lang="ts">
+import { pictureProps } from '#image/components/nuxt-picture'
+import type { ExtractPropTypes } from 'vue'
+import { NuxtImg, NuxtPicture } from '#components'
+import { getHtmlElement } from '~/utils/ref/get-html-element'
 
-export type VImageProps = {
-  sizes?: string
-  alt?: string
-  copyright?: string
-  loading?: 'eager' | 'lazy'
-  provider?: 'ipx' | 'prismic' | string
-  media?: string // `(max-width: ${getBreakpointValue('lg') - 1}px)`
-  preset?: string
-  format?: string
-  modifiers?: Partial<ImageModifiers> | Partial<ImgixUrl.Params>
-  width?: string
-  height?: string
-}
+export type VPictureVNodeProps = ExtractPropTypes<typeof pictureProps>
+type PicturePropsKeys = keyof VPictureVNodeProps
 
-export type VPictureProps = VMediaSrcProps &
-  VImageProps & {
-    // Custom props
-    crop?: boolean
-    cover?: boolean
-  }
-
-const props = defineProps<VPictureProps>()
-
-// Getters
-const { src, alt, copyright, dimension } = usePrismicMedia({ mediaEntity: props.mediaEntity, src: props.src })
-const imgWidth = computed(() => props.width || dimension.value?.width)
-const imgHeight = computed(() => props.height || dimension.value?.height)
-const hasDimension = computed(() => !!imgWidth.value && !!imgHeight.value)
-const ratio = computed(() => hasDimension.value && Number(imgWidth.value) / Number(imgHeight.value))
-const providerOutput = computed(() => props.provider || 'imgix' || 'prismic')
-
-// Options
-const cropImg = computed(() => props.crop && hasDimension.value)
-
-const img = useImage()
-const getGenerateImg = (modifiersOptions?: Partial<ImageModifiers>) => {
-  const options = {
-    provider: providerOutput.value,
-    preset: props.preset,
-    sizes: props.sizes || img.options.screens,
-    modifiers: {
-      ...props.modifiers,
-      ...modifiersOptions,
+export default defineComponent({
+  props: {
+    ...pictureProps,
+    src: {
+      // override required src on NuxtImg
+      type: pictureProps.src.type,
     },
-  }
+    placeholder: {
+      type: [Boolean, String],
+    },
+  },
+  setup(props) {
+    const $style = useCssModule()
+    const $img = useImage()
 
-  if (cropImg.value) {
-    Object.assign(options.modifiers, { width: imgWidth.value, height: imgHeight.value })
+    // Load
+    const root = ref<HTMLElement | null>(null)
+    const loaded = ref(false)
+    const onLoad = () => (loaded.value = true)
 
-    if (providerOutput.value === 'imgix') {
-      Object.assign(options.modifiers, { fit: 'crop' })
+    onMounted(() => {
+      const img = getHtmlElement(root)?.querySelector('img')
+      if (img?.complete) onLoad()
+    })
+
+    // Props
+    const vNodeProps: Partial<VPictureVNodeProps> = {}
+    Object.keys(pictureProps).forEach((key: PicturePropsKeys | string) => {
+      // @ts-ignore just copy values
+      if (props[key]) vNodeProps[key] = props[key]
+    })
+
+    if (!vNodeProps.src) return () => h('')
+    if (!vNodeProps.sizes) vNodeProps.sizes = $img.options.presets.default?.sizes
+
+    vNodeProps.imgAttrs = {
+      ...vNodeProps.imgAttrs,
+      onLoad: () => (loaded.value = true),
+      style: {
+        ...vNodeProps.imgAttrs?.style,
+      },
     }
-  }
 
-  return img.getSizes(src.value || '', options)
-}
+    // Common attributes
+    const rootStyle = computed(() => {
+      if (typeof props.placeholder === 'string') return { '--v-picture-background': props.placeholder }
+    })
 
-const generatedImg = computed(() => getGenerateImg())
+    const rootClasses = computed(() => {
+      return [$style.root, loaded.value && $style['root--loaded']]
+    })
 
-const webpSizes = computed(() => getGenerateImg({ format: 'webp' }))
-const hasWebp = computed(() => props.format !== 'webp' && !src.value?.endsWith('.webp'))
+    const rootAttributes = computed(() => {
+      return {
+        ref: root,
+        style: rootStyle.value,
+        class: rootClasses.value,
+      }
+    })
 
-// TODO: Add loading placeholder
+    // Custom render for <source> tags
+    const slots = useSlots()
+    if (slots.default) {
+      provide('pictureVNodeProps', vNodeProps)
 
-// const avifSizes = computed(() => getGenerateImg({ modifiers: { ...options.modifiers, format: 'avif' } }))
-// const hasAvif = computed(() => props.format !== 'avif' && !src.value?.endsWith('.avif'))
+      const img = h(NuxtImg, {
+        ...vNodeProps,
+        ...vNodeProps.imgAttrs,
+      })
+
+      return () =>
+        h(
+          'picture',
+          {
+            ...rootAttributes.value,
+          },
+          [slots.default?.(), img],
+        )
+    }
+
+    // regular render
+    return () =>
+      h(NuxtPicture, {
+        ...rootAttributes.value,
+        ...vNodeProps,
+      })
+  },
+})
 </script>
-
-<template>
-  <picture v-if="src" :style="{ '--v-picture-ratio': ratio }" :class="$style.root">
-    <source v-if="hasWebp" type="image/webp" :media="media" :sizes="generatedImg.sizes" :srcset="webpSizes.srcset" />
-    <img
-      :src="generatedImg.src"
-      :srcset="generatedImg.srcset"
-      :alt="alt"
-      :width="imgWidth"
-      :height="imgHeight"
-      :loading="loading || 'lazy'"
-      :copyright="copyright"
-      :class="$style.img"
-    />
-  </picture>
-</template>
 
 <style lang="scss" module>
 .root {
-  //aspect-ratio: var(--v-picture-ratio);
-}
+  position: relative;
 
-.img {
-  width: var(--v-picture-image-width);
-  height: var(--v-picture-image-height, auto);
+  &::before {
+    position: absolute;
+    background: no-repeat var(--v-picture-background);
+    background-size: cover;
+    content: '';
+    inset: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  &--loaded::before {
+    opacity: 0;
+  }
 }
 </style>

@@ -27,9 +27,8 @@ usePage({
   title: webResponse.data.meta_title || webResponse.data.title || webResponse.uid || '',
 })
 
-const mediaSrc = computed(() => {
-  const src = project.embed_url?.url || project.thumbnail?.url || project.main_media?.url || ''
-  return src.substring(0, src.lastIndexOf('?'))
+const media = computed(() => {
+  return project.embed_url || project.thumbnail || project.main_media
 })
 
 const tags = computed(() => parseProjectTags(webResponse.tags))
@@ -59,17 +58,17 @@ function getProjectListingUrlByTag(tag: string) {
       </div>
     </div>
     <div :class="$style['media-wrapper']">
-      <NuxtImg
-        v-if="mediaSrc"
-        :src="mediaSrc"
-        provider="imgix"
+      <VPrismicImage
+        v-if="media"
+        :reference="media"
         fit="crop"
-        width="1232"
-        height="740"
         :class="$style.image"
         :modifiers="{ crop: 'edges' }"
         sizes="xs:100vw sm:100vw md:100vw lg:100vw vl:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw"
-      />
+      >
+        <VPictureSource :media="`(max-width: 540px)`" sizes="xs:100vw sm:100md md:100vw" width="300" height="350" />
+        <VPictureSource sizes="lg:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw" width="1232" height="740" />
+      </VPrismicImage>
     </div>
     <VText
       v-if="project.description"

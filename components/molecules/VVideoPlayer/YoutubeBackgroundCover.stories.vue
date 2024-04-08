@@ -1,0 +1,20 @@
+<script setup lang="ts"></script>
+
+<template>
+  <NuxtStory :class="$style.root">
+    <VVideoPlayer embed-id="PriOYrrl_ec" embed-platform="youtube" fit="cover" background :class="$style.video" />
+  </NuxtStory>
+</template>
+
+<style lang="scss" module>
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+}
+</style>

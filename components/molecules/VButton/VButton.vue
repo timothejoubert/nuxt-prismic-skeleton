@@ -3,7 +3,7 @@ import type { TranslateResult } from 'vue-i18n'
 import { NuxtLink } from '#components'
 import type { Theme } from '~/types/app'
 
-export type VButtonSize = 's' | 'm' | 'l' | 'xl'
+export type VButtonSize = 'xs' | 's' | 'm' | 'l' | 'xl'
 export type VButtonStyle = 'primary' | 'secondary' | 'ternary'
 export type Variant = 'menu' | 'anchor'
 

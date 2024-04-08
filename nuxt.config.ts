@@ -90,6 +90,11 @@ export default defineNuxtConfig({
     },
     // @ts-ignore not working with [1]
     densities: '1',
+    presets: {
+      default: {
+        sizes: 'xs:100vw md:100vw lg:100vw vl:100vw xl:100vw hd:100vw qhd:100vw',
+      },
+    },
   },
   i18n: {
     // Default: all routes will have a locale prefix added except for the default language

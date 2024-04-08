@@ -57,6 +57,22 @@
 							"__TYPE__": "ImageContent",
 							"thumbnails": {}
 						}
+					],
+					[
+						"embed_id",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "gate",
+							"type": "Text"
+						}
+					],
+					[
+						"embed_platform",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "Vimeo",
+							"type": "Select"
+						}
 					]
 				]
 			}

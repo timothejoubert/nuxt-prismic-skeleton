@@ -43,6 +43,24 @@
             "placeholder": "",
             "select": "media"
           }
+        },
+        "embed_id": {
+          "type": "Text",
+          "config": {
+            "label": "Embed id",
+            "placeholder": ""
+          }
+        },
+        "embed_platform": {
+          "type": "Select",
+          "config": {
+            "label": "Embed platform",
+            "placeholder": "",
+            "options": [
+              "Youtube",
+              "Vimeo"
+            ]
+          }
         }
       }
     },
