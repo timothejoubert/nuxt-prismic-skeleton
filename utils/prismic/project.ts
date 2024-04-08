@@ -9,14 +9,14 @@ export function getCardProjectProps(project: ProjectPageDocument) {
     image: main_media,
     title,
     description,
-    tags: getProjectTags(project),
+    tags: parseProjectTags(project.tags),
     date: getProjectYear(creation_date),
   }
 }
 
 const validProjectTags = ['project', 'projects', 'projet', 'projets']
-export function getProjectTags(project: ProjectPageDocument) {
-  return project.tags
+export function parseProjectTags(tags: string[]) {
+  return tags
     .filter((tag) => {
       const label = tag.toLowerCase()
       return validProjectTags.some((validProjectTag) => label.includes(validProjectTag))

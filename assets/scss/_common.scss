@@ -78,6 +78,11 @@ svg,
 video {
     display: block;
     max-width: 100%;
+    -webkit-user-drag: none;
+}
+
+img, a {
+    //user-select: none;
     //-webkit-user-drag: none;
 }
 

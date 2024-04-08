@@ -49,7 +49,7 @@ const rootClasses = computed(() => {
         </div>
       </div>
       <VText
-        v-if="description && layout !== 'centered'"
+        v-if="description && layout === 'full'"
         :content="description"
         :class="$style.description"
         class="text-body-s"
@@ -88,10 +88,11 @@ const rootClasses = computed(() => {
 
 .date {
   --v-button-position: absolute;
+  --v-button-display: var(--v-card-date-display, flex);
+
   z-index: 2;
   top: rem(12);
   left: rem(12);
-  display: var(--v-card-date-display, flex);
 }
 
 .cta {

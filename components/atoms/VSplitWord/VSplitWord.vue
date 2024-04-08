@@ -16,7 +16,6 @@ interface VSplitWordProps {
 const props = defineProps<VSplitWordProps>()
 const slots = useSlots()
 
-console.log(slots.default, getSlotInnerText(slots.default))
 const characterList = computed(() => {
   const string = props.content || getSlotInnerText(slots.default) || ''
   return string.split('')

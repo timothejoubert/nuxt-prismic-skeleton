@@ -1,0 +1,20 @@
+.slice-container {
+  margin-block: rem(120);
+  margin-inline: var(--page-gutter);
+}
+
+.slice-container--fullwidth {
+  margin-block: rem(120);
+}
+
+.slice-container-xl {
+  margin-block: rem(320);
+  margin-inline: var(--page-gutter);
+}
+
+
+.slice-title-sm {
+  margin-bottom: rem(20);
+  opacity: 0.6;
+  text-transform: uppercase;
+}

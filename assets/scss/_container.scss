@@ -2,12 +2,6 @@
   margin-inline: var(--page-gutter);
 }
 
-.slice-container {
-  margin-block: rem(120);
-  margin-inline: var(--page-gutter);
-}
-
-.slice-container-xl {
-  margin-block: rem(320);
-  margin-inline: var(--page-gutter);
+.container--fullwidth {
+  padding-inline: var(--page-gutter);
 }

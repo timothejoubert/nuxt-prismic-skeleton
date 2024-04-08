@@ -2,7 +2,7 @@
 import type { ProjectPageDocument } from '~/prismicio-types'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import { DocumentType } from '~/constants/document-type'
-import { getProjectTags } from '~/utils/prismic/project'
+import { parseProjectTags } from '~/utils/prismic/project'
 
 definePageMeta({
   pageTransition: defaultPageTransition,
@@ -32,7 +32,7 @@ const mediaSrc = computed(() => {
   return src.substring(0, src.lastIndexOf('?'))
 })
 
-const tags = computed(() => getProjectTags(webResponse))
+const tags = computed(() => parseProjectTags(webResponse.tags))
 
 function getProjectListingUrlByTag(tag: string) {
   return `/projets?tag=${tag}`

@@ -2,7 +2,7 @@
 // https://prismic.io/docs/nuxt-3-define-routes
 import { DocumentType } from './../../constants/document-type'
 
-export default [
+export const prismicDocumentRouteList = [
   {
     type: DocumentType.HOME,
     path: '/',
@@ -23,4 +23,12 @@ export default [
     type: DocumentType.WEB_PAGE,
     path: '/:lang?/:uid',
   },
-]
+] as const
+
+function getDocumentRoutePath(document: { type: DocumentType }) {
+  const documentType = document?.type || ''
+
+  const currentRoute = prismicDocumentRouteList.find((route) => route.type === documentType)
+
+  return currentRoute?.path.replace('/:lang?', '').replace(':uid', '')
+}

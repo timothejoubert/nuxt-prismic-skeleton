@@ -30,6 +30,8 @@ export default defineComponent({
       referenceUrl = props.reference?.url
     }
 
+    console.log()
+
     const url = props.url || referenceUrl
     const runtimeConfig = useRuntimeConfig()
     const siteUrl = runtimeConfig?.public?.siteUrl || ''

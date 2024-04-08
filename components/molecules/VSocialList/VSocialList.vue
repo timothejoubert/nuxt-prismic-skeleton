@@ -36,7 +36,6 @@ const getSocialIconName = (name?: string): string => {
 }
 
 const { setting } = useCommonContent()
-console.log(setting.value?.socials)
 const socialList = computed((): SocialsContent[] => {
   const socials = setting.value?.socials
 

@@ -67,7 +67,7 @@ export default defineNuxtConfig({
   prismic: {
     endpoint: prismicData.repositoryName,
     // clientConfig: {
-    //   routes: routeResolver,
+    //   routes: routeList,
     // },
   },
   components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],

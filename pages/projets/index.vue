@@ -2,9 +2,8 @@
 import type { ProjectListingPageDocument } from '~/prismicio-types'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import { DocumentType } from '~/constants/document-type'
-import { NuxtLink } from '#components'
-import { useLocale } from '~/composables/use-locale'
-
+import { parseProjectTags } from '~/utils/prismic/project'
+import {} from 'ufo'
 definePageMeta({
   pageTransition: defaultPageTransition,
   name: DocumentType.PROJECT_LISTING,
@@ -25,28 +24,20 @@ usePage({
   title: webResponse.data.meta_title || webResponse.data.title || webResponse.uid || '',
 })
 
-const { fetchLocaleOption } = useLocale()
+const { data: listingResponse } = await usePrismicProjectDocuments()
 
-const prismic = usePrismic()
-const { data: listingResponse } = await useAsyncData(
-  'project_listing',
-  () => {
-    return prismic.client.getAllByType('project_page', {
-      pageSize: 30,
-      orderings: [{ field: 'my.project_page.creation_date', direction: 'desc' }, { field: 'my.project_page.title' }],
-      lang: fetchLocaleOption.value?.lang,
-    })
-  },
-  { deep: false },
-)
+const fetchedProject = computed(() => {
+  if (!listingResponse.value?.length) return []
 
-const fetchedProject = computed(() => listingResponse.value || [])
+  return listingResponse.value
+})
 
 const filteredProjectList = computed(() => {
   if (!selectedTags.value.length) return fetchedProject.value
 
   return fetchedProject.value.filter((project) => {
-    return project.tags.some((tag) => selectedTags.value.includes(tag))
+    const tags = parseProjectTags(project.tags)
+    return tags.some((tag) => selectedTags.value.includes(tag))
   })
 })
 
@@ -54,7 +45,7 @@ const filteredProjectList = computed(() => {
 const isFilterBarOpen = ref(false)
 
 const tags = computed(() => {
-  return fetchedProject.value.map((project) => project.tags).flat(2) || []
+  return new Set(fetchedProject.value.map((project) => parseProjectTags(project.tags)).flat(2) || [])
 })
 
 // Initial tag
@@ -69,14 +60,20 @@ const router = useRouter()
 watch(
   selectedTags,
   (tag) => {
+    // TODO: remove query key if no value
     let parsedQuery
     if (tag.length === 1) parsedQuery = tag[0]
     else parsedQuery = tag.join('&').toString()
+    // TODO: encode query with ufo module
 
     router.push({ query: { tag: parsedQuery } })
   },
   { deep: true },
 )
+
+function resetFilters() {
+  selectedTags.value = []
+}
 </script>
 
 <template>
@@ -89,7 +86,7 @@ watch(
     <main>
       <ul v-if="filteredProjectList?.length" :class="$style.list">
         <li v-for="(project, i) in filteredProjectList" :key="i">
-          <VProjectCard :tag="NuxtLink" :project="project" layout="centered" :class="$style.card">
+          <VProjectCard :project="project" layout="centered" :class="$style.card">
             <NuxtImg
               v-if="project.data.main_media"
               :src="project.data.main_media.url"
@@ -105,6 +102,10 @@ watch(
           </VProjectCard>
         </li>
       </ul>
+      <div v-else :class="$style.unavailable">
+        <div>Oups, aucun projet trouvé...</div>
+        <VButton :label="$t('reset_filters')" outlined @click="resetFilters" />
+      </div>
     </main>
   </div>
 </template>
@@ -141,5 +142,15 @@ watch(
 .media {
   border-radius: rem(22);
   width: 100%;
+}
+
+.unavailable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: rem(30);
+  border: 1px solid #e7e7e7;
+  border-radius: 20px;
+  min-height: rem(400);
 }
 </style>

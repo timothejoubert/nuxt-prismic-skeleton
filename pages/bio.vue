@@ -33,10 +33,8 @@ function onClipBoardSuccess() {
 }
 
 function onMailClicked() {
-  console.log('click')
   if (!email.value) return
 
-  console.log('click')
   navigator.clipboard.writeText(email.value).then(onClipBoardSuccess, (error) => {
     console.warn('Failed to copy in clipboard', error)
   })
