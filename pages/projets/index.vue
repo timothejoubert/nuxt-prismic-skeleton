@@ -47,7 +47,8 @@ const filteredProjectList = computed(() => {
 const isFilterBarOpen = ref(false)
 
 const tags = computed(() => {
-  return new Set(fetchedProject.value.map((project) => parseProjectTags(project.tags)).flat(2) || [])
+  const tags = fetchedProject.value.map((project) => parseProjectTags(project.tags)).flat(2) || []
+  return [...new Set(tags)]
 })
 
 // Initial tag

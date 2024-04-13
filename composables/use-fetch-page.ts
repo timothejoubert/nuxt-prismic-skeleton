@@ -13,9 +13,9 @@ export async function useFetchPage<T extends PrismicDocument>(pageId?: DocumentT
 
   const { fetchLocaleOption } = useLocale()
 
-  if (!isExistingDocumentType(prismicDocumentType)) {
-    showError({ status: 404, message: 'Le type de page n existe pas' })
-  }
+  // if (!isExistingDocumentType(prismicDocumentType)) {
+  //   showError({ status: 404, message: 'Le type de page n existe pas' })
+  // }
 
   const prismicClient = usePrismic().client
   const isDynamicUidDocument = (isWebPageDocument(prismicDocumentType) || isProjectDocument(prismicDocumentType)) && uid
@@ -27,7 +27,7 @@ export async function useFetchPage<T extends PrismicDocument>(pageId?: DocumentT
         try {
           if (isDynamicUidDocument) {
             return await prismicClient.getByUID(prismicDocumentType, uid)
-          } else {
+          } else if (isExistingDocumentType(prismicDocumentType)) {
             return await prismicClient.getSingle(prismicDocumentType, fetchLocaleOption.value)
           }
         } catch (error: unknown) {

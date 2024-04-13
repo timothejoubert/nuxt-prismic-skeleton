@@ -21,6 +21,13 @@ export default defineNuxtConfig({
         { rel: 'manifest', href: '/favicon/site.webmanifest' },
         { rel: 'mask-icon', href: '/favicon/safari-pinned-tab.svg', color: '#000' },
       ],
+      script: [
+        {
+          src: `https://static.cdn.prismic.io/prismic.js?new=true&repo=${prismicData.repositoryName}`,
+          async: true,
+          defer: true,
+        },
+      ],
     },
   },
   css: ['~/assets/scss/main.scss'],
