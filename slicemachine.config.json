@@ -1,5 +1,6 @@
 {
   "repositoryName": "hugo-tomasi-v2",
+  "endpoint": "https://hugo-tomasi-v2.cdn.prismic.io/api/v2",
   "adapter": "@slicemachine/adapter-nuxt",
   "libraries": ["./slices"],
   "localSliceSimulatorURL": "http://localhost:3000/slice-simulator"

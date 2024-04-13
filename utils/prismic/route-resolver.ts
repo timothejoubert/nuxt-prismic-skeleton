@@ -23,7 +23,7 @@ export const prismicDocumentRouteList = [
     type: DocumentType.WEB_PAGE,
     path: '/:lang?/:uid',
   },
-] as const
+]
 
 function getDocumentRoutePath(document: { type: DocumentType }) {
   const documentType = document?.type || ''

@@ -3,6 +3,7 @@ import type { ProjectPageDocument } from '~/prismicio-types'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import { DocumentType } from '~/constants/document-type'
 import { parseProjectTags } from '~/utils/prismic/project'
+import { components } from '~/slices'
 
 definePageMeta({
   pageTransition: defaultPageTransition,
@@ -41,41 +42,44 @@ function getProjectListingUrlByTag(tag: string) {
 </script>
 
 <template>
-  <div :class="$style.root" class="container-fullscreen">
-    <div :class="$style.head">
-      <h1 v-if="project.title" class="text-h2" :class="$style.title">{{ project.title }}</h1>
-      <VText v-if="project.excerpt" :content="project.excerpt" :class="$style.description" class="text-body-s" />
-      <div v-if="tags.length" :class="$style.tags">
-        <VButton
-          v-for="(tag, i) in tags"
-          :key="tag + '-' + i"
-          :to="getProjectListingUrlByTag(tag)"
-          :label="tag"
-          outlined
-          theme="light"
-          size="m"
-        />
+  <div>
+    <header :class="$style.root" class="container-fullscreen">
+      <div :class="$style.head">
+        <h1 v-if="project.title" class="text-h2" :class="$style.title">{{ project.title }}</h1>
+        <VText v-if="project.excerpt" :content="project.excerpt" :class="$style.description" class="text-body-s" />
+        <div v-if="tags.length" :class="$style.tags">
+          <VButton
+            v-for="(tag, i) in tags"
+            :key="tag + '-' + i"
+            :to="getProjectListingUrlByTag(tag)"
+            :label="tag"
+            outlined
+            theme="light"
+            size="m"
+          />
+        </div>
       </div>
-    </div>
-    <div :class="$style['media-wrapper']">
-      <VPrismicImage
-        v-if="media"
-        :reference="media"
-        fit="crop"
-        :class="$style.image"
-        :modifiers="{ crop: 'edges' }"
-        sizes="xs:100vw sm:100vw md:100vw lg:100vw vl:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw"
-      >
-        <VPictureSource :media="`(max-width: 540px)`" sizes="xs:100vw sm:100md md:100vw" width="300" height="350" />
-        <VPictureSource sizes="lg:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw" width="1232" height="740" />
-      </VPrismicImage>
-    </div>
-    <VText
-      v-if="project.description"
-      :content="project.description"
-      :class="$style['description-full']"
-      class="text-body-s"
-    />
+      <div :class="$style['media-wrapper']">
+        <VPrismicImage
+          v-if="media"
+          :reference="media"
+          fit="crop"
+          :class="$style.image"
+          :modifiers="{ crop: 'edges' }"
+          sizes="xs:100vw sm:100vw md:100vw lg:100vw vl:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw"
+        >
+          <VPictureSource :media="`(max-width: 540px)`" sizes="xs:100vw sm:100md md:100vw" width="300" height="350" />
+          <VPictureSource sizes="lg:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw" width="1232" height="740" />
+        </VPrismicImage>
+      </div>
+      <VText
+        v-if="project.description"
+        :content="project.description"
+        :class="$style['description-full']"
+        class="text-body-s"
+      />
+    </header>
+    <SliceZone :slices="project.slices" wrapper="main" :components="components" />
   </div>
 </template>
 

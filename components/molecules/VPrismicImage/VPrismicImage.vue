@@ -15,7 +15,7 @@ export const vPrismicImageProps = {
 
 export default defineComponent({
   props: vPrismicImageProps,
-  setup(props, { slots }) {
+  setup(props, { slots, attrs }) {
     const $style = useCssModule()
 
     const prismicMediaData = computed(() => getPrismicImageData(props.reference))
@@ -36,7 +36,6 @@ export default defineComponent({
 
     const documentProps = computed(() => {
       return {
-        ...props,
         src: src.value,
         width: width.value,
         height: height.value,
@@ -45,6 +44,7 @@ export default defineComponent({
         copyright: copyright.value,
         provider: 'imgix',
         size: size.value,
+        fit: props.fit,
         modifiers: props.modifiers,
       }
     })
@@ -56,7 +56,7 @@ export default defineComponent({
         isPicture ? VPicture : NuxtImg,
         {
           ...documentProps.value,
-          class: $style.root,
+          class: [$style.root],
         },
         slots.default,
       )

@@ -28,6 +28,6 @@ usePage({
     <pre>{{ pageData }}</pre>
     <h1>{{ pageData.title }}</h1>
     <h2>{{ pageData.subtitle }}</h2>
-    <VMedia :media="pageData.media" background />
+    <VPrismicMedia :reference="pageData.media" background />
   </div>
 </template>

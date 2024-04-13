@@ -2,6 +2,7 @@ import svgLoader from 'vite-svg-loader'
 import prismicData from './slicemachine.config.json'
 import { hoistUseStatements } from './utils/vite/hoist-use-statements'
 import { version } from './package.json'
+import { prismicDocumentRouteList } from './utils/prismic/route-resolver'
 
 // i18n
 const locales = ['fr-fr', 'en-gb']
@@ -9,6 +10,17 @@ const defaultLocale = 'fr-fr'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  site: {
+    url: process.env.NUXT_PUBLIC_SITE_URL,
+  },
+  sitemap: {
+    // Don't add any /secret/** URLs to the sitemap.xml
+    exclude: ['/slice-simulator', '/preview', '/_icons'],
+    sources: [
+      // create our own API endpoints
+      '/api/sitemap/prismic-urls',
+    ],
+  },
   app: {
     head: {
       htmlAttrs: {
@@ -58,6 +70,7 @@ export default defineNuxtConfig({
     '@nuxtjs/svg-sprite',
     '@rezo-zero/nuxt-stories',
     '@nuxt/image',
+    '@nuxtjs/sitemap',
   ],
   // https://github.com/nuxt-modules/svg-sprite#options
   svgSprite: {
@@ -73,9 +86,9 @@ export default defineNuxtConfig({
   },
   prismic: {
     endpoint: prismicData.repositoryName,
-    // clientConfig: {
-    //   routes: routeList,
-    // },
+    clientConfig: {
+      routes: prismicDocumentRouteList,
+    },
   },
   components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],
   image: {
