@@ -11,35 +11,33 @@ import { isObject } from '~/utils/object/is-object'
 import { objectHasAllKeys } from '~/utils/object/object-has-all-keys'
 
 export function isDocumentEntity(entity: unknown): entity is PrismicDocument {
-  return isObject(entity) && !!objectHasAllKeys(entity, ['id', 'type', 'last_publication_date', 'tags', 'lang'])
+  return isObject(entity) && objectHasAllKeys(entity, ['id', 'type', 'last_publication_date', 'tags', 'lang'])
 }
 
 // Link
 export function isLinkField(entity: unknown): entity is LinkField {
-  return !!(
-    isObject(entity) &&
-    objectHasAllKeys(entity, ['link_type']) &&
-    Object.values(LinkType).includes(entity.link_type as any)
-  )
+  if (!isObject(entity)) return false
+
+  return objectHasAllKeys(entity, ['link_type']) && Object.values(LinkType).includes(entity.link_type as any)
 }
 
 export function isContentRelationshipField(entity: unknown): entity is FilledContentRelationshipField {
-  return isLinkField(entity) && !!objectHasAllKeys(entity, ['id', 'type', 'tags', 'lang'])
+  return isLinkField(entity) && objectHasAllKeys(entity, ['id', 'type', 'tags', 'lang'])
 }
 
 export function isFilledLinkToWebField(entity: unknown): entity is FilledLinkToWebField {
-  return isLinkField(entity) && !!objectHasAllKeys(entity, ['url'])
+  return isLinkField(entity) && objectHasAllKeys(entity, ['url'])
 }
 
 export function isLinkToMediaField(entity: unknown): entity is FilledLinkToMediaField {
-  return isLinkField(entity) && !!objectHasAllKeys(entity, ['name', 'kind', 'url', 'size'])
+  return isLinkField(entity) && objectHasAllKeys(entity, ['name', 'kind', 'url', 'size'])
 }
 
 // Media
 export function isFilledImageField(field: unknown): field is FilledImageFieldImage {
-  return !!objectHasAllKeys(field, ['alt', 'url', 'dimensions', 'copyright'])
+  return objectHasAllKeys(field, ['alt', 'url', 'dimensions', 'copyright'])
 }
 
 export function isFilledLinkToMediaField(field: unknown): field is FilledLinkToMediaField {
-  return !!objectHasAllKeys(field, ['link_type', 'name', 'kind', 'url', 'size'])
+  return objectHasAllKeys(field, ['link_type', 'name', 'kind', 'url', 'size'])
 }

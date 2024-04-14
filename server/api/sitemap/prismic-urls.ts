@@ -19,7 +19,5 @@ export default defineSitemapEventHandler(async () => {
     }
   })
 
-  console.log(sitemapUrl)
-
   return sitemapUrl
 })

@@ -25,21 +25,30 @@
             "label": "Content",
             "placeholder": ""
           }
+        },
+        "full_width": {
+          "type": "Boolean",
+          "config": {
+            "label": "Full width",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
         }
       },
       "items": {
-        "thumbnail": {
+        "image": {
           "type": "Image",
           "config": {
-            "label": "Thumbnail",
+            "label": "image",
             "constraint": {},
             "thumbnails": []
           }
         },
-        "media": {
+        "internal_video": {
           "type": "Link",
           "config": {
-            "label": "Media",
+            "label": "Internal video",
             "placeholder": "",
             "select": "media"
           }
@@ -60,48 +69,6 @@
               "Youtube",
               "Vimeo"
             ]
-          }
-        }
-      }
-    },
-    {
-      "id": "fullwidth",
-      "name": "Fullwidth",
-      "docURL": "...",
-      "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
-      "primary": {
-        "title": {
-          "type": "Text",
-          "config": {
-            "label": "Title",
-            "placeholder": ""
-          }
-        },
-        "content": {
-          "type": "Text",
-          "config": {
-            "label": "Content",
-            "placeholder": ""
-          }
-        }
-      },
-      "items": {
-        "thumbnail": {
-          "type": "Image",
-          "config": {
-            "label": "Thumbnail",
-            "constraint": {},
-            "thumbnails": []
-          }
-        },
-        "media": {
-          "type": "Link",
-          "config": {
-            "label": "Media",
-            "placeholder": "",
-            "select": "media"
           }
         }
       }

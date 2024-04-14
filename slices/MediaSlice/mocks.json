@@ -12,52 +12,16 @@
 				"__TYPE__": "FieldContent",
 				"value": "soft",
 				"type": "Text"
+			},
+			"full_width": {
+				"__TYPE__": "BooleanContent",
+				"value": false
 			}
 		},
 		"items": [
 			{
 				"__TYPE__": "GroupItemContent",
 				"value": [
-					[
-						"media",
-						{
-							"__TYPE__": "LinkContent",
-							"value": {
-								"id": "mock_Media_link",
-								"kind": "image/jpeg",
-								"name": "mock_name",
-								"url": "https://source.unsplash.com/daily",
-								"size": "0",
-								"__TYPE__": "FileLink"
-							}
-						}
-					],
-					[
-						"thumbnail",
-						{
-							"origin": {
-								"id": "main",
-								"url": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5",
-								"width": 5848,
-								"height": 3899
-							},
-							"url": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5",
-							"width": 5848,
-							"height": 3899,
-							"edit": {
-								"zoom": 1,
-								"crop": {
-									"x": 0,
-									"y": 0
-								},
-								"background": "transparent"
-							},
-							"credits": null,
-							"alt": null,
-							"__TYPE__": "ImageContent",
-							"thumbnails": {}
-						}
-					],
 					[
 						"embed_id",
 						{
@@ -73,42 +37,19 @@
 							"value": "Vimeo",
 							"type": "Select"
 						}
-					]
-				]
-			}
-		]
-	},
-	{
-		"__TYPE__": "SharedSliceContent",
-		"variation": "fullwidth",
-		"primary": {
-			"title": {
-				"__TYPE__": "FieldContent",
-				"value": "get",
-				"type": "Text"
-			},
-			"content": {
-				"__TYPE__": "FieldContent",
-				"value": "shorter",
-				"type": "Text"
-			}
-		},
-		"items": [
-			{
-				"__TYPE__": "GroupItemContent",
-				"value": [
+					],
 					[
-						"thumbnail",
+						"image",
 						{
 							"origin": {
 								"id": "main",
-								"url": "https://images.unsplash.com/photo-1587840171670-8b850147754e",
-								"width": 4480,
-								"height": 4480
+								"url": "https://images.unsplash.com/photo-1471897488648-5eae4ac6686b",
+								"width": 3560,
+								"height": 5340
 							},
-							"url": "https://images.unsplash.com/photo-1587840171670-8b850147754e",
-							"width": 4480,
-							"height": 4480,
+							"url": "https://images.unsplash.com/photo-1471897488648-5eae4ac6686b",
+							"width": 3560,
+							"height": 5340,
 							"edit": {
 								"zoom": 1,
 								"crop": {
@@ -124,7 +65,7 @@
 						}
 					],
 					[
-						"media",
+						"internal_video",
 						{
 							"__TYPE__": "LinkContent",
 							"value": {

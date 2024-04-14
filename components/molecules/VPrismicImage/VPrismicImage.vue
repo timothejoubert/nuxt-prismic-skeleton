@@ -15,13 +15,13 @@ export const vPrismicImageProps = {
 
 export default defineComponent({
   props: vPrismicImageProps,
-  setup(props, { slots, attrs }) {
+  setup(props, { slots }) {
     const $style = useCssModule()
 
     const prismicMediaData = computed(() => getPrismicImageData(props.reference))
     const src = computed(() => props.src || prismicMediaData.value?.url)
 
-    if (!src.value) return () => h('')
+    if (!src.value) return () => h('div', { class: $style.placeholder })
 
     const width = computed(() => props?.width || prismicMediaData.value?.width)
     const height = computed(() => props?.height || prismicMediaData.value?.height)
@@ -40,7 +40,7 @@ export default defineComponent({
         width: width.value,
         height: height.value,
         alt: props.alt || prismicMediaData.value?.alt,
-        placeholder: '/images/placeholder.jpg',
+        // placeholder: '/images/placeholder.jpg',
         copyright: copyright.value,
         provider: 'imgix',
         size: size.value,
@@ -86,5 +86,11 @@ export default defineComponent({
 
 .figure {
   position: relative;
+}
+
+.placeholder {
+  background-color: red;
+  width: 100%;
+  height: 100%;
 }
 </style>

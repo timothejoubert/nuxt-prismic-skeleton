@@ -909,6 +909,17 @@ export interface MediaSliceSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   content: prismic.KeyTextField
+
+  /**
+   * Full width field in *MediaSlice → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: media_slice.primary.full_width
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  full_width: prismic.BooleanField
 }
 
 /**
@@ -916,24 +927,24 @@ export interface MediaSliceSliceDefaultPrimary {
  */
 export interface MediaSliceSliceDefaultItem {
   /**
-   * Thumbnail field in *MediaSlice → Items*
+   * image field in *MediaSlice → Items*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: media_slice.items[].thumbnail
+   * - **API ID Path**: media_slice.items[].image
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  thumbnail: prismic.ImageField<never>
+  image: prismic.ImageField<never>
 
   /**
-   * Media field in *MediaSlice → Items*
+   * Internal video field in *MediaSlice → Items*
    *
    * - **Field Type**: Link to Media
    * - **Placeholder**: *None*
-   * - **API ID Path**: media_slice.items[].media
+   * - **API ID Path**: media_slice.items[].internal_video
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  media: prismic.LinkToMediaField
+  internal_video: prismic.LinkToMediaField
 
   /**
    * Embed id field in *MediaSlice → Items*
@@ -970,72 +981,9 @@ export type MediaSliceSliceDefault = prismic.SharedSliceVariation<
 >
 
 /**
- * Primary content in *MediaSlice → Primary*
- */
-export interface MediaSliceSliceFullwidthPrimary {
-  /**
-   * Title field in *MediaSlice → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: media_slice.primary.title
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  title: prismic.KeyTextField
-
-  /**
-   * Content field in *MediaSlice → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: media_slice.primary.content
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  content: prismic.KeyTextField
-}
-
-/**
- * Primary content in *MediaSlice → Items*
- */
-export interface MediaSliceSliceFullwidthItem {
-  /**
-   * Thumbnail field in *MediaSlice → Items*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: media_slice.items[].thumbnail
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  thumbnail: prismic.ImageField<never>
-
-  /**
-   * Media field in *MediaSlice → Items*
-   *
-   * - **Field Type**: Link to Media
-   * - **Placeholder**: *None*
-   * - **API ID Path**: media_slice.items[].media
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  media: prismic.LinkToMediaField
-}
-
-/**
- * Fullwidth variation for MediaSlice Slice
- *
- * - **API ID**: `fullwidth`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type MediaSliceSliceFullwidth = prismic.SharedSliceVariation<
-  'fullwidth',
-  Simplify<MediaSliceSliceFullwidthPrimary>,
-  Simplify<MediaSliceSliceFullwidthItem>
->
-
-/**
  * Slice variation for *MediaSlice*
  */
-type MediaSliceSliceVariation = MediaSliceSliceDefault | MediaSliceSliceFullwidth
+type MediaSliceSliceVariation = MediaSliceSliceDefault
 
 /**
  * MediaSlice Shared Slice
@@ -1378,11 +1326,8 @@ declare module '@prismicio/client' {
       MediaSliceSlice,
       MediaSliceSliceDefaultPrimary,
       MediaSliceSliceDefaultItem,
-      MediaSliceSliceFullwidthPrimary,
-      MediaSliceSliceFullwidthItem,
       MediaSliceSliceVariation,
       MediaSliceSliceDefault,
-      MediaSliceSliceFullwidth,
       ProjectPushSliceSlice,
       ProjectPushSliceSliceDefaultPrimary,
       ProjectPushSliceSliceVariation,

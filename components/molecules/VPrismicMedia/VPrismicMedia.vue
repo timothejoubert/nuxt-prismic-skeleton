@@ -1,36 +1,88 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import { vPrismicImageProps } from '~/components/molecules/VPrismicImage/VPrismicImage.vue'
-import { getPrismicImageData, type PrismicImageField } from '~/utils/prismic/prismic-image'
+import { vVideoPlayerProps } from '~/components/molecules/VVideoPlayer/VVideoPlayer.vue'
+import { getImageFieldUrl, getPrismicImageData, type PrismicImageField } from '~/utils/prismic/prismic-image'
 
 const props = defineProps({
-  thumbnail: Object as PropType<PrismicImageField>,
-  image: vPrismicImageProps,
-  // video: Object as PropType<VVideoProps>,
-  video: Object,
   reference: Object as PropType<PrismicImageField>,
+  image: vPrismicImageProps,
+  video: vVideoPlayerProps,
 })
 
-const referenceProps = computed(() => (props.reference ? getPrismicImageData(props.reference) : undefined))
+// Display image with interaction video player listener
+const isEmbedVideo = computed(() => props.video?.embedId && props.video?.embedPlatform)
+const hasInternalVideo = computed(() => props.video.src)
+const hasVideoThumbnail = computed(() => {
+  return getImageFieldUrl(props.reference) && (isEmbedVideo.value || hasInternalVideo.value)
+})
+
+const referenceProps = computed(() => props.reference && getPrismicImageData(props.reference))
 
 const src = computed(() => referenceProps.value?.url)
 const mediaType = computed(() => referenceProps.value?.mediaType)
-const embedPlatform = computed(() => referenceProps.value?.embedPlatform)
+const embedPlatform = computed(() => props.video?.embedPlatform || referenceProps.value?.embedPlatform)
 
-// TODO: Create VVideoContainer (add image placeholder and interaction functionality)
-const hasInteraction = ref(false)
+const hadInteraction = ref(false)
 function onThumbnailClicked() {
-  hasInteraction.value = true
+  hadInteraction.value = true
 }
-
-console.log('media props', props)
 </script>
 
 <template>
-  <div v-if="thumbnail" :class="$attrs.class">
-    <VPrismicImage :reference="thumbnail" v-bind="image" @click="onThumbnailClicked" />
-    <VVideoPlayer v-if="hasInteraction" v-bind="video" :is-embed="embedPlatform" />
+  <div
+    v-if="hasVideoThumbnail"
+    :class="[$style.root, $style.wrapper, hadInteraction && $style['wrapper--had-interaction']]"
+    @click="onThumbnailClicked"
+  >
+    <VButton size="s" filled icon-name="play" tag="div" :class="$style.button" />
+    <VPrismicImage :reference="reference" v-bind="image" :class="$style.image" />
+    <VVideoPlayer v-if="hadInteraction" v-bind="video" autoplay :class="$style['player']" />
   </div>
-  <!--  <VVideoPlayer v-if="mediaType === 'video' || embedPlatform" :src="src" v-bind="video" :is-embed="embedPlatform" />-->
-  <!--  <VPrismicImage v-else-if="mediaType === 'image'" :reference="reference" v-bind="image" :class="$attrs.class" />-->
+  <VVideoPlayer
+    v-else-if="mediaType === 'video' || embedPlatform"
+    :src="src"
+    v-bind="video"
+    :class="$style.root"
+    :is-embed="embedPlatform"
+  />
+  <VPrismicImage v-else-if="mediaType === 'image'" :reference="reference" v-bind="image" :class="$style.root" />
+  <div v-else :class="[$style.root, $style.placeholder]"></div>
 </template>
+
+<style lang="scss" module>
+.root {
+  border-radius: var(--v-prismic-media-border-radius);
+  overflow: hidden;
+}
+
+.wrapper {
+  position: relative;
+
+  .player {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    object-fit: cover;
+  }
+
+  &--had-interaction .button,
+  &--had-interaction .image {
+    opacity: 0;
+  }
+}
+
+.placeholder {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background-color: lightgrey;
+}
+
+.button {
+  --v-button-position: absolute;
+  right: rem(12);
+  bottom: rem(12);
+}
+</style>
