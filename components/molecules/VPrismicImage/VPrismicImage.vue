@@ -72,8 +72,6 @@ export default defineComponent({
       }
     })
 
-    console.log('documentProps', documentProps.value)
-
     return () => {
       const isPicture = slots.default || props.tag === 'picture'
 

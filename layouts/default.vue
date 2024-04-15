@@ -4,16 +4,21 @@ const splashScreenState = useSplashScreenState()
 const currentPage = useCurrentPage()
 useHead({
   titleTemplate: (title) => {
-    return `${title || currentPage.value.title} | Portfolio`
+    return `${title || currentPage.value.title} | Hugo Tomasi`
   },
+})
+
+const isSplashScreenRunning = computed(() => splashScreenState.value !== 'done')
+watch(splashScreenState, (value) => {
+  if (value === 'leave') scrollTo(0, 0)
 })
 </script>
 
 <template>
-  <div :class="$style.root">
-    <ClientOnly>
-      <VSplashScreen v-if="splashScreenState !== 'done'" />
-    </ClientOnly>
+  <div :class="[$style.root, isSplashScreenRunning && $style['root--loading']]">
+    <Transition :name="$style['screen-transition']">
+      <VSplashScreen v-if="isSplashScreenRunning" />
+    </Transition>
     <VTopBar />
     <slot />
     <VFooter />
@@ -24,5 +29,24 @@ useHead({
 .root {
   position: relative;
   background-color: #fff;
+
+  &--loading {
+    cursor: wait;
+    max-height: 100svh;
+    overflow: hidden;
+  }
+}
+
+.screen-transition:global(#{'-enter-active'}),
+.screen-transition:global(#{'-leave-active'}) {
+  transition: opacity;
+  transition-duration: 1s;
+  transition-delay: 0.5s;
+  transition-timing-function: ease(out-quart);
+}
+
+.screen-transition:global(#{'-enter-from'}),
+.screen-transition:global(#{'-leave-to'}) {
+  opacity: 0;
 }
 </style>

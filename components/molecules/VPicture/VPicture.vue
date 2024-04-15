@@ -48,8 +48,6 @@ export default defineComponent({
       },
     }
 
-    console.log('picture source', vNodeProps)
-
     // Common attributes
     const rootStyle = computed(() => {
       if (typeof props.placeholder === 'string') return { '--v-picture-background': props.placeholder }

@@ -2,9 +2,9 @@
 const START_VALUE = 0
 const LAST_VALUE = 100
 
-const startDelay = 500
-const counterDuration = 2000
-const leaveDuration = 600
+const startDelay = 300
+const counterDuration = 1500
+const leaveDuration = 800
 
 const state = useSplashScreenState()
 
@@ -13,6 +13,7 @@ const counterOutput = ref(0)
 const overTitle = ref<HTMLElement | null>(null)
 
 onMounted(() => {
+  // TODO: Create component for set same position
   const headerOverTitle = document.querySelector('.v-header-home-head-bottom')
 
   if (overTitle.value && headerOverTitle) {
@@ -25,6 +26,7 @@ onMounted(() => {
 })
 
 watch(state, (value) => {
+  console.log('watch splashScreen state', value)
   if (value === 'beforeEnter') {
     startCounter()
   } else if (value === 'beforeLeaved') {
@@ -107,7 +109,7 @@ const rootClasses = computed(() => {
   align-items: center;
   justify-content: center;
   z-index: 1001;
-  min-height: 100svh;
+  height: 100svh;
   inset: 0;
   color: color(white);
 
