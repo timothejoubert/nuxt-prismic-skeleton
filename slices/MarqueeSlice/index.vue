@@ -37,18 +37,14 @@ const hasMedia = computed(() => !!mediaListRow.value?.[0])
       :speed="40000"
       :reverse="!!(i % 2)"
     >
-      <NuxtImg
+      <VPrismicImage
         v-for="(media, mediaIndex) in row"
         :key="mediaIndex + media.url"
-        :src="media.url"
+        :reference="media"
         width="600"
         height="390"
-        provider="imgix"
-        placeholder="/images/placeholder.jpg"
         :class="$style.media"
-        fit="cover"
-        :modifiers="{ crop: 'edges' }"
-        sizes="xs:40vw sm:40vw md:40vw lg:20vw vl:20vw xl:20vw hd:20vw"
+        sizes="xs:40vw md:40vw vl:35vw"
       />
     </LazyVMarquee>
   </section>

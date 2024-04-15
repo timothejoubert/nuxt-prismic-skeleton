@@ -44,17 +44,12 @@ function onMailClicked() {
 <template>
   <div :class="$style.root">
     <header :class="$style.header">
-      <NuxtImg
-        v-if="pageData.media"
-        :src="pageData.media.url"
+      <VPrismicImage
+        :reference="pageData.main_media"
         width="700"
         height="550"
-        provider="imgix"
-        placeholder="/images/placeholder.jpg"
         :class="$style.media"
         loading="eager"
-        fit="cover"
-        :modifiers="{ crop: 'edges' }"
         sizes="xs:100vw sm:100vw md:50vw lg:45vw vl:45vw xl:45vw xxl:45vw hd:45vw qhd:45vw"
       />
       <VText v-if="pageData.content" class="text-h4" :content="pageData.content" :class="$style.content" />

@@ -66,8 +66,8 @@
             "label": "Embed platform",
             "placeholder": "",
             "options": [
-              "Youtube",
-              "Vimeo"
+              "youtube",
+              "vimeo"
             ]
           }
         }

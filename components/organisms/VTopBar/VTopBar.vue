@@ -2,17 +2,20 @@
 import LogoMain from '~/assets/images/logo.svg?component'
 
 const { siteName, homeBasePath } = useCommonContent()
-
-const { locale } = useI18n()
+const playAnimation = ref(false)
 </script>
 
 <template>
   <div :class="$style.root">
     <NuxtLink :to="homeBasePath" :class="$style.home">
-      <LogoMain viewBox="0 0 86 80" :class="$style.logo" />
-      <div :class="$style['logo-text']">{{ siteName }}</div>
+      <LogoMain
+        viewBox="0 0 86 80"
+        :class="$style.logo"
+        @mouseenter="playAnimation = true"
+        @mouseleave="playAnimation = false"
+      />
+      <VSplitWord :class="$style['logo-text']" :content="siteName" :play-animation="playAnimation" />
     </NuxtLink>
-    <div>{{ locale }}</div>
     <VTopBarNav :class="$style.nav" />
     <VLocaleSelect />
   </div>
@@ -32,6 +35,7 @@ const { locale } = useI18n()
 }
 
 .home {
+  position: relative;
   display: flex;
   align-items: center;
   gap: rem(12);
@@ -43,7 +47,17 @@ const { locale } = useI18n()
 }
 
 .logo-text {
-  display: none;
+  position: absolute;
+  left: rem(48);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+
+  @media (hover: hover) {
+    .home:hover & {
+      opacity: 1;
+    }
+  }
 }
 
 .nav {

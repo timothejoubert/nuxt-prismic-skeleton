@@ -11,44 +11,45 @@ const splashScreenState = useSplashScreenState()
 const isSplashScreenDone = computed(() => splashScreenState.value === 'done')
 
 const isCtaHovered = ref(false)
-const isVideoFullscreen = ref(false)
-
-const videoUrl = computed(() => props.pageData?.embed_video_url)
+const hasVideo = computed(() => {
+  return props.pageData?.internal_video || (props.pageData?.embed_id && props.pageData?.embed_platform)
+})
 
 // TODO: Create VEmbedVideo and use plyr for set video state
 function setVideoFullscreen() {}
 </script>
 
 <template>
-  <header :class="$style.root" class="container-fullscreen">
-    <h1 v-if="pageData.title && isSplashScreenDone" class="text-h1">{{ pageData.title }}</h1>
+  <header v-if="pageData" :class="$style.root" class="container-fullscreen">
+    <h2 v-if="pageData.title && isSplashScreenDone" class="text-h1">{{ pageData.title }}</h2>
     <VText
       v-if="pageData.subtitle && isSplashScreenDone"
-      :content="pageData.subtitle + '-' + pageData?.embed_video_url"
+      :content="pageData.subtitle"
       :class="$style.tagline"
       class="text-h5"
-      tag="h2"
+      tag="h1"
     />
-    <div v-if="videoUrl" :class="$style['media-wrapper']">
-      <VVideoPlayer
-        v-if="pageData?.embed_video_url"
-        :src="pageData?.embed_video_url"
-        playsinline
-        background
-        fit="cover"
-        embed-id="PriOYrrl_ec"
-        embed-platform="youtube"
-        loop
-        title="Showreel Hugo Tomasi"
-        :class="$style.video"
-      />
+    <div :class="$style['media-wrapper']">
+      <ClientOnly>
+        <VVideoPlayer
+          v-if="hasVideo"
+          :src="pageData.internal_video?.url"
+          playsinline
+          background
+          :embed-id="pageData.embed_id"
+          :embed-platform="pageData.embed_platform"
+          title="Showreel Hugo Tomasi"
+          :class="$style.video"
+        />
+        <!--          fit="cover"-->
+      </ClientOnly>
     </div>
 
     <div :class="$style.body">
       <div :class="$style['body__head']" class="v-header-home-head-bottom">
-        <span v-if="pageData.sub_section_title" :class="$style['over-title']" class="text-over-title-s">
+        <h3 v-if="pageData.sub_section_title" :class="$style['over-title']" class="text-over-title-s">
           {{ pageData.sub_section_title }}
-        </span>
+        </h3>
         <div :class="$style['video-cta']" @click="setVideoFullscreen">
           <VSplitWord
             class="text-body-xs"
@@ -59,7 +60,7 @@ function setVideoFullscreen() {}
             @mouseleave="isCtaHovered = false"
           />
           <VButton
-            v-if="videoUrl"
+            v-if="hasVideo"
             filled
             theme="dark"
             icon-name="fullscreen"
@@ -102,8 +103,12 @@ function setVideoFullscreen() {}
 }
 
 .tagline {
-  max-width: max(31%, rem(330));
+  max-width: 70%;
   margin-top: rem(18);
+
+  @include media('>=md') {
+    max-width: 25ch;
+  }
 }
 
 .media-wrapper {
@@ -112,6 +117,7 @@ function setVideoFullscreen() {}
   top: 0;
   inset: 0;
   overflow: hidden;
+  pointer-events: none;
 
   &::after {
     position: absolute;

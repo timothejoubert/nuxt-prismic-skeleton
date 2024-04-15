@@ -54,9 +54,16 @@ const tags = computed(() => {
 // Initial tag
 const route = useRoute()
 const QUERY_TAG = 'tag'
-const tagQuery = route.query[QUERY_TAG]
-const initialQuery = (Array.isArray(tagQuery) ? tagQuery[0] : tagQuery)?.split('&')
-const selectedTags = ref(initialQuery || [])
+
+function getDefaultTagQuery() {
+  const rawTagQuery = route.query[QUERY_TAG]
+  const tagQuery = (Array.isArray(rawTagQuery) ? rawTagQuery[0] : rawTagQuery) || ''
+  const queries = decodeURIComponent(tagQuery).split?.('&')
+
+  if (!queries?.length || queries.every((q) => !q)) return []
+  return queries
+}
+const selectedTags = ref(getDefaultTagQuery())
 
 // Setter queries
 const router = useRouter()
@@ -90,16 +97,11 @@ function resetFilters() {
       <ul v-if="filteredProjectList?.length" :class="$style.list">
         <li v-for="(project, i) in filteredProjectList" :key="i">
           <VProjectCard :project="project" layout="centered" :class="$style.card">
-            <NuxtImg
-              v-if="project.data.main_media"
-              :src="project.data.main_media.url"
+            <VPrismicImage
+              :reference="project.data.main_media"
               width="600"
               height="390"
-              provider="imgix"
-              placeholder="/images/placeholder.jpg"
               :class="$style.media"
-              fit="cover"
-              :modifiers="{ crop: 'edges' }"
               sizes="xs:100vw sm:100vw md:50vw lg:33vw vl:33vw xl:33vw xxl:33vw hd:33vw qhd:33vw"
             />
           </VProjectCard>

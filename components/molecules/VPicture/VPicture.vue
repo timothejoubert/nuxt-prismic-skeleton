@@ -20,7 +20,6 @@ export default defineComponent({
   },
   setup(props) {
     const $style = useCssModule()
-    const $img = useImage()
 
     // Load
     const root = ref<HTMLElement | null>(null)
@@ -40,7 +39,6 @@ export default defineComponent({
     })
 
     if (!vNodeProps.src) return () => h('')
-    if (!vNodeProps.sizes) vNodeProps.sizes = $img.options.presets.default?.sizes
 
     vNodeProps.imgAttrs = {
       ...vNodeProps.imgAttrs,
@@ -49,6 +47,8 @@ export default defineComponent({
         ...vNodeProps.imgAttrs?.style,
       },
     }
+
+    console.log('picture source', vNodeProps)
 
     // Common attributes
     const rootStyle = computed(() => {

@@ -112,7 +112,7 @@ export default defineNuxtConfig({
     densities: '1',
     presets: {
       default: {
-        sizes: 'xs:100vw md:100vw lg:100vw vl:100vw xl:100vw hd:100vw qhd:100vw',
+        sizes: 'xs:100vw sm:100vw md:100vw lg:100vw vl:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw',
       },
     },
   },

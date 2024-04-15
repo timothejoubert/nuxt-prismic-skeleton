@@ -8,8 +8,9 @@ import { getSelfObjectOrFirstMapObject } from '~/utils/object/get-self-object-or
 export async function useFetchPage<T extends PrismicDocument>(pageId?: DocumentType) {
   const route = useRoute()
   const prismicDocumentType = pageId || (route.name as DocumentType)
-  const key = `fetch-page-${prismicDocumentType}`
+
   const uid = getSelfObjectOrFirstMapObject(route.params?.uid)
+  const key = `use-fetch-page-${prismicDocumentType}${uid ? `-${uid}` : ''}`
 
   const { fetchLocaleOption } = useLocale()
 

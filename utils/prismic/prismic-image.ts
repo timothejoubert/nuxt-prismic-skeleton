@@ -52,6 +52,10 @@ export function getPrismicImageData(field: PrismicImageField | undefined) {
     mediaType,
     extension,
     embedPlatform: getEmbedPlatform(url),
+    alt: '',
+    copyright: '',
+    width: '',
+    height: '',
   }
 
   if (isFilledImageField(field)) {

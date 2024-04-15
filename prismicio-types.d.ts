@@ -38,15 +38,15 @@ interface AboutPageDocumentData {
   content: prismic.RichTextField
 
   /**
-   * Media field in *About page*
+   * Main media field in *About page*
    *
-   * - **Field Type**: Link to Media
+   * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: about_page.media
+   * - **API ID Path**: about_page.main_media
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
-  media: prismic.LinkToMediaField
+  main_media: prismic.ImageField<never>
 
   /**
    * Slice Zone field in *About page*
@@ -133,6 +133,17 @@ interface ErrorPageDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   content: prismic.RichTextField
+
+  /**
+   * Main media field in *Error page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: error_page.main_media
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  main_media: prismic.ImageField<never>
 
   /**
    * Slice Zone field in *Error page*
@@ -226,15 +237,48 @@ interface HomePageDocumentData {
   subtitle: prismic.KeyTextField
 
   /**
-   * Embed video url field in *Home page*
+   * Image field in *Home page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home_page.image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>
+
+  /**
+   * Internal video field in *Home page*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home_page.internal_video
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  internal_video: prismic.LinkToMediaField
+
+  /**
+   * embed_id field in *Home page*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.embed_video_url
+   * - **API ID Path**: home_page.embed_id
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  embed_video_url: prismic.KeyTextField
+  embed_id: prismic.KeyTextField
+
+  /**
+   * Embed platform field in *Home page*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home_page.embed_platform
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  embed_platform: prismic.SelectField<'youtube' | 'vimeo'>
 
   /**
    * Sub section title field in *Home page*
@@ -487,6 +531,17 @@ interface ProjectPageDocumentData {
   excerpt: prismic.RichTextField
 
   /**
+   * Main field in *Project page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project_page.main_media
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  main_media: prismic.ImageField<never>
+
+  /**
    * Description field in *Project page*
    *
    * - **Field Type**: Rich Text
@@ -496,17 +551,6 @@ interface ProjectPageDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField
-
-  /**
-   * Main media field in *Project page*
-   *
-   * - **Field Type**: Link to Media
-   * - **Placeholder**: *None*
-   * - **API ID Path**: project_page.main_media
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  main_media: prismic.LinkToMediaField
 
   /**
    * Creation date field in *Project page*
@@ -707,6 +751,17 @@ interface WebPageDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   sub_title: prismic.RichTextField
+
+  /**
+   * Main media field in *Web page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: web_page.main_media
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  main_media: prismic.ImageField<never>
 
   /**
    * Content field in *Web page*
@@ -964,7 +1019,7 @@ export interface MediaSliceSliceDefaultItem {
    * - **API ID Path**: media_slice.items[].embed_platform
    * - **Documentation**: https://prismic.io/docs/field#select
    */
-  embed_platform: prismic.SelectField<'Youtube' | 'Vimeo'>
+  embed_platform: prismic.SelectField<'youtube' | 'vimeo'>
 }
 
 /**

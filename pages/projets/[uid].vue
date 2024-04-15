@@ -28,50 +28,52 @@ usePage({
   title: webResponse.data.meta_title || webResponse.data.title || webResponse.uid || '',
 })
 
-const media = computed(() => {
-  return project.embed_url || project.thumbnail || project.main_media
-})
-
 const tags = computed(() => parseProjectTags(webResponse.tags))
 
-function getProjectListingUrlByTag(tag: string) {
-  return `/projets?tag=${tag}`
+const router = useRouter()
+function getProjectListingPathByTag(tag: string) {
+  return router.resolve({
+    name: DocumentType.PROJECT_LISTING,
+    query: { tag: encodeURIComponent(tag).trim() },
+  })
 }
 
-// TODO: add parallax effect on img
+const { data: projectList } = await usePrismicProjectDocuments()
+const otherProject = computed(() => {
+  return (
+    projectList.value?.filter((p) => {
+      return webResponse.id !== p.id
+    }) || []
+  )
+})
 </script>
 
 <template>
   <div>
-    <header :class="$style.root" class="container-fullscreen">
-      <div :class="$style.head">
-        <h1 v-if="project.title" class="text-h2" :class="$style.title">{{ project.title }}</h1>
-        <VText v-if="project.excerpt" :content="project.excerpt" :class="$style.description" class="text-body-s" />
-        <div v-if="tags.length" :class="$style.tags">
-          <VButton
-            v-for="(tag, i) in tags"
-            :key="tag + '-' + i"
-            :to="getProjectListingUrlByTag(tag)"
-            :label="tag"
-            outlined
-            theme="light"
-            size="m"
-          />
-        </div>
+    <header :class="$style.header" class="container-fullscreen">
+      <h1 v-if="project.title" class="text-h2" :class="$style.title">{{ project.title }}</h1>
+      <VText v-if="project.excerpt" :content="project.excerpt" :class="$style.description" class="text-body-s" />
+      <div v-if="tags.length" :class="$style.tags">
+        <VButton
+          v-for="(tag, i) in tags"
+          :key="tag + '-' + i"
+          :to="getProjectListingPathByTag(tag)"
+          :label="tag"
+          outlined
+          theme="light"
+          size="m"
+        />
       </div>
-      <div :class="$style['media-wrapper']">
-        <VPrismicImage
-          v-if="media"
-          :reference="media"
-          fit="crop"
-          :class="$style.image"
-          :modifiers="{ crop: 'edges' }"
-          sizes="xs:100vw sm:100vw md:100vw lg:100vw vl:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw"
-        >
-          <VPictureSource :media="`(max-width: 540px)`" sizes="xs:100vw sm:100md md:100vw" width="300" height="350" />
-          <VPictureSource sizes="lg:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw" width="1232" height="740" />
-        </VPrismicImage>
-      </div>
+      <VPrismicImage
+        :reference="project.main_media"
+        :class="$style.image"
+        :img-attrs="{ loading: 'eager' }"
+        width="1232"
+        height="740"
+      >
+        <VPictureSource media="(max-width: 540px)" sizes="xs:100vw sm:100md md:100vw" width="300" height="350" />
+        <VPictureSource sizes="lg:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw" />
+      </VPrismicImage>
       <VText
         v-if="project.description"
         :content="project.description"
@@ -80,11 +82,17 @@ function getProjectListingUrlByTag(tag: string) {
       />
     </header>
     <SliceZone :slices="project.slices" wrapper="main" :components="components" />
+    <VProjectsCarousel
+      v-if="otherProject?.length"
+      :class="$style['other-projects']"
+      :title="$t('project_page.see_more')"
+      :projects="otherProject"
+    />
   </div>
 </template>
 
 <style lang="scss" module>
-.root {
+.header {
   position: relative;
   overflow: auto;
   padding-bottom: rem(102);
@@ -92,25 +100,32 @@ function getProjectListingUrlByTag(tag: string) {
   background-color: color(black);
   color: color(white);
   padding-inline: var(--page-gutter);
-}
-
-.head {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
   gap: rem(12);
-  margin-top: calc(var(--v-top-bar-height) + #{rem(100)});
-  margin-bottom: rem(22);
+  padding-top: calc(var(--v-top-bar-height) + #{rem(100)});
 }
 
 .title {
   margin-right: rem(30);
+  grid-column: 1 / -1;
+
+  @include media('>=md') {
+    grid-column: 1 / span 1;
+    max-width: 20ch;
+  }
 }
 
 .description {
-  flex-basis: clamp(#{rem(330), 40%, rem(500)});
   margin-top: rem(5);
   opacity: 0.7;
+  max-width: 46ch;
+  grid-column: 1 / -1;
+
+  @include media('>=md') {
+    grid-column: 2 / -1;
+    max-width: 42ch;
+  }
 }
 
 .tags {
@@ -119,24 +134,26 @@ function getProjectListingUrlByTag(tag: string) {
   gap: rem(14);
 }
 
-.media-wrapper {
-  display: flex;
-  align-items: center;
+.image {
+  margin-top: rem(24);
+  position: relative;
+  width: 100%;
   overflow: hidden;
   max-height: 70vh;
   border-radius: rem(30);
-}
-.image {
-  position: relative;
-  width: 100%;
+  grid-column: 1 / -1;
 }
 
 .description-full {
   display: inline-block;
-  width: clamp(#{rem(300), 50%, rem(600)});
-  padding-top: rem(22);
+  max-width: 50ch;
+  padding-top: rem(12);
   border-top: 1px solid rgba(color(white), 0.6);
-  margin-top: rem(45);
+  margin-top: rem(8);
   opacity: 0.7;
+}
+
+.other-projects {
+  margin-block: 25vh;
 }
 </style>

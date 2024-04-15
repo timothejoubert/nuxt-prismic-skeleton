@@ -22,12 +22,12 @@
           "multi": "paragraph,strong,em,hyperlink"
         }
       },
-      "media": {
-        "type": "Link",
+      "main_media": {
+        "type": "Image",
         "config": {
-          "label": "Media",
-          "placeholder": "",
-          "select": "media"
+          "label": "Main media",
+          "constraint": {},
+          "thumbnails": []
         }
       },
       "slices": {

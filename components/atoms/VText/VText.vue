@@ -27,5 +27,11 @@ const isRichTextFilled = computed(() => {
   strong {
     font-weight: bold;
   }
+
+  a {
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 2px;
+  }
 }
 </style>

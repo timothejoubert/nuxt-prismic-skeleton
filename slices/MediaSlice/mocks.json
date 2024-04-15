@@ -34,7 +34,7 @@
 						"embed_platform",
 						{
 							"__TYPE__": "FieldContent",
-							"value": "Vimeo",
+							"value": "vimeo",
 							"type": "Select"
 						}
 					],

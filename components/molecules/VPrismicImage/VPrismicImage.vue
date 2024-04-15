@@ -7,6 +7,7 @@ import { getPrismicImageData, type PrismicImageField } from '~/utils/prismic/pri
 export const vPrismicImageProps = {
   ...imgProps,
   // Override imgProps type
+  imgAttrs: Object,
   src: String,
   reference: Object as PropType<PrismicImageField>,
   tag: String as PropType<'picture' | 'img'>,
@@ -21,33 +22,57 @@ export default defineComponent({
     const prismicMediaData = computed(() => getPrismicImageData(props.reference))
     const src = computed(() => props.src || prismicMediaData.value?.url)
 
-    if (!src.value) return () => h('div', { class: $style.placeholder })
-
     const width = computed(() => props?.width || prismicMediaData.value?.width)
     const height = computed(() => props?.height || prismicMediaData.value?.height)
+    const aspectRatio = computed(() => {
+      if (!width.value || !height.value) return 1
+
+      return +width.value / +height.value
+    })
+
+    if (!src.value) {
+      return () => {
+        return h('div', {
+          style: { '--v-prismic-image-aspect-ratio': aspectRatio.value },
+          class: $style.placeholder,
+        })
+      }
+    }
+
+    const modifiers = computed(() => {
+      const result: Record<string, unknown> = { ...props.modifiers }
+
+      if (props?.width && props?.height) {
+        Object.assign(result, {
+          crop: 'edges',
+        })
+      }
+
+      return result
+    })
 
     const copyright = computed(() => {
       if (typeof props.copyright === 'string') return props.copyright
       return props.copyright ? prismicMediaData.value?.copyright : undefined
     })
 
-    const $img = useImage()
-    const size = props.sizes || $img.options.presets.default?.sizes
-
     const documentProps = computed(() => {
       return {
+        imgAttrs: props.imgAttrs,
         src: src.value,
         width: width.value,
         height: height.value,
         alt: props.alt || prismicMediaData.value?.alt,
-        // placeholder: '/images/placeholder.jpg',
         copyright: copyright.value,
-        provider: 'imgix',
-        size: size.value,
-        fit: props.fit,
-        modifiers: props.modifiers,
+        modifiers: modifiers.value,
+        sizes: props.sizes || useImage().options.presets.default?.sizes,
+        provider: props.provider || 'imgix',
+        fit: props.fit || 'cover',
+        placeholder: '/images/placeholder.jpg',
       }
     })
+
+    console.log('documentProps', documentProps.value)
 
     return () => {
       const isPicture = slots.default || props.tag === 'picture'
@@ -57,6 +82,7 @@ export default defineComponent({
         {
           ...documentProps.value,
           class: [$style.root],
+          sizes: isPicture ? undefined : documentProps.value.sizes,
         },
         slots.default,
       )
@@ -79,6 +105,7 @@ export default defineComponent({
 
 <style lang="scss" module>
 .root {
+  width: var(--v-roadiz-image-width);
   img {
     width: var(--v-roadiz-image-width);
   }
@@ -89,8 +116,9 @@ export default defineComponent({
 }
 
 .placeholder {
-  background-color: red;
+  background-color: #e8e8e8;
+  aspect-ratio: var(--v-prismic-image-aspect-ratio);
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 </style>

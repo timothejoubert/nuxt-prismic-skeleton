@@ -45,7 +45,9 @@ const rootClasses = computed(() => {
           :play-animation="isEnter"
         />
         <div v-if="tags?.length" :class="$style.tags">
-          <span v-for="tag in tags" :key="'tag-' + tag" class="text-body-s" :class="$style.tag">{{ tag }}</span>
+          <span v-for="displayedTag in tags" :key="'tag-' + displayedTag" class="text-body-s" :class="$style.tag">{{
+            displayedTag
+          }}</span>
         </div>
       </div>
       <VText

@@ -5,15 +5,15 @@ const props = defineProps(getSliceComponentProps<Content.MediaSliceSlice>())
 
 const medias = props.slice.items
 
-const title = props.slice.primary.title
-const content = props.slice.primary.content
-const isFullWidth = props.slice.primary.full_width
+const title = props.slice.primary?.title
+const content = props.slice.primary?.content
+const isFullWidth = props.slice.primary?.full_width
 
-const hasOneMedia = medias.length === 1
+const hasOneMedia = medias?.length === 1
 </script>
 
 <template>
-  <section ref="root" :class="$style.root" class="slice-container">
+  <section v-if="medias?.length" ref="root" :class="$style.root" class="slice-container">
     <div v-if="title" :content="title" :class="$style.title" class="text-body-m">{{ title }}</div>
     <VText v-if="content" :content="content" :class="$style.content" class="text-body-s" />
     <VPrismicImage
@@ -27,16 +27,17 @@ const hasOneMedia = medias.length === 1
     <!--      <VPictureSource :media="`(max-width: 540px)`" sizes="xs:100vw sm:100md md:100vw" width="375" height="300" />-->
     <!--      <VPictureSource sizes="lg:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw" width="1278" height="447" />-->
 
-    <template v-else>
+    <template v-else-if="medias?.length">
       <VPrismicMedia
         v-for="(item, i) in medias"
-        :key="(item.image?.link_type || item.image?.['id']) + i"
+        :key="(item.image?.link_type || item.image?.['id'] || 'media-') + i"
         :class="[$style.image, $style['image--default'], $style[`image--${hasOneMedia ? 'solo' : 'multiple'}`]]"
         :reference="item.image"
         :video="{
           embedPlatform: item.embed_platform,
           embedId: item.embed_id,
           src: item.internal_video?.url,
+          loop: true,
         }"
         :image="{
           fit: 'crop',
@@ -77,9 +78,12 @@ const hasOneMedia = medias.length === 1
   width: 100%;
 
   &--solo {
-    max-width: 65%;
     grid-column: 1 / -1;
     justify-self: center;
+
+    @include media('>=md') {
+      max-width: 75%;
+    }
   }
 
   &--fulwidth {

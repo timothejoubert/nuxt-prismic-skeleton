@@ -12,9 +12,9 @@ const props = defineProps({
 
 // Display image with interaction video player listener
 const isEmbedVideo = computed(() => props.video?.embedId && props.video?.embedPlatform)
-const hasInternalVideo = computed(() => props.video.src)
+const hasInternalVideo = computed(() => props.video?.src)
 const hasVideoThumbnail = computed(() => {
-  return getImageFieldUrl(props.reference) && (isEmbedVideo.value || hasInternalVideo.value)
+  return props.reference && getImageFieldUrl(props.reference) && (isEmbedVideo.value || hasInternalVideo.value)
 })
 
 const referenceProps = computed(() => props.reference && getPrismicImageData(props.reference))
@@ -36,7 +36,7 @@ function onThumbnailClicked() {
     @click="onThumbnailClicked"
   >
     <VButton size="s" filled icon-name="play" tag="div" :class="$style.button" />
-    <VPrismicImage :reference="reference" v-bind="image" :class="$style.image" />
+    <VPrismicImage :reference="reference" v-bind="image" :class="$style.image"><slot /></VPrismicImage>
     <VVideoPlayer v-if="hadInteraction" v-bind="video" autoplay :class="$style['player']" />
   </div>
   <VVideoPlayer
@@ -46,7 +46,9 @@ function onThumbnailClicked() {
     :class="$style.root"
     :is-embed="embedPlatform"
   />
-  <VPrismicImage v-else-if="mediaType === 'image'" :reference="reference" v-bind="image" :class="$style.root" />
+  <VPrismicImage v-else-if="mediaType === 'image'" :reference="reference" v-bind="image" :class="$style.root"
+    ><slot
+  /></VPrismicImage>
   <div v-else :class="[$style.root, $style.placeholder]"></div>
 </template>
 
@@ -58,6 +60,7 @@ function onThumbnailClicked() {
 
 .wrapper {
   position: relative;
+  cursor: pointer;
 
   .player {
     position: absolute;
@@ -84,5 +87,6 @@ function onThumbnailClicked() {
   --v-button-position: absolute;
   right: rem(12);
   bottom: rem(12);
+  z-index: 1;
 }
 </style>
