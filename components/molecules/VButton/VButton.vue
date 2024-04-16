@@ -213,10 +213,6 @@ const rootClasses = computed(() => {
     margin: 0;
   }
 
-  .root--animation-enabled & {
-    background-color: red !important;
-  }
-
   @media (hover: hover) {
     .root--animate &,
     .root--animation-enabled:hover & {
