@@ -26,7 +26,7 @@ onMounted(() => {
 })
 
 watch(state, (value) => {
-  console.log('watch splashScreen state', value)
+  // console.log('watch splashScreen state', value)
   if (value === 'beforeEnter') {
     startCounter()
   } else if (value === 'beforeLeaved') {

@@ -22,12 +22,14 @@ export interface VButtonProps {
   iconLast?: boolean
   variant?: Variant
   theme?: Theme | false
+  animation?: boolean
   playAnimation?: boolean
 }
 
 const props = withDefaults(defineProps<VButtonProps>(), {
   iconLast: true,
   rounded: true,
+  animation: true,
 })
 
 function isRelativePath(path: string): boolean {
@@ -87,6 +89,8 @@ const rootClasses = computed(() => {
     !!props.size && $style[`root--size-${props.size}`],
     !!props.variant && $style['root--variant-' + props.variant],
     themeClass.value,
+    // Custom anim
+    props.animation && $style['root--animation-enabled'],
     props.playAnimation && $style['root--animate'],
   ]
 })
@@ -99,9 +103,9 @@ const rootClasses = computed(() => {
     :disabled="(internalTag === 'button' && disabled) || undefined"
     v-bind="linkProps"
   >
-    <VLoadingDots v-if="hasIcon && loading" ref="icon" :class="$style.icon" />
+    <VLoadingDots v-if="hasIcon && loading" :class="$style.icon" />
     <VIcon v-else-if="iconName" :name="iconName" :class="$style.icon" />
-    <slot v-else-if="hasIconSlot" ref="icon" name="icon" :class="$style.icon" />
+    <slot v-else-if="hasIconSlot" name="icon" :icon-class="$style.icon" />
 
     <span v-if="hasLabel" :class="$style.label">
       <slot>{{ label }}</slot>
@@ -126,6 +130,10 @@ const rootClasses = computed(() => {
     scale 0.4s,
     border-color 0.3s,
     color 0.3s;
+
+  &--animation-enabled {
+    overflow: hidden;
+  }
 
   @media (hover: hover) {
     &:active {
@@ -204,6 +212,23 @@ const rootClasses = computed(() => {
     padding: 0;
     margin: 0;
   }
+
+  .root--animation-enabled & {
+    background-color: red !important;
+  }
+
+  @media (hover: hover) {
+    .root--animate &,
+    .root--animation-enabled:hover & {
+      animation:
+        slideOut 0.2s,
+        slideIn 0.4s 0.2s ease(out-quart);
+
+      @media (prefers-reduced-motion: reduce) {
+        animation: none;
+      }
+    }
+  }
 }
 
 .label {
@@ -222,6 +247,28 @@ const rootClasses = computed(() => {
 
   &:only-child {
     --v-button-label-padding-inline: 0;
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>

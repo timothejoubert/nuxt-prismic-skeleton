@@ -70,6 +70,15 @@
               "vimeo"
             ]
           }
+        },
+        "display_meta": {
+          "type": "Boolean",
+          "config": {
+            "label": "Display meta",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
         }
       }
     }

@@ -1020,6 +1020,17 @@ export interface MediaSliceSliceDefaultItem {
    * - **Documentation**: https://prismic.io/docs/field#select
    */
   embed_platform: prismic.SelectField<'youtube' | 'vimeo'>
+
+  /**
+   * Display meta field in *MediaSlice → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: media_slice.items[].display_meta
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  display_meta: prismic.BooleanField
 }
 
 /**

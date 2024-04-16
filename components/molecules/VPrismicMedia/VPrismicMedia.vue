@@ -2,7 +2,7 @@
 import type { PropType } from 'vue'
 import { vPrismicImageProps } from '~/components/molecules/VPrismicImage/VPrismicImage.vue'
 import { vVideoPlayerProps } from '~/components/molecules/VVideoPlayer/VVideoPlayer.vue'
-import { getImageFieldUrl, getPrismicImageData, type PrismicImageField } from '~/utils/prismic/prismic-image'
+import { getPrismicImageData, type PrismicImageField } from '~/utils/prismic/prismic-image'
 
 const props = defineProps({
   reference: Object as PropType<PrismicImageField>,
@@ -10,23 +10,32 @@ const props = defineProps({
   video: vVideoPlayerProps,
 })
 
+const mediaData = computed(() => getPrismicImageData(props.reference as PrismicImageField | undefined))
+
 // Display image with interaction video player listener
-const isEmbedVideo = computed(() => props.video?.embedId && props.video?.embedPlatform)
-const hasInternalVideo = computed(() => props.video?.src)
+const isEmbedVideo = computed(() => !!(props.video?.embedId && props.video?.embedPlatform))
+const hasInternalVideo = computed(() => !!props.video?.src)
 const hasVideoThumbnail = computed(() => {
-  return props.reference && getImageFieldUrl(props.reference) && (isEmbedVideo.value || hasInternalVideo.value)
+  return !!mediaData.value?.url && (isEmbedVideo.value || hasInternalVideo.value)
 })
 
-const referenceProps = computed(() => props.reference && getPrismicImageData(props.reference))
-
-const src = computed(() => referenceProps.value?.url)
-const mediaType = computed(() => referenceProps.value?.mediaType)
-const embedPlatform = computed(() => props.video?.embedPlatform || referenceProps.value?.embedPlatform)
+// Basic data
+const src = computed(() => mediaData.value?.url || props.video?.url || props.image?.url)
+const mediaType = computed(() => mediaData.value?.mediaType)
+const embedPlatform = computed(() => props.video?.embedPlatform || mediaData.value?.embedPlatform)
 
 const hadInteraction = ref(false)
+
 function onThumbnailClicked() {
   hadInteraction.value = true
 }
+
+//
+const videoWithoutThumbnail = computed(() => !mediaData.value?.url && hasInternalVideo.value)
+const displayPlayerVideoRoot = computed(
+  () => mediaType.value === 'video' || embedPlatform.value || videoWithoutThumbnail.value,
+)
+console.log(mediaData.value)
 </script>
 
 <template>
@@ -40,11 +49,11 @@ function onThumbnailClicked() {
     <VVideoPlayer v-if="hadInteraction" v-bind="video" autoplay :class="$style['player']" />
   </div>
   <VVideoPlayer
-    v-else-if="mediaType === 'video' || embedPlatform"
+    v-else-if="displayPlayerVideoRoot"
     :src="src"
     v-bind="video"
+    :background="video?.background || videoWithoutThumbnail"
     :class="$style.root"
-    :is-embed="embedPlatform"
   />
   <VPrismicImage v-else-if="mediaType === 'image'" :reference="reference" v-bind="image" :class="$style.root"
     ><slot
@@ -54,6 +63,7 @@ function onThumbnailClicked() {
 
 <style lang="scss" module>
 .root {
+  aspect-ratio: var(--v-prismic-medias-aspect-ratio);
   border-radius: var(--v-prismic-media-border-radius);
   overflow: hidden;
 }
@@ -78,7 +88,6 @@ function onThumbnailClicked() {
 }
 
 .placeholder {
-  aspect-ratio: 16 / 9;
   width: 100%;
   background-color: lightgrey;
 }

@@ -73,7 +73,7 @@ export default defineComponent({
     })
 
     return () => {
-      const isPicture = slots.default || props.tag === 'picture'
+      const isPicture = slots.default && props.tag !== 'img'
 
       const imageComponent = h(
         isPicture ? VPicture : NuxtImg,

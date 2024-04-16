@@ -22,8 +22,8 @@ const isHoveringHead = ref(false)
       @mouseenter="isHoveringHead = true"
     >
       <VButton theme="dark" filled size="l" :class="$style.button" outlined :play-animation="isHoveringHead">
-        <template #icon>
-          <div :class="$style.icon"></div>
+        <template #icon="{ iconClass }">
+          <div :class="[$style.icon, iconClass]"></div>
         </template>
       </VButton>
       <div v-if="title" :class="$style.title" class="text-h3">{{ title }}</div>
@@ -61,11 +61,8 @@ const isHoveringHead = ref(false)
 
 .icon {
   position: relative;
-  display: flex;
   width: rem(16);
   height: rem(16);
-  align-items: center;
-  justify-content: center;
 
   &::before,
   &::after {

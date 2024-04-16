@@ -36,7 +36,7 @@ const { mouseMove, isCarouselEnable, progress } = useNativeCarousel(carousel)
           :class="$style.media"
           fit="cover"
           :modifiers="{ crop: 'edges' }"
-          sizes="xs:85vw sm:85vw md:33vw lg:33vw vl:33vw xl:33vw xxl:33vw hd:33vw qhd:33vw"
+          sizes="xs:85vw sm:85vw md:50vw lg:50vw vl:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw"
         />
       </VProjectCard>
     </div>
@@ -78,7 +78,7 @@ const { mouseMove, isCarouselEnable, progress } = useNativeCarousel(carousel)
 
   &::after {
     position: absolute;
-    background-color: rgba(color(black), 0.5);
+    background-color: rgba(color(black), 0.9);
     content: '';
     inset: 0;
     scale: var(--progress, 0) 1;
@@ -113,7 +113,7 @@ const { mouseMove, isCarouselEnable, progress } = useNativeCarousel(carousel)
   }
 
   @include media('>=md') {
-    width: 40%;
+    width: calc(50% - var(--page-gutter) * 0.5 - rem(5));
   }
 }
 

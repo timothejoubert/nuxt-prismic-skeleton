@@ -11,8 +11,8 @@ const props = defineProps({
   quality: String,
   sizes: String,
   fit: String,
-  width: String,
-  height: String,
+  width: [String, Number],
+  height: [String, Number],
   modifiers: Object as PropType<Record<string, any>>,
 })
 

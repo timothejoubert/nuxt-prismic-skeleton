@@ -77,6 +77,13 @@
 								"__TYPE__": "FileLink"
 							}
 						}
+					],
+					[
+						"display_meta",
+						{
+							"__TYPE__": "BooleanContent",
+							"value": true
+						}
 					]
 				]
 			}

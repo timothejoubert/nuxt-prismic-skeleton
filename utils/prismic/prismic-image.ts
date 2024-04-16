@@ -1,5 +1,7 @@
 import type { FilledImageFieldImage, FilledLinkToMediaField, ImageField, LinkToMediaField } from '@prismicio/types'
 import { isFilledImageField, isFilledLinkToMediaField } from '~/utils/prismic/guard'
+import prismicData from '~/slicemachine.config.json'
+import { removeSpecialCharacter } from '~/utils/string/format'
 
 export type PrismicImageField = ImageField | LinkToMediaField
 export type FilledPrismicImageField = FilledImageFieldImage | FilledLinkToMediaField
@@ -13,17 +15,11 @@ export function getImageFieldUrl(field: PrismicImageField | undefined) {
   return field.url
 }
 
-function getExtension(src: string | undefined) {
-  // match(/\.[0-9a-z][^?]*/i)
-  // match(/\.[0-9a-z]+$/i)
-  // return src?.match(/\.[0-9a-z][^?]*/i)?.[0].toLowerCase()
-  return src?.substring(0, src?.indexOf('?')).substring(src?.lastIndexOf('.') + 1)
+function isVideo(ext?: string) {
+  return videoExtension.includes(ext || '')
 }
-function isVideo(ext: string | undefined) {
-  return videoExtension.includes(ext ?? '')
-}
-function isImage(ext: string | undefined) {
-  return imgExtension.includes(ext ?? '')
+function isImage(ext?: string) {
+  return imgExtension.includes(ext || '')
 }
 
 function getEmbedPlatform(src: string | undefined) {
@@ -31,9 +27,24 @@ function getEmbedPlatform(src: string | undefined) {
   else if (src?.includes('player.vimeo.com/')) return 'vimeoEmbed'
 }
 
+function extractDataFromUrl(url: string | undefined) {
+  // Ex pattern: https://images.prismic.io/hugo-tomasi-v2/Zh10NDjCgu4jz1TZ_electrochoc-screen-01.png?auto=format,compress
+  const path =
+    url?.substring(
+      url?.lastIndexOf(prismicData.repositoryName) + prismicData.repositoryName.length,
+      url?.lastIndexOf('?'),
+    ) || ''
+
+  const id = path.substring(0, path.lastIndexOf('_'))
+  const name = path.substring(path.indexOf('_') + 1, path.lastIndexOf('.'))
+  const extension = path.substring(path.indexOf('.') + 1)
+
+  return { name, id, extension }
+}
+
 export function getPrismicImageData(field: PrismicImageField | undefined) {
   const url = getImageFieldUrl(field)
-  const extension = getExtension(url)
+  const { extension, name, id } = extractDataFromUrl(url)
   let mediaType = 'unknown'
 
   const isPrismicImage =
@@ -47,7 +58,9 @@ export function getPrismicImageData(field: PrismicImageField | undefined) {
     mediaType = 'embed'
   }
 
-  const props = {
+  const data = {
+    name: removeSpecialCharacter((field as { name?: string })?.name || name),
+    id: (id || (Math.random() * 1000).toString()) as string,
     url,
     mediaType,
     extension,
@@ -59,14 +72,14 @@ export function getPrismicImageData(field: PrismicImageField | undefined) {
   }
 
   if (isFilledImageField(field)) {
-    Object.assign(props, {
+    Object.assign(data, {
       width: field.dimensions.width,
       height: field.dimensions.height,
       alt: field.alt,
       copyright: field.copyright,
     })
   } else if (isFilledLinkToMediaField(field)) {
-    Object.assign(props, {
+    Object.assign(data, {
       width: field.width,
       height: field.height,
       alt: field.name,
@@ -74,5 +87,5 @@ export function getPrismicImageData(field: PrismicImageField | undefined) {
     })
   }
 
-  return props
+  return data
 }
