@@ -72,7 +72,10 @@ watch(
   (tag) => {
     // TODO: remove query key if no value
     let parsedQuery
-    if (tag.length === 1) parsedQuery = tag[0]
+    if (!tag.length) {
+      router.push({ query: {} })
+      return
+    } else if (tag.length === 1) parsedQuery = tag[0]
     else parsedQuery = tag.join('&').toString()
     // TODO: encode query with ufo module
 
@@ -95,14 +98,14 @@ function resetFilters() {
     <VProjectFilters v-model="selectedTags" :is-open="isFilterBarOpen" :tags="tags" />
     <main>
       <ul v-if="filteredProjectList?.length" :class="$style.list">
-        <li v-for="(project, i) in filteredProjectList" :key="i">
+        <li v-for="project in filteredProjectList" :key="project.uid">
           <VProjectCard :project="project" layout="centered" :class="$style.card">
             <VPrismicImage
               :reference="project.data.main_media"
               width="600"
               height="390"
               :class="$style.media"
-              sizes="xs:100vw sm:100vw md:50vw lg:33vw vl:33vw xl:33vw xxl:33vw hd:33vw qhd:33vw"
+              sizes="xs:100vw sm:100vw md:50vw lg:50vw vl:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw"
             />
           </VProjectCard>
         </li>

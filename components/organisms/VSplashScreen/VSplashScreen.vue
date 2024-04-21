@@ -2,24 +2,15 @@
 const START_VALUE = 0
 const LAST_VALUE = 100
 
-const startDelay = 300
-const counterDuration = 1500
-const leaveDuration = 800
+const startDelay = 200
+const counterDuration = 1200
+const leaveDuration = 600
 
 const state = useSplashScreenState()
 
 const counterOutput = ref(0)
 
-const overTitle = ref<HTMLElement | null>(null)
-
 onMounted(() => {
-  // TODO: Create component for set same position
-  const headerOverTitle = document.querySelector('.v-header-home-head-bottom')
-
-  if (overTitle.value && headerOverTitle) {
-    overTitle.value.style.marginTop = headerOverTitle.getBoundingClientRect().top + 'px'
-  }
-
   window.setTimeout(() => {
     state.value = 'beforeEnter'
   }, startDelay)
@@ -39,7 +30,6 @@ watch(state, (value) => {
 })
 
 // Utils
-
 function startCounter() {
   let startTimestamp: null | number = null
 
@@ -73,7 +63,7 @@ const rootClasses = computed(() => {
 </script>
 
 <template>
-  <div :class="rootClasses" :style="{ '--loading-percent': counterOutput / 100 }" class="container-fullscreen">
+  <div :class="rootClasses" :style="{ '--loading-percent': counterOutput / 100 }" class="container--fullwidth">
     <div :class="$style.logos">
       <div :class="[$style.logo, $style['logo--skeleton']]"></div>
       <div :class="[$style.logo, $style['logo--bg']]" />
@@ -93,11 +83,13 @@ const rootClasses = computed(() => {
         </clipPath>
       </svg>
     </div>
-    <div :class="$style.bottom">
-      <div ref="overTitle" :class="$style['over-title']" class="text-over-title-s">Loading<VLoadingDots /></div>
-      <div :class="$style['percent-bar']"></div>
-      <div class="text-h5" :class="$style.counter">{{ counterOutput }}%</div>
-    </div>
+    <VHeaderBottom
+      :class="$style.bottom"
+      title="Loading"
+      content-class="text-h5"
+      :content="counterOutput + '%'"
+      loading
+    />
   </div>
 </template>
 
@@ -123,7 +115,7 @@ const rootClasses = computed(() => {
 }
 
 .logos {
-  position: relative;
+  position: absolute;
   display: flex;
   width: 86px;
   align-items: center;
@@ -176,8 +168,7 @@ const rootClasses = computed(() => {
 }
 
 .bottom {
-  position: absolute;
-  bottom: 0;
+  margin-top: auto;
   width: 100%;
 }
 
