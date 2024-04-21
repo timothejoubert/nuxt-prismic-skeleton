@@ -1,16 +1,19 @@
 <script setup lang="ts">
+import type { PropType } from 'vue'
+import type { RichTextField } from '@prismicio/types'
+
 defineProps({
   title: String,
-  content: String,
+  content: [String, Array] as PropType<RichTextField | string>,
+  altContent: [String, Array] as PropType<RichTextField | string>,
   contentClass: String,
-  altContent: String,
   loading: Boolean,
 })
 </script>
 
 <template>
   <div :class="$style.root">
-    <h3 v-if="title" :class="$style.title" class="text-over-title-s">
+    <h3 v-if="title" class="text-over-title-s">
       {{ title }}
       <VLoadingDots v-if="loading" />
     </h3>
@@ -32,10 +35,6 @@ defineProps({
   @include media('>=md') {
     grid-template-columns: 1fr 1fr;
   }
-}
-
-.title {
-  //padding-bottom: rem(16);
 }
 
 .line {
