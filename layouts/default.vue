@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-const splashScreenState = useSplashScreenState()
+import { mapRoutePathToDocument } from '~/utils/prismic/route-resolver'
+
+const { isSplashScreenRunning } = useSplashScreen({ onLeave: () => scrollTo(0, 0) })
 
 const currentPage = useCurrentPage()
 useHead({
@@ -8,10 +10,15 @@ useHead({
   },
 })
 
-const isSplashScreenRunning = computed(() => splashScreenState.value !== 'done')
-watch(splashScreenState, (value) => {
-  if (value === 'leave') scrollTo(0, 0)
-})
+// TODO: fetch Prismic document type from routePath
+// use wildCard for all pages
+const home = mapRoutePathToDocument('/')
+const homeEn = mapRoutePathToDocument('/en-gb')
+const bio = mapRoutePathToDocument('/bio')
+const bioEn = mapRoutePathToDocument('/en-gb/bio')
+
+console.log('home type', home, homeEn)
+console.log('bio type', bio, bioEn)
 </script>
 
 <template>

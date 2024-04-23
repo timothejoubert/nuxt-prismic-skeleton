@@ -29,9 +29,10 @@ npm run slicemachine
 * Add your environment variables in "site settings"
 
 ### Webhook
-* Add the generated netlify url webhook in prismic settings [Prismic tuto](https://prismic.io/docs/webhooks) | [Netlify build hook page](https://app.netlify.com/sites/hugo-tomasi/settings/deploys#build-hooks)
+If your are creating a Static Website add a webhook for generate the app each time Prismic data is updated. [Prismic tuto](https://prismic.io/docs/webhooks) | [Netlify build hook page](https://app.netlify.com/sites/hugo-tomasi/settings/deploys#build-hooks)
 
-### Preview
+### Preview 
+Not 
 * Setup preview in prismic setting BO (add name, domain and path to the preview in prismic settings)
 * Add the cdn link in header script and the preview path url in nuxt.config.js
 ```

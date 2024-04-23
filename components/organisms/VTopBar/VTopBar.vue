@@ -3,17 +3,20 @@ import LogoMain from '~/assets/images/logo.svg?component'
 
 const { siteName, homeBasePath } = useCommonContent()
 const playAnimation = ref(false)
+
+const { isLoading } = useLoadingIndicator()
 </script>
 
 <template>
   <div :class="$style.root">
-    <NuxtLink :to="homeBasePath" :class="$style.home">
-      <LogoMain
-        viewBox="0 0 86 80"
-        :class="$style.logo"
-        @mouseenter="playAnimation = true"
-        @mouseleave="playAnimation = false"
-      />
+    <NuxtLink
+      :to="homeBasePath"
+      :class="$style.home"
+      @mouseenter="playAnimation = true"
+      @mouseleave="playAnimation = false"
+    >
+      <VSpinner v-if="isLoading" :class="$style.spinner" />
+      <LogoMain v-else viewBox="0 0 86 80" :class="$style.logo" />
       <VSplitWord :class="$style['logo-text']" :content="siteName" :play-animation="playAnimation" />
     </NuxtLink>
     <VTopBarNav :class="$style.nav" />
@@ -27,11 +30,15 @@ const playAnimation = ref(false)
   z-index: 101;
   top: 0;
   display: flex;
-  height: rem(76); //$v-top-bar-height;
+  height: var(--v-top-bar-height);
   align-items: center;
   color: color(white);
   mix-blend-mode: difference;
   padding-inline: var(--page-gutter);
+}
+
+.spinner {
+  width: rem(28);
 }
 
 .home {

@@ -142,8 +142,12 @@ const rootClasses = computed(() => {
 }
 
 .description {
-  display: var(--v-card-description-display);
+  display: var(--v-card-description-display, -webkit-box);
   width: 100%;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  align-self: self-start;
 
   @include media('>=md') {
     width: clamp(#{rem(360)}, 25%, #{rem(480)});

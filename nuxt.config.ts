@@ -3,10 +3,8 @@ import prismicData from './slicemachine.config.json'
 import { hoistUseStatements } from './utils/vite/hoist-use-statements'
 import { version } from './package.json'
 import { prismicDocumentRouteList } from './utils/prismic/route-resolver'
-
+import { defaultLocale, allLocale as locales } from './constants/locale'
 // i18n
-const locales = ['fr-fr', 'en-gb']
-const defaultLocale = 'fr-fr'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
