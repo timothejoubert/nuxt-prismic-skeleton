@@ -5,14 +5,16 @@ import type { AlternateLanguage, PrismicDocument } from '@prismicio/types'
 import type { PrismicPluginClient } from '@prismicio/vue/src/types'
 import type { CommonContent } from '~/composables/use-common-content'
 import { useLocale } from '~/composables/use-locale'
+import { DocumentType } from '~/constants/document-type'
+import { mapRoutePathToPrismicDocument } from '~/utils/prismic/route-resolver'
 
 async function initCommonContent() {
   const prismic = useNuxtApp().$prismic as PrismicPluginClient
   const { fetchLocaleOption } = useLocale()
 
   await useAsyncData<CommonContent>('common_content', async () => {
-    const settingResponse = await prismic.client.getSingle('setting')
-    const menuResponse = await prismic.client.getSingle('menu', fetchLocaleOption.value)
+    const settingResponse = await prismic.client.getSingle(DocumentType.SETTING)
+    const menuResponse = await prismic.client.getSingle(DocumentType.MENU, fetchLocaleOption.value)
 
     return {
       setting: settingResponse,
@@ -110,18 +112,10 @@ function initSeoMeta(webResponse?: PrismicDocument) {
 
 export default defineNuxtPlugin(async () => {
   const route = useRoute()
-  const isWildCardRoute = !!route.name && !route.matched.find((r) => r.name === 'stories')
-
-  const pageResponse = isWildCardRoute ? await useFetchPage() : undefined
+  const prismicDocumentType = mapRoutePathToPrismicDocument(route.path) || DocumentType.HOME
+  const pageResponse = prismicDocumentType ? await useFetchPage(prismicDocumentType) : undefined
 
   if (pageResponse) {
-    // Make currentPage data accessible in layout during initialization
-    const currentPage = useCurrentPage()
-    currentPage.value = {
-      webResponse: pageResponse.webResponse,
-      alternateLinks: pageResponse.alternateLinks,
-    }
-
     initI18n(pageResponse?.locale)
     useAlternateLinks(pageResponse?.alternateLinks)
   }

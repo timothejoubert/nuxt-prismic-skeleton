@@ -2,9 +2,13 @@
 // https://prismic.io/docs/nuxt-3-define-routes
 import { DocumentType } from './../../constants/document-type'
 import { allLocale } from './../../constants/locale'
-import { extractValueBetweenOccurrence } from '~/utils/string/extract'
+import { extractValueBetweenOccurrence } from './../../utils/string/extract'
 
 export const prismicDocumentRouteList = [
+  {
+    type: DocumentType.ERROR_PAGE,
+    path: '/404',
+  },
   {
     type: DocumentType.HOME,
     path: '/:lang?',
@@ -27,25 +31,28 @@ export const prismicDocumentRouteList = [
   },
 ]
 
-// TODO: finish verification
-// mapRoutePathToDocument('/en-gb/bio') return home_page
+export function mapRoutePathToPrismicDocument(path: string) {
+  const firstRoute = extractValueBetweenOccurrence(path, '/', [1, 2]) || ''
 
-export function mapRoutePathToDocument(path: string) {
-  const firstRoute = extractValueBetweenOccurrence(path, '/', [1, 2]) || null
+  const route = prismicDocumentRouteList.find((prismicRoute) => {
+    if (path === prismicRoute.path) return true
+    // Replace locale or uid if exist
+    const hasLocale = allLocale.includes(firstRoute as (typeof allLocale)[number])
+    const dynamicUid = prismicRoute.path?.includes(':uid') && path.substring(path.lastIndexOf('/') + 1)
 
-  const route = prismicDocumentRouteList.find((route) => {
-    const filteredPath = route.path.replace('/:lang?', '').replace(':uid', '') || '/'
+    const filteredPath =
+      prismicRoute.path?.replace('/:lang?', hasLocale ? `/${firstRoute}` : '').replace(':uid', dynamicUid || '') || '/'
 
-    return filteredPath === path || allLocale.includes(firstRoute as (typeof allLocale)[number])
+    return path === filteredPath
   })
 
   if (route) return route.type
+
+  return DocumentType.ERROR_PAGE
 }
 
-function getDocumentRoutePath(document: { type: DocumentType }) {
-  const documentType = document?.type || ''
-
+export function getDocumentRoutePath(documentType: DocumentType) {
   const currentRoute = prismicDocumentRouteList.find((route) => route.type === documentType)
 
-  return currentRoute?.path.replace('/:lang?', '').replace(':uid', '')
+  return currentRoute?.path?.replace('/:lang?', '').replace(':uid', '')
 }

@@ -9,6 +9,8 @@ function isExternalUrl(url: string | undefined, siteUrl?: string) {
   return !isInternalUrl(url) && !(siteUrl && url?.startsWith(siteUrl))
 }
 
+// TODO: use composable
+
 export default defineNuxtPlugin(() => {
   const runtimeConfig = useRuntimeConfig()
 

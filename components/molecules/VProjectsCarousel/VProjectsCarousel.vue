@@ -3,6 +3,7 @@ import type { PropType } from 'vue'
 import type { ProjectPageDocument } from '~/prismicio-types'
 import { DocumentType } from '~/constants/document-type'
 import { useNativeCarousel } from '~/composables/use-native-carousel'
+import { getDocumentRoutePath } from '~/utils/prismic/route-resolver'
 
 defineProps({
   tag: String,
@@ -12,13 +13,17 @@ defineProps({
 
 const carousel = ref<HTMLElement | null>(null)
 const { mouseMove, isCarouselEnable, progress } = useNativeCarousel(carousel)
+
+const projectListingPath = computed(() => {
+  return getDocumentRoutePath(DocumentType.PROJECT_LISTING)
+})
 </script>
 
 <template>
   <component :is="tag || 'div'" :class="$style.root" class="slice-container--fullwidth">
     <div class="container--fullwidth" :class="$style.head">
       <div v-if="title" class="text-h4" :class="$style.title">{{ title }}</div>
-      <NuxtLink :to="{ name: DocumentType.PROJECT_LISTING }" :class="$style.link">
+      <NuxtLink :to="projectListingPath" :class="$style.link">
         <VButton :label="$t('see_all_project')" outlined icon-name="arrow-right" size="s" />
       </NuxtLink>
       <div v-show="isCarouselEnable" :class="$style.scroll" :style="{ '--progress': progress }"></div>

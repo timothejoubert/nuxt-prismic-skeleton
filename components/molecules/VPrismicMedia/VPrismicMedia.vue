@@ -35,7 +35,6 @@ const videoWithoutThumbnail = computed(() => !mediaData.value?.url && hasInterna
 const displayPlayerVideoRoot = computed(
   () => mediaType.value === 'video' || embedPlatform.value || videoWithoutThumbnail.value,
 )
-console.log(mediaData.value)
 </script>
 
 <template>

@@ -16,7 +16,7 @@ const currentYear = computed(() => new Date().getFullYear())
         <a href="https://timothejoubert.com" target="_blank">Timothé J.</a>
       </div>
     </div>
-    <VSocialList />
+    <VSocialList display-icon />
   </footer>
 </template>
 

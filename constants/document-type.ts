@@ -4,7 +4,8 @@ export enum DocumentType {
   PROJECT_LISTING = 'project_listing_page',
   PROJECT = 'project_page',
   WEB_PAGE = 'web_page',
+  ERROR_PAGE = 'error_page',
+  // Non page document
   MENU = 'menu',
   SETTING = 'setting',
-  ERROR_PAGE = 'error_page',
 }

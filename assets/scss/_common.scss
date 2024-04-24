@@ -86,12 +86,12 @@ img, a {
     //-webkit-user-drag: none;
 }
 
-//::selection {
-//    background-color: color(orange);
-//    color: color(light);
-//    text-shadow: none;
-//}
+::selection {
+    background-color: color(black);
+    color: color(white);
+    text-shadow: none;
+}
 
 pre {
-    white-space: pre;
+    white-space: pre-wrap;;
 }

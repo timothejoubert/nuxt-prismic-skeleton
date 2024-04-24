@@ -1,26 +1,9 @@
-<script lang="ts" setup>
-import { DocumentType } from '~/constants/document-type'
-import { defaultPageTransition } from '~/transitions/default-page-transition'
+<script setup lang="ts">
+import type { PageProps } from '~/types/app'
 import type { AboutPageDocument } from '~/prismicio-types'
-import { components } from '~/slices'
 
-definePageMeta({
-  pageTransition: defaultPageTransition,
-  name: DocumentType.ABOUT,
-  alias: ['/en-gb/bio'],
-})
-
-const { webResponse, pageData, alternateLinks, error } = await useFetchPage<AboutPageDocument>('about_page')
-
-if (error) {
-  showError(error)
-}
-
-usePage({
-  webResponse,
-  alternateLinks,
-  title: webResponse.data.meta_title || webResponse.data.title || webResponse.uid || '',
-})
+const props = defineProps<PageProps<AboutPageDocument>>()
+const pageData = computed(() => props.prismicDocument.data)
 
 const emailCopied = ref(false)
 
@@ -61,9 +44,8 @@ function onMailClicked() {
         </transition>
         <VSplitWord tag="button" class="text-over-title-s" :content="email" />
       </div>
-      <VSocialList :class="$style.socials" />
+      <VSocialList :class="$style.socials" display-icon />
     </header>
-    <SliceZone :slices="pageData.slices" wrapper="main" :components="components" />
   </div>
 </template>
 

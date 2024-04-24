@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { RichTextField } from '@prismicio/types'
-import VTransitionExpand from '~/components/atoms/VTransitionExpand/VTransitionExpand.vue'
+// import VTransitionExpand from '~/components/atoms/VTransitionExpand/VTransitionExpand.vue'
 
 export interface VSkillProps {
   title: string | null
@@ -13,14 +13,14 @@ defineProps<VSkillProps>()
 const isOpened = ref(false)
 const isHoveringHead = ref(false)
 
-const id = useId()
+const id = `collapsable-${useId()}`
 </script>
 
 <template>
   <div :class="[$style.root, isOpened && $style['root--open']]">
     <div
       :class="$style.head"
-      :aria-controls="'collapsable-' + id"
+      :aria-controls="id"
       :aria-expanded="isOpened"
       @click="isOpened = !isOpened"
       @mouseleave="isHoveringHead = false"
@@ -33,7 +33,7 @@ const id = useId()
       </VButton>
       <div v-if="title" :class="$style.title" class="text-h3">{{ title }}</div>
     </div>
-    <div :id="'collapsable-' + id" :class="$style.body">
+    <div :id="id" :class="$style.body">
       <div :class="$style.body__inner">
         <VText :content="content" :class="$style.content" class="text-body-s" />
         <div v-if="sideTitle" :class="$style['side-title']" class="text-over-title-s">{{ sideTitle }}</div>

@@ -88,7 +88,7 @@ export default defineNuxtConfig({
       routes: prismicDocumentRouteList,
     },
   },
-  components: ['~/components/atoms', '~/components/molecules', '~/components/organisms'],
+  components: ['~/components/atoms', '~/components/molecules', '~/components/organisms', '~/components/pages'],
   image: {
     // prismic: {},
     imgix: {

@@ -17,7 +17,7 @@ function onEnter(element: Element, done: () => void) {
   ;(element as HTMLElement).style.height = 'auto'
 
   const height = getComputedStyle(element).height
-  console.log(element, height)
+
   ;(element as HTMLElement).style.width = ''
   ;(element as HTMLElement).style.position = ''
   ;(element as HTMLElement).style.visibility = ''

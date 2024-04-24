@@ -1,14 +1,11 @@
 ## Todo
 
 ## In progress
+- Gérer les liens avec les locales
 - Fullscreen fit video + MediaViewer
-- Retour graphique (hierarchie typo, remplissage, format img)
-- Rename setting to settings 
-- Rassembler les data dans settings tabs (default | socials | menu)
 
 ## Selected for work
-- Faire un media viewer ?
-- Extract pages to component
+- Retour graphique (hierarchie typo, remplissage, format img)
 - Page transition
 
 ## Verify
@@ -20,6 +17,9 @@
 - JsonLd ()
 
 ## Done
+- use wildPage
+- Extract pages to component
+- Rassembler les data dans settings tabs: default, socials, menu (le menu doit avoir son propre type pour pouvoir etre localisé)
 - Utiliser excerpt au lieu de description dans ProjectPushSlice
 - Ajouter loading indicator
 - VMedia

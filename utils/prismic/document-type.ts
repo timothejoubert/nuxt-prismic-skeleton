@@ -15,3 +15,7 @@ export function isWebPageDocument(type: string) {
 export function isProjectDocument(type: string) {
   return type === DocumentType.PROJECT
 }
+
+export function isDynamicDocument(prismicDocument: string) {
+  return isWebPageDocument(prismicDocument) || isProjectDocument(prismicDocument)
+}

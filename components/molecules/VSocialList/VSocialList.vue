@@ -2,15 +2,9 @@
 import type { FilledLinkToWebField } from '@prismicio/types'
 import VIcon from '~/components/atoms/VIcon/VIcon.vue'
 import { isFilledLinkToWebField } from '~/utils/prismic/guard'
+import type { SettingDocumentDataSocialsItem } from '~/prismicio-types'
 
-export interface SocialsContent {
-  name: string
-  tagIcon: string
-  link: FilledLinkToWebField | undefined
-  label?: string
-}
-
-const getSocialIconName = (name?: string): string => {
+const getSocialIconName = (name?: string | null) => {
   if (!name) return ''
 
   switch (name.toLowerCase()) {
@@ -35,6 +29,17 @@ const getSocialIconName = (name?: string): string => {
   }
 }
 
+defineProps({
+  displayIcon: Boolean,
+})
+
+export interface SocialsContent {
+  name: SettingDocumentDataSocialsItem['type']
+  icon: ReturnType<typeof getSocialIconName>
+  link: FilledLinkToWebField | undefined
+  label?: string
+}
+
 const { setting } = useCommonContent()
 const socialList = computed((): SocialsContent[] => {
   const socials = setting.value?.socials
@@ -44,8 +49,8 @@ const socialList = computed((): SocialsContent[] => {
   return socials.map((item) => {
     return {
       link: isFilledLinkToWebField(item.link) ? item.link : undefined,
-      name: item.type || '',
-      tagIcon: getSocialIconName(item.type),
+      name: item.type,
+      icon: getSocialIconName(item.type),
       label: item.name || '',
     }
   })
@@ -63,8 +68,8 @@ const socialList = computed((): SocialsContent[] => {
       :rel="social.link.target ? 'noopener nofollow' : undefined"
       :title="social.name"
     >
-      <span v-if="social.label">{{ social.label }}</span>
-      <VIcon v-else :name="social.tagIcon" />
+      <VIcon v-if="displayIcon" :name="social.icon" />
+      <span v-else>{{ social.label || social.link.url }}</span>
     </a>
   </div>
 </template>

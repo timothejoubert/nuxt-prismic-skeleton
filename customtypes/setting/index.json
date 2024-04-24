@@ -19,7 +19,9 @@
           "label": "Email",
           "placeholder": ""
         }
-      },
+      }
+    },
+    "Socials": {
       "socials": {
         "type": "Group",
         "config": {
@@ -36,10 +38,9 @@
             "type": {
               "type": "Select",
               "config": {
-                "label": "type",
+                "label": "Type",
                 "placeholder": "",
-                "options": ["Others", "Instagram", "Facebook", "Vimeo", "Youtube", "Linkedin", "Behance", "TikTok"],
-                "default_value": "Others"
+                "options": ["instagram", "facebook", "twitter", "tiktok", "vimeo", "behance", "youtube", "linkedin"]
               }
             },
             "link": {

@@ -1,11 +1,18 @@
 import type { BuildQueryURLArgs } from '@prismicio/client'
 import { hash } from 'ohash'
+import type { AsyncDataOptions } from '#app/composables/asyncData'
 import { useLocale } from '~/composables/use-locale'
 import type { ProjectPageDocument } from '~/prismicio-types'
 import { encodeUrlParams } from '~/utils/url'
+
 type PrismicAllByTypeOptions = Partial<Omit<BuildQueryURLArgs, 'page'>> // Parameters<Client>
 
-export function usePrismicProjectDocuments(options?: PrismicAllByTypeOptions) {
+interface UsePrismicProjectDocumentsOptions {
+  params?: PrismicAllByTypeOptions
+  fetchOptions?: AsyncDataOptions<ProjectPageDocument[], ProjectPageDocument[]>
+}
+
+export function usePrismicProjectDocuments(options?: UsePrismicProjectDocumentsOptions) {
   const prismic = usePrismic()
   const { fetchLocaleOption } = useLocale()
   const key = hash('project_listing' + (options ? encodeUrlParams(options) : ''))
@@ -21,10 +28,14 @@ export function usePrismicProjectDocuments(options?: PrismicAllByTypeOptions) {
           ],
           lang: fetchLocaleOption.value?.lang,
           pageSize: 30,
-          ...options,
+          ...options?.params,
         })
       },
-      { deep: false },
+      {
+        deep: false,
+        lazy: true,
+        ...options?.fetchOptions,
+      },
     )
   }
 

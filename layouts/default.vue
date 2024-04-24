@@ -1,24 +1,5 @@
 <script lang="ts" setup>
-import { mapRoutePathToDocument } from '~/utils/prismic/route-resolver'
-
 const { isSplashScreenRunning } = useSplashScreen({ onLeave: () => scrollTo(0, 0) })
-
-const currentPage = useCurrentPage()
-useHead({
-  titleTemplate: (title) => {
-    return `${title || currentPage.value.title} | Hugo Tomasi`
-  },
-})
-
-// TODO: fetch Prismic document type from routePath
-// use wildCard for all pages
-const home = mapRoutePathToDocument('/')
-const homeEn = mapRoutePathToDocument('/en-gb')
-const bio = mapRoutePathToDocument('/bio')
-const bioEn = mapRoutePathToDocument('/en-gb/bio')
-
-console.log('home type', home, homeEn)
-console.log('bio type', bio, bioEn)
 </script>
 
 <template>

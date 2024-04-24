@@ -19,7 +19,7 @@ const skillList = computed(() => {
 <template>
   <section :class="$style.root" class="slice-container-xl">
     <div v-if="title" :class="$style.title" class="text-body-s">{{ title }}</div>
-    <VSkill v-for="(skill, i) in skillList" :key="i" v-bind="skill" :class="$style.skill" />
+    <VSkill v-for="(skill, i) in skillList" :key="i + skill.title" v-bind="skill" :class="$style.skill" />
   </section>
 </template>
 

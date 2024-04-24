@@ -1,32 +1,12 @@
 <script setup lang="ts">
+import type { PageProps } from '~/types/app'
 import type { ProjectListingPageDocument } from '~/prismicio-types'
-import { defaultPageTransition } from '~/transitions/default-page-transition'
-import { DocumentType } from '~/constants/document-type'
 import { parseProjectTags } from '~/utils/prismic/project'
-// import {} from 'ufo'
-// import { encodeUrlParams } from '~/utils/url'
 
-definePageMeta({
-  pageTransition: defaultPageTransition,
-  name: DocumentType.PROJECT_LISTING,
-  alias: ['/en-gb/projets'],
-})
+const props = defineProps<PageProps<ProjectListingPageDocument>>()
+const pageData = computed(() => props.prismicDocument.data)
 
-const { webResponse, pageData, alternateLinks, error } = await useFetchPage<ProjectListingPageDocument>(
-  DocumentType.PROJECT_LISTING,
-)
-
-if (error) {
-  showError(error)
-}
-
-usePage({
-  webResponse,
-  alternateLinks,
-  title: webResponse.data.meta_title || webResponse.data.title || webResponse.uid || '',
-})
-
-const { data: listingResponse } = await usePrismicProjectDocuments()
+const { data: listingResponse } = await usePrismicProjectDocuments({ fetchOptions: { lazy: false } })
 
 const fetchedProject = computed(() => {
   if (!listingResponse.value?.length) return []
@@ -52,9 +32,9 @@ const tags = computed(() => {
 })
 
 // Initial tag
-const route = useRoute()
 const QUERY_TAG = 'tag'
 
+const route = useRoute()
 function getDefaultTagQuery() {
   const rawTagQuery = route.query[QUERY_TAG]
   const tagQuery = (Array.isArray(rawTagQuery) ? rawTagQuery[0] : rawTagQuery) || ''

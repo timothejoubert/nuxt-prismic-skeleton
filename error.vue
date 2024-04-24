@@ -4,12 +4,13 @@ import { DocumentType } from '~/constants/document-type'
 
 type PageError = {
   error: {
-    url: string
-    statusCode: number
-    statusMessage: string
-    message: string
-    description: string
-    data: any
+    url?: string
+    statusCode?: number
+    statusMessage?: string
+    message?: string
+    description?: string
+    data?: any
+    stack?: any
   }
 }
 
@@ -18,17 +19,18 @@ const props = defineProps<PageError>()
 const { webResponse, pageData, alternateLinks } = await useFetchPage<ErrorPageDocument>(DocumentType.ERROR_PAGE)
 
 usePage({
-  webResponse: webResponse.value,
-  alternateLinks: alternateLinks.value,
-  title: webResponse.value.data.meta_title || webResponse.value.data.title || webResponse.value.uid || '',
+  webResponse,
+  alternateLinks,
+  title: webResponse.data.meta_title || webResponse.data.title || webResponse.uid || '',
 })
 
 const title = computed(() => {
-  if (props.error.statusCode === 404) return pageData.value.title || 'Fallback title'
+  if (props.error.statusCode === 404) return pageData.title || 'Fallback title'
   return 'Oups, une erreur est survenue'
 })
+
 const message = computed(() => {
-  if (props.error.statusCode === 404) return pageData.value.content || 'Fallback message'
+  if (props.error.statusCode === 404) return pageData.content || 'Fallback message'
   return 'Le développeur qui à fait le site est vraiment mauvais...'
 })
 
@@ -44,6 +46,7 @@ const handleError = () => clearError({ redirect: '/' })
         <VText :class="$style.message" :content="message" />
       </div>
       <pre>{{ error }}</pre>
+      <div v-html="error?.stack"></div>
       <VButton :label="$t('back_home')" theme="dark" filled outlined icon-name="arrow-right" @click="handleError" />
     </section>
   </NuxtLayout>

@@ -647,17 +647,15 @@ export interface SettingDocumentDataSocialsItem {
   name: prismic.KeyTextField
 
   /**
-   * type field in *setting → Socials*
+   * Type field in *setting → Socials*
    *
    * - **Field Type**: Select
    * - **Placeholder**: *None*
-   * - **Default Value**: Others
    * - **API ID Path**: setting.socials[].type
    * - **Documentation**: https://prismic.io/docs/field#select
    */
   type: prismic.SelectField<
-    'Others' | 'Instagram' | 'Facebook' | 'Vimeo' | 'Youtube' | 'Linkedin' | 'Behance' | 'TikTok',
-    'filled'
+    'instagram' | 'facebook' | 'twitter' | 'tiktok' | 'vimeo' | 'behance' | 'youtube' | 'linkedin'
   >
 
   /**
@@ -695,15 +693,13 @@ interface SettingDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  email: prismic.KeyTextField
-
-  /**
+  email: prismic.KeyTextField /**
    * Socials field in *setting*
    *
    * - **Field Type**: Group
    * - **Placeholder**: *None*
    * - **API ID Path**: setting.socials[]
-   * - **Tab**: Main
+   * - **Tab**: Socials
    * - **Documentation**: https://prismic.io/docs/field#group
    */
   socials: prismic.GroupField<Simplify<SettingDocumentDataSocialsItem>>
