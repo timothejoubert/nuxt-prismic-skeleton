@@ -15,6 +15,7 @@ const firstMedia = medias?.[0]?.image
 
 <template>
   <section v-if="medias?.length" :class="[$style.root, hasOneMedia ? 'slice-container-xl' : 'slice-container']">
+    {{ medias }}
     <div v-if="title" :content="title" :class="$style.title" class="text-body-m">{{ title }}</div>
     <VText v-if="content" :content="content" :class="$style.content" class="text-body-s" />
 

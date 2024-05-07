@@ -1,8 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const reference = {
+  video_id: 'PriOYrrl_ec',
+  provider_name: 'youtube',
+}
+</script>
 
 <template>
   <NuxtStory :class="$style.root">
-    <VVideoPlayer embed-id="PriOYrrl_ec" embed-platform="youtube" fit="cover" background :class="$style.video" />
+    <VVideoPlayer :reference="reference" fit="cover" background :class="$style.video" />
   </NuxtStory>
 </template>
 

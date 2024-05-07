@@ -5,13 +5,14 @@ import { isDynamicDocument, isExistingDocumentType } from '~/utils/prismic/docum
 
 export async function useFetchPage<T extends PrismicDocument>(prismicDocument: DocumentType) {
   const route = useRoute()
+  const routeUid = route.params?.uid
+  const uid = Array.isArray(routeUid) ? routeUid.at(-1) : routeUid
 
-  const uid = Array.isArray(route.params?.uid) ? route.params.uid.at(-1) : route.params.uid
   const key = `use-fetch-page-${prismicDocument}${uid ? `-${uid}` : ''}`
 
   const prismicClient = usePrismic().client
   const { fetchLocaleOption } = useLocale()
-  const isDynamicUidDocument = isDynamicDocument(prismicDocument) && uid
+  const isDynamicUidDocument = uid && isDynamicDocument(prismicDocument)
 
   const cachedData = useNuxtData(key)
   const { data } = cachedData.data.value
@@ -19,9 +20,12 @@ export async function useFetchPage<T extends PrismicDocument>(prismicDocument: D
     : await useAsyncData(key, async () => {
         try {
           if (isDynamicUidDocument) {
-            return await prismicClient.getByUID(prismicDocument, uid)
+            return await prismicClient.getByUID(prismicDocument, uid, { ...fetchLocaleOption.value })
           } else if (isExistingDocumentType(prismicDocument)) {
-            return await prismicClient.getSingle(prismicDocument, fetchLocaleOption.value)
+            return await prismicClient.getSingle(prismicDocument, {
+              ...fetchLocaleOption.value,
+              fetchLinks: ['my.project.title', 'my.project.excerpt', 'my.project.main_media'],
+            })
           }
         } catch (error: unknown) {
           console.error('PrismicError in useFetchPage: ', error)

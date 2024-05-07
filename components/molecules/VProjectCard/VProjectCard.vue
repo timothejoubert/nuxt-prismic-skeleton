@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { ProjectPageDocument } from '~/prismicio-types'
-import type { VCardLayout } from '~/components/molecules/VCard/VCard.vue'
 import { getCardProjectProps } from '~/utils/prismic/project'
 import { NuxtLink } from '#components'
+import type { VCardLayout } from '~/components/molecules/VCard/VCard'
 
 interface VProjectCard {
   project: ProjectPageDocument

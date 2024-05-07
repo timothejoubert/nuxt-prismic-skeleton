@@ -1,18 +1,25 @@
-import type { FilledImageFieldImage, FilledLinkToMediaField, ImageField, LinkToMediaField } from '@prismicio/types'
-import { isFilledImageField, isFilledLinkToMediaField } from '~/utils/prismic/guard'
+import type {
+  EmbedField,
+  FilledImageFieldImage,
+  FilledLinkToMediaField,
+  ImageField,
+  LinkToMediaField,
+} from '@prismicio/types'
+import { isFilledImageField, isFilledLinkToMediaField, isVideoEmbedField } from '~/utils/prismic/guard'
 import prismicData from '~/slicemachine.config.json'
 import { removeSpecialCharacter } from '~/utils/string/format'
 
-export type PrismicImageField = ImageField | LinkToMediaField
+export type PrismicImageField = ImageField | LinkToMediaField | EmbedField
 export type FilledPrismicImageField = FilledImageFieldImage | FilledLinkToMediaField
 
 const videoExtension = ['mp4', 'mov', 'quick', 'webm', 'mkv', 'avi', 'mpeg']
 const imgExtension = ['jpg', 'png', 'webp', 'gif', 'avif', 'jpeg', 'svg']
 
 export function getImageFieldUrl(field: PrismicImageField | undefined) {
-  if (!field || (!isFilledImageField(field) && !isFilledLinkToMediaField(field))) return
+  if (!field) return
 
-  return field.url
+  if (isVideoEmbedField(field)) return field.embed_url
+  else if (isFilledImageField(field) || isFilledLinkToMediaField(field)) return field.url
 }
 
 function isVideo(ext?: string) {
@@ -42,7 +49,7 @@ function extractDataFromUrl(url: string | undefined) {
   return { name, id, extension }
 }
 
-export function getPrismicImageData(field: PrismicImageField | undefined) {
+export function getPrismicMediaData(field: PrismicImageField | undefined) {
   const url = getImageFieldUrl(field)
   const { extension, name, id } = extractDataFromUrl(url)
   let mediaType = 'unknown'
@@ -54,7 +61,7 @@ export function getPrismicImageData(field: PrismicImageField | undefined) {
     mediaType = 'video'
   } else if (isPrismicImage) {
     mediaType = 'image'
-  } else if (getEmbedPlatform(url)) {
+  } else if (getEmbedPlatform(url) || isVideoEmbedField(field)) {
     mediaType = 'embed'
   }
 

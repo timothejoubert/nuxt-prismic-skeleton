@@ -2,7 +2,7 @@
 import type { PropType } from 'vue'
 import { vPrismicImageProps } from '~/components/molecules/VPrismicImage/VPrismicImage.vue'
 import { vVideoPlayerProps } from '~/components/molecules/VVideoPlayer/VVideoPlayer.vue'
-import { getPrismicImageData, type PrismicImageField } from '~/utils/prismic/prismic-image'
+import { getPrismicMediaData, type PrismicImageField } from '~/utils/prismic/prismic-media'
 
 const props = defineProps({
   reference: Object as PropType<PrismicImageField>,
@@ -10,7 +10,7 @@ const props = defineProps({
   video: vVideoPlayerProps,
 })
 
-const mediaData = computed(() => getPrismicImageData(props.reference as PrismicImageField | undefined))
+const mediaData = computed(() => getPrismicMediaData(props.reference as PrismicImageField | undefined))
 
 // Display image with interaction video player listener
 const isEmbedVideo = computed(() => !!(props.video?.embedId && props.video?.embedPlatform))
@@ -35,6 +35,8 @@ const videoWithoutThumbnail = computed(() => !mediaData.value?.url && hasInterna
 const displayPlayerVideoRoot = computed(
   () => mediaType.value === 'video' || embedPlatform.value || videoWithoutThumbnail.value,
 )
+
+console.log('isEmbedVideo', isEmbedVideo.value)
 </script>
 
 <template>

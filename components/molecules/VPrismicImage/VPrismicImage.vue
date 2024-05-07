@@ -2,7 +2,7 @@
 import type { PropType } from 'vue'
 import { imgProps } from '#image/components/nuxt-img'
 import { NuxtImg, VPicture } from '#components'
-import { getPrismicImageData, type PrismicImageField } from '~/utils/prismic/prismic-image'
+import { getPrismicMediaData, type PrismicImageField } from '~/utils/prismic/prismic-media'
 
 export const vPrismicImageProps = {
   ...imgProps,
@@ -19,7 +19,7 @@ export default defineComponent({
   setup(props, { slots }) {
     const $style = useCssModule()
 
-    const prismicMediaData = computed(() => getPrismicImageData(props.reference))
+    const prismicMediaData = computed(() => getPrismicMediaData(props.reference))
     const src = computed(() => props.src || prismicMediaData.value?.url)
 
     const width = computed(() => props?.width || prismicMediaData.value?.width)

@@ -3,10 +3,14 @@ import { h, type PropType } from 'vue'
 import type { NuxtLinkProps } from '#app/components/nuxt-link'
 import type { LinkField, PrismicDocument } from '@prismicio/types'
 import { NuxtLink } from '#components'
-import { getLinkFieldFilled } from '~/utils/prismic/prismic-link-to'
-import { isDocumentEntity } from '~/utils/prismic/guard'
 
 export type Reference = PrismicDocument | LinkField
+
+function getReferenceUrl(reference: Reference | undefined) {
+  if (!reference || !('url' in reference)) return undefined
+
+  return reference.url || undefined
+}
 
 export const vLinkProps = {
   label: [String, Boolean],
@@ -21,21 +25,12 @@ export default defineComponent({
   inheritAttrs: false,
   props: vLinkProps,
   setup(props, { attrs, slots }) {
-    let referenceUrl = ''
+    const url = props.url || getReferenceUrl(props.reference)
 
-    if (isDocumentEntity(props.reference)) {
-      const { $getPrismicUrl } = useNuxtApp()
-      referenceUrl = $getPrismicUrl(props.reference)
-    } else if (getLinkFieldFilled(props.reference)) {
-      referenceUrl = props.reference?.url
-    }
+    const { $isInternalUrl, $isExternalUrl } = useNuxtApp()
 
-    const url = props.url || props.reference?.url || referenceUrl
-    const runtimeConfig = useRuntimeConfig()
-    const siteUrl = runtimeConfig?.public?.siteUrl || ''
-
-    const isInternal = url?.charAt(0) === '/' || url?.charAt(0) === '#' || url?.startsWith(siteUrl)
-    const isExternal = !isInternal && !!url
+    const isInternal = $isInternalUrl(url)
+    const isExternal = $isExternalUrl(url)
 
     if (!url && !props.isDownload) {
       return () =>
@@ -54,7 +49,7 @@ export default defineComponent({
     if (props.isDownload || isExternal) {
       Object.assign(attributes, {
         target: attrs?.target || '_blank',
-        rel: attrs?.rel || 'noopener',
+        rel: attrs?.rel || 'noopener noreferrer',
       })
     }
 

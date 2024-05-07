@@ -79,6 +79,13 @@
             "placeholder_true": "true",
             "placeholder_false": "false"
           }
+        },
+        "embed_video": {
+          "type": "Embed",
+          "config": {
+            "label": "Embed video",
+            "placeholder": "Exemple youtube: Copier le lien dans le button \"Partager\""
+          }
         }
       }
     }

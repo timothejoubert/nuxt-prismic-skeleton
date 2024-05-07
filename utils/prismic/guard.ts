@@ -5,6 +5,8 @@ import type {
   FilledLinkToWebField,
   FilledLinkToMediaField,
   FilledImageFieldImage,
+  EmbedField,
+  VideoOEmbed,
 } from '@prismicio/types'
 import { LinkType } from '@prismicio/types'
 import { isObject } from '~/utils/object/is-object'
@@ -40,4 +42,14 @@ export function isFilledImageField(field: unknown): field is FilledImageFieldIma
 
 export function isFilledLinkToMediaField(field: unknown): field is FilledLinkToMediaField {
   return objectHasAllKeys(field, ['link_type', 'name', 'kind', 'url', 'size'])
+}
+
+export function isEmbedField(field: unknown): field is EmbedField {
+  return objectHasAllKeys(field, ['html', 'width', 'height', 'embed_url'])
+}
+
+export function isVideoEmbedField(
+  field: unknown,
+): field is EmbedField<VideoOEmbed> & { video_id?: string | number; provider_name?: string } {
+  return isEmbedField(field) && field.type === 'video'
 }

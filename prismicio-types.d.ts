@@ -281,6 +281,17 @@ interface HomePageDocumentData {
   embed_platform: prismic.SelectField<'youtube' | 'vimeo'>
 
   /**
+   * Embed video field in *Home page*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home_page.embed_video
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed_video: prismic.EmbedField
+
+  /**
    * Sub section title field in *Home page*
    *
    * - **Field Type**: Text
@@ -1027,6 +1038,16 @@ export interface MediaSliceSliceDefaultItem {
    * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   display_meta: prismic.BooleanField
+
+  /**
+   * Embed video field in *MediaSlice → Items*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: Exemple youtube: Copier le lien dans le button "Partager"
+   * - **API ID Path**: media_slice.items[].embed_video
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed_video: prismic.EmbedField
 }
 
 /**

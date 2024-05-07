@@ -1,22 +1,56 @@
 <script lang="ts">
 import type { PropType } from 'vue'
-import type Plyr from 'plyr'
+import type { EmbedField, LinkToMediaField } from '@prismicio/types'
 import { commonVideoProps, embedVideoProps, videoAttributes, videoSrc } from '~/utils/video/video-props'
-import { getVideoAttrsValues } from '~/utils/video/video-attributes'
 import { getEmbedSrc } from '~/utils/media/embed'
+import { isVideoEmbedField } from '~/utils/prismic/guard'
+
+export type CustomEmbedField = {
+  video_id: string
+  provider_name: 'vimeo' | 'youtube' | 'Vimeo' | 'YouTube'
+}
+
+type VideoReference = (EmbedField | CustomEmbedField | LinkToMediaField) & {
+  width?: number | string
+  height?: number | string
+}
 
 export const vVideoPlayerProps = {
+  reference: Object as PropType<VideoReference>,
+  ratio: Number,
   ...videoSrc,
   ...videoAttributes,
   ...embedVideoProps,
   ...commonVideoProps,
-  plyr: { type: Object as PropType<Plyr.Options> },
+  // plyr: { type: Object as PropType<Plyr.Options> },
+}
+
+function getVideoAttrsValues(props: Record<string, unknown>, hasBackgroundProp: boolean) {
+  return {
+    playsinline: props.playsinline || hasBackgroundProp,
+    muted: !!props.muted || hasBackgroundProp,
+    loop: !!props.loop || hasBackgroundProp,
+    autoplay: !!props.autoplay || hasBackgroundProp,
+    controls: props.controls && !hasBackgroundProp,
+  }
+}
+
+function isCustomEmbed(field?: unknown) {
+  if (!field || typeof field !== 'object') return
+
+  if ('video_id' in field && 'provider_name' in field && !!field.video_id && !!field.provider_name) {
+    return field as CustomEmbedField
+  }
+}
+
+function isPrismicEmbed(field: unknown) {
+  return isVideoEmbedField(field) ? field : undefined
 }
 
 export default defineComponent({
   props: vVideoPlayerProps,
   setup(props) {
-    // Attributes
+    // ATTRIBUTES
     const videoAttrsValue = computed(() => getVideoAttrsValues(props, props.background))
 
     const playsinline = computed(() => videoAttrsValue.value.playsinline)
@@ -27,8 +61,8 @@ export default defineComponent({
 
     const videoAttrs = computed(() => {
       return {
-        width: props.width,
-        height: props.height,
+        width: props.width || props.reference?.width,
+        height: props.height || props.reference?.height,
         playsinline: playsinline.value ? '' : undefined,
         muted: muted.value ? '' : undefined,
         loop: loop.value ? '' : undefined,
@@ -37,14 +71,30 @@ export default defineComponent({
       }
     })
 
-    const isEmbed = computed(() => !!props.embedPlatform && !!props.embedId)
+    // EMBED
+    const embedData = computed(() => {
+      const isNativeEmbed = isPrismicEmbed(props.reference)
+      const customEmbed = isCustomEmbed(props.reference)
+
+      if (customEmbed) {
+        return customEmbed
+      } else if (isNativeEmbed) {
+        const urlId = isNativeEmbed.embed_url.substring(isNativeEmbed.embed_url.lastIndexOf('/') + 1)
+        const endIndexId = urlId.lastIndexOf('?') === -1 ? urlId.length : urlId.lastIndexOf('?')
+        return {
+          ...isNativeEmbed,
+          video_id: isNativeEmbed.video_id || urlId.substring(0, endIndexId),
+        }
+      }
+    })
 
     const videoSrc = computed(() => {
-      if (!isEmbed.value) return props.src
+      if (!embedData.value) return props.src
 
       let params: Record<string, string> = {}
-      const platform = props.embedPlatform?.toLocaleLowerCase() || ''
+      const platform = embedData.value.provider_name?.toLocaleLowerCase() || ''
 
+      console.log('embed plateform', platform, embedData.value)
       if (platform === 'youtube') {
         params = {
           iv_load_policy: '3',
@@ -70,12 +120,12 @@ export default defineComponent({
         }
       }
 
-      return getEmbedSrc(props.embedId as string, platform, params)
+      return getEmbedSrc(embedData.value.video_id, platform, params)
     })
 
     // Native video
     const videoSources = computed(() => {
-      if (isEmbed.value) return []
+      if (embedData.value) return []
 
       const altSources = (props.altSources || [])
         .filter((file) => !!file.relativePath)
@@ -91,7 +141,14 @@ export default defineComponent({
     const playerElement = ref<HTMLElement | null>()
     const centerOffset = ref(0)
     const playerSize = ref<number[]>([])
-    const videoRatio = computed(() => props.ratio || 16 / 9)
+
+    const videoRatio = computed(() => {
+      if (props.ratio) return props.ratio
+      else if (videoAttrs.value.width && videoAttrs.value.height)
+        return videoAttrs.value.width / videoAttrs.value.height
+
+      return 16 / 9
+    })
 
     function updatePlayerSize() {
       // for now, it handles cover size only
@@ -112,13 +169,14 @@ export default defineComponent({
     const playerStyle = computed(() => {
       const style: Record<string, string | number> = {}
       if (playerSize.value.length) {
-        if (playerSize.value.length) {
-          style.width = playerSize.value[0] + 'px'
-          style.height = playerSize.value[1] + 'px'
-          // Cover center
-          style.left = -centerOffset.value + 'px'
-        }
+        style.width = playerSize.value[0] + 'px'
+        style.height = playerSize.value[1] + 'px'
+        // Cover center
+        style.left = -centerOffset.value + 'px'
+      } else if (videoRatio.value) {
+        style.aspectRatio = videoRatio.value
       }
+
       return style
     })
 
@@ -137,7 +195,7 @@ export default defineComponent({
 
     return {
       videoSrc,
-      isEmbed,
+      embedData,
       playerStyle,
       videoAttrs,
       videoSources,
@@ -148,7 +206,7 @@ export default defineComponent({
 
 <template>
   <iframe
-    v-if="isEmbed"
+    v-if="embedData"
     ref="playerElement"
     :style="playerStyle"
     :src="videoSrc"

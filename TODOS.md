@@ -27,3 +27,10 @@
 - VEmbedVideo
 - Scss
 - VSplashScreen + VHeaderBar
+
+
+## Next project
+- Adapt all (img, picture, figure, embedVideo, internalVideo, posterVideo)
+- Map route to PrismicDocuments
+- Usage of localization (link, route...)
+- Store SplashScreen state in sessionStorage

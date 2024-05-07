@@ -12,8 +12,39 @@ const hasVideo = computed(() => {
   return props.pageData?.internal_video || (props.pageData?.embed_id && props.pageData?.embed_platform)
 })
 
+const videoSrc = computed(() => {
+  if (!hasVideo.value) return
+
+  return {
+    reference: props.pageData?.internal_video,
+    video: {
+      embedId: props.pageData.embed_id,
+      embedPlatform: props.pageData.embed_platform,
+    },
+  }
+})
+
+const backgroundVideo = computed(() => {
+  return {
+    ...videoSrc.value,
+    title: 'Showreel Hugo Tomasi',
+    video: {
+      ...videoSrc.value?.video,
+      playsinline: true,
+      background: true,
+      fit: 'cover',
+    },
+  }
+})
+
+console.log(props.pageData.embed_video)
+console.log(backgroundVideo.value)
+
 // TODO: Create VEmbedVideo and use plyr for set video state
-function setVideoFullscreen() {}
+const { open } = useMediaViewer()
+function onVideoButtonClick() {
+  videoSrc.value && open([videoSrc.value])
+}
 </script>
 
 <template>
@@ -21,19 +52,17 @@ function setVideoFullscreen() {}
     <h2 v-if="pageData.title" class="text-h1">{{ pageData.title }}</h2>
     <VText v-if="pageData.subtitle" :content="pageData.subtitle" :class="$style.tagline" class="text-h5" tag="h1" />
     <div :class="$style['media-wrapper']">
-      <ClientOnly>
-        <VVideoPlayer
-          v-if="hasVideo"
-          :src="pageData.internal_video?.url"
-          playsinline
-          background
-          :embed-id="pageData.embed_id"
-          :embed-platform="pageData.embed_platform"
-          title="Showreel Hugo Tomasi"
-          :class="$style.video"
-        />
-        <!--          fit="cover"-->
-      </ClientOnly>
+      <VPrismicMedia v-if="hasVideo" v-bind="backgroundVideo" />
+      <!--      <VVideoPlayer-->
+      <!--        v-if="hasVideo"-->
+      <!--        :src="pageData.internal_video?.url"-->
+      <!--        playsinline-->
+      <!--        background-->
+      <!--        :embed-id="pageData.embed_id"-->
+      <!--        :embed-platform="pageData.embed_platform"-->
+      <!--        title="Showreel Hugo Tomasi"-->
+      <!--        :class="$style.video"-->
+      <!--      />-->
     </div>
 
     <VHeaderBottom
@@ -42,7 +71,7 @@ function setVideoFullscreen() {}
       :alt-content="pageData.sub_section_aside"
       :class="$style.body"
     >
-      <div :class="$style['video-cta']" @click="setVideoFullscreen">
+      <div :class="$style['video-cta']" @click="onVideoButtonClick">
         <VSplitWord
           class="text-body-xs"
           :class="$style['video-cta__label']"

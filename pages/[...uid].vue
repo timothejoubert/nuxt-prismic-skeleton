@@ -3,12 +3,15 @@ import { defaultPageTransition } from '~/transitions/default-page-transition'
 import { mapRoutePathToPrismicDocument } from '~/utils/prismic/route-resolver'
 import { components } from '~/slices'
 import { DocumentType } from '~/constants/document-type'
-import VAboutPage from '~/components/pages/VAboutPage/VAboutPage.vue'
-import VHomePage from '~/components/pages/VHomePage/VHomePage.vue'
-import VProjectListingPage from '~/components/pages/VProjectListingPage/VProjectListingPage.vue'
-import VProjectPage from '~/components/pages/VProjectPage/VProjectPage.vue'
-import VDefaultPage from '~/components/pages/VDefaultPage/VDefaultPage.vue'
 import { isExistingDocumentType } from '~/utils/prismic/document-type'
+import {
+  LazyVAboutPage,
+  LazyVDefaultPage,
+  LazyVHomePage,
+  LazyVProjectListingPage,
+  LazyVProjectPage,
+  VProjectPage,
+} from '#components'
 
 definePageMeta({
   pageTransition: defaultPageTransition,
@@ -36,22 +39,20 @@ usePage({
 const pageComponent = computed(() => {
   switch (prismicDocumentType) {
     case DocumentType.HOME:
-      return VHomePage
+      return LazyVHomePage
     case DocumentType.ABOUT:
-      return VAboutPage
+      return LazyVAboutPage
     case DocumentType.PROJECT_LISTING:
-      return VProjectListingPage
+      return LazyVProjectListingPage
     case DocumentType.PROJECT:
-      return VProjectPage
+      return LazyVProjectPage
     case DocumentType.WEB_PAGE:
-      return VDefaultPage
+      return LazyVDefaultPage
     default:
       showError({ status: 404, message: "La page que vous recherchez n'existe pas." })
       return VProjectPage
   }
 })
-
-console.log(webResponse)
 
 const isProjectDocument = computed(() => prismicDocumentType === DocumentType.PROJECT)
 

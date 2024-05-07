@@ -82,11 +82,15 @@ export default defineNuxtConfig({
       version,
     },
   },
+  // https://prismic.io/docs/technical-reference/prismicio-vue?version=v3#plugin-usage
   prismic: {
     endpoint: prismicData.repositoryName,
     clientConfig: {
       routes: prismicDocumentRouteList,
     },
+    // richTextSerializer: '~/path'
+    preview: '/preview',
+    toolbar: true, // Whether or not to inject Prismic toolbar, required for previews to work properly.
   },
   components: ['~/components/atoms', '~/components/molecules', '~/components/organisms', '~/components/pages'],
   image: {

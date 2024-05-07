@@ -1,30 +1,20 @@
 <script lang="ts" setup>
 const { mainMenu } = useCommonContent()
-const { $getPrismicUrl } = useNuxtApp()
-
-const navItemList = computed(() => {
-  const links = mainMenu.value?.links
-
-  return (
-    links
-      ?.filter((group) => group?.link)
-      .map((group) => {
-        return {
-          label: group.label,
-          url: $getPrismicUrl(group.link),
-        }
-      }) || []
-  )
-})
+const linkList = computed(() => mainMenu.value?.links || [])
 </script>
 
 <template>
-  <nav v-if="navItemList?.length" :class="$style.root">
+  <nav v-if="linkList.length" :class="$style.root">
     <ul :class="$style.list">
-      <li v-for="(item, i) in navItemList" :key="i">
-        <NuxtLink :to="item.url" class="text-over-title-s" :class="$style.item" prefetch>
+      <li v-for="(item, i) in linkList" :key="i">
+        <VLink
+          :reference="item.link"
+          class="text-over-title-s"
+          :class="$style.item"
+          :nuxt-link-props="{ prefetch: true }"
+        >
           <VSplitWord :content="item.label" />
-        </NuxtLink>
+        </VLink>
       </li>
     </ul>
   </nav>
