@@ -53,18 +53,18 @@
             "select": "media"
           }
         },
-        "embed_id": {
+        "video_id": {
           "type": "Text",
           "config": {
             "label": "Embed id",
-            "placeholder": ""
+            "placeholder": "L'identifiant vidéo de la plateforme de streaming vidéo "
           }
         },
-        "embed_platform": {
+        "provider_name": {
           "type": "Select",
           "config": {
             "label": "Embed platform",
-            "placeholder": "",
+            "placeholder": "Le nom de la plateforme de streaming vidéo",
             "options": [
               "youtube",
               "vimeo"

@@ -1012,21 +1012,21 @@ export interface MediaSliceSliceDefaultItem {
    * Embed id field in *MediaSlice → Items*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: media_slice.items[].embed_id
+   * - **Placeholder**: L'identifiant vidéo de la plateforme de streaming vidéo
+   * - **API ID Path**: media_slice.items[].video_id
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  embed_id: prismic.KeyTextField
+  video_id: prismic.KeyTextField
 
   /**
    * Embed platform field in *MediaSlice → Items*
    *
    * - **Field Type**: Select
-   * - **Placeholder**: *None*
-   * - **API ID Path**: media_slice.items[].embed_platform
+   * - **Placeholder**: Le nom de la plateforme de streaming vidéo
+   * - **API ID Path**: media_slice.items[].provider_name
    * - **Documentation**: https://prismic.io/docs/field#select
    */
-  embed_platform: prismic.SelectField<'youtube' | 'vimeo'>
+  provider_name: prismic.SelectField<'youtube' | 'vimeo'>
 
   /**
    * Display meta field in *MediaSlice → Items*

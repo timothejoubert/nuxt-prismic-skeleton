@@ -1,49 +1,72 @@
 <script setup lang="ts">
 import { type Content } from '@prismicio/client'
+import { isFilledImageField, isFilledLinkToMediaField, isVideoEmbedField } from '~/utils/prismic/guard'
 
 const props = defineProps(getSliceComponentProps<Content.MediaSliceSlice>())
 
 const medias = props.slice.items
+const hasOneMedia = medias?.length === 1
+const firstMedia = medias?.[0]?.image
+
+const filledMedias = computed(() => {
+  return medias.map((media) => {
+    let reference
+
+    const nativeVideo = isFilledLinkToMediaField(media.internal_video)
+    const image = isFilledImageField(media.image) ? media.image : undefined
+    if (isVideoEmbedField(media.embed_video)) {
+      reference = media.embed_video
+    } else if (media.video_id && media.provider_name) {
+      reference = { video_id: media.video_id, provider_name: media.provider_name }
+    } else if (nativeVideo) {
+      reference = media.internal_video
+    } else if (image) {
+      reference = image
+    }
+
+    return {
+      reference,
+      video: {
+        background: !!nativeVideo,
+      },
+      image: {
+        reference: image,
+        width: '812',
+        height: '475',
+        tag: 'img',
+        sizes: hasOneMedia
+          ? 'xs:100vw sm:100md md:100vw lg:75vw xl:75vw xxl:75vw hd:75vw qhd:75vw'
+          : 'xs:100vw sm:100md md:100vw lg:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw',
+      },
+    }
+  })
+})
 
 const title = props.slice.primary?.title
 const content = props.slice.primary?.content
 const isFullWidth = props.slice.primary?.full_width
-
-const hasOneMedia = medias?.length === 1
-const firstMedia = medias?.[0]?.image
 </script>
 
 <template>
   <section v-if="medias?.length" :class="[$style.root, hasOneMedia ? 'slice-container-xl' : 'slice-container']">
-    {{ medias }}
-    <div v-if="title" :content="title" :class="$style.title" class="text-body-m">{{ title }}</div>
-    <VText v-if="content" :content="content" :class="$style.content" class="text-body-s" />
+    <template v-if="isFullWidth">
+      <div v-if="title" :content="title" :class="$style.title" class="text-body-m">{{ title }}</div>
+      <VText v-if="content" :content="content" :class="$style.content" class="text-body-s" />
 
-    <VPrismicImage v-if="isFullWidth" :reference="firstMedia" :class="[$style.image, $style['image--fulwidth']]">
-      <VPictureSource :media="`(max-width: 540px)`" sizes="xs:100vw sm:100md md:100vw" width="375" height="300" />
-      <VPictureSource sizes="lg:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw" width="1278" height="447" />
-    </VPrismicImage>
+      <VPrismicImage :reference="firstMedia" :class="[$style.image, $style['image--fullwidth']]">
+        <VPictureSource :media="`(max-width: 540px)`" sizes="xs:100vw sm:100md md:100vw" width="375" height="300" />
+        <VPictureSource sizes="lg:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw" width="1278" height="447" />
+      </VPrismicImage>
+    </template>
 
-    <template v-else-if="medias?.length">
+    <template v-else-if="filledMedias?.length">
       <VPrismicMedia
-        v-for="(item, mediaIndex) in medias"
+        v-for="(item, mediaIndex) in filledMedias"
         :key="mediaIndex"
         :class="[$style.image, $style['image--default'], $style[`image--${hasOneMedia ? 'solo' : 'multiple'}`]]"
-        :reference="item.image"
-        :video="{
-          embedPlatform: item.embed_platform,
-          embedId: item.embed_id,
-          src: item.internal_video?.url,
-          loop: true,
-        }"
-        :image="{
-          width: '812',
-          height: '475',
-          tag: 'img',
-          sizes: hasOneMedia
-            ? 'xs:100vw sm:100md md:100vw lg:75vw xl:75vw xxl:75vw hd:75vw qhd:75vw'
-            : 'xs:100vw sm:100md md:100vw lg:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw',
-        }"
+        :reference="item.reference"
+        :video="item.video"
+        :image="item.image"
       />
     </template>
   </section>
@@ -94,7 +117,7 @@ const firstMedia = medias?.[0]?.image
     --v-prismic-medias-aspect-ratio: 812 / 475;
   }
 
-  &--fulwidth {
+  &--fullwidth {
     position: relative;
     display: block;
     width: calc(100% + var(--page-gutter) * 2);

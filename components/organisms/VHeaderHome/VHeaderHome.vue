@@ -37,9 +37,6 @@ const backgroundVideo = computed(() => {
   }
 })
 
-console.log(props.pageData.embed_video)
-console.log(backgroundVideo.value)
-
 // TODO: Create VEmbedVideo and use plyr for set video state
 const { open } = useMediaViewer()
 function onVideoButtonClick() {

@@ -25,13 +25,13 @@ export const vVideoPlayerProps = {
   // plyr: { type: Object as PropType<Plyr.Options> },
 }
 
-function getVideoAttrsValues(props: Record<string, unknown>, hasBackgroundProp: boolean) {
+function getVideoAttrsValues(props: Record<string, unknown>) {
   return {
-    playsinline: props.playsinline || hasBackgroundProp,
-    muted: !!props.muted || hasBackgroundProp,
-    loop: !!props.loop || hasBackgroundProp,
-    autoplay: !!props.autoplay || hasBackgroundProp,
-    controls: props.controls && !hasBackgroundProp,
+    playsinline: props.playsinline || props.background,
+    muted: !!props.muted || props.background,
+    loop: !!props.loop || props.background,
+    autoplay: !!props.autoplay || props.background,
+    controls: props.controls && !props.background,
   }
 }
 
@@ -51,7 +51,7 @@ export default defineComponent({
   props: vVideoPlayerProps,
   setup(props) {
     // ATTRIBUTES
-    const videoAttrsValue = computed(() => getVideoAttrsValues(props, props.background))
+    const videoAttrsValue = computed(() => getVideoAttrsValues(props))
 
     const playsinline = computed(() => videoAttrsValue.value.playsinline)
     const muted = computed(() => videoAttrsValue.value.muted)
@@ -83,18 +83,17 @@ export default defineComponent({
         const endIndexId = urlId.lastIndexOf('?') === -1 ? urlId.length : urlId.lastIndexOf('?')
         return {
           ...isNativeEmbed,
-          video_id: isNativeEmbed.video_id || urlId.substring(0, endIndexId),
+          video_id: (isNativeEmbed.video_id || urlId.substring(0, endIndexId)).toString(),
         }
       }
     })
 
     const videoSrc = computed(() => {
-      if (!embedData.value) return props.src
+      if (!embedData.value) return props.reference?.url || props.src
 
       let params: Record<string, string> = {}
       const platform = embedData.value.provider_name?.toLocaleLowerCase() || ''
 
-      console.log('embed plateform', platform, embedData.value)
       if (platform === 'youtube') {
         params = {
           iv_load_policy: '3',

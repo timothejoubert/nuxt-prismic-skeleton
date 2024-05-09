@@ -10,50 +10,52 @@ const props = defineProps({
   video: vVideoPlayerProps,
 })
 
-const mediaData = computed(() => getPrismicMediaData(props.reference as PrismicImageField | undefined))
+const referenceData = computed(() => getPrismicMediaData(props.reference as PrismicImageField | undefined))
 
-// Display image with interaction video player listener
-const isEmbedVideo = computed(() => !!(props.video?.embedId && props.video?.embedPlatform))
-const hasInternalVideo = computed(() => !!props.video?.src)
-const hasVideoThumbnail = computed(() => {
-  return !!mediaData.value?.url && (isEmbedVideo.value || hasInternalVideo.value)
+// Type
+const isEmbedVideo = computed(() => referenceData.value.mediaType === 'embed')
+const isNativeVideo = computed(() => referenceData.value.mediaType === 'video')
+const isVideo = computed(() => isEmbedVideo.value || isNativeVideo.value)
+const videoThumbnail = computed(() => (isVideo.value && props.image?.reference ? props.image : undefined))
+const videoReference = computed(() => {
+  if (!isVideo.value) return
+
+  // TODO check if video ref is filled
+  if (props.video?.reference) return props.video?.reference
+  return props.reference
 })
 
-// Basic data
-const src = computed(() => mediaData.value?.url || props.video?.url || props.image?.url)
-const mediaType = computed(() => mediaData.value?.mediaType)
-const embedPlatform = computed(() => props.video?.embedPlatform || mediaData.value?.embedPlatform)
+// Reference data
+const mediaType = computed(() => referenceData.value?.mediaType)
 
+// Video with thumbnail
 const hadInteraction = ref(false)
-
 function onThumbnailClicked() {
   hadInteraction.value = true
 }
-
-//
-const videoWithoutThumbnail = computed(() => !mediaData.value?.url && hasInternalVideo.value)
-const displayPlayerVideoRoot = computed(
-  () => mediaType.value === 'video' || embedPlatform.value || videoWithoutThumbnail.value,
-)
-
-console.log('isEmbedVideo', isEmbedVideo.value)
 </script>
 
 <template>
   <div
-    v-if="hasVideoThumbnail"
+    v-if="videoThumbnail"
     :class="[$style.root, $style.wrapper, hadInteraction && $style['wrapper--had-interaction']]"
     @click="onThumbnailClicked"
   >
     <VButton size="s" filled icon-name="play" tag="div" :class="$style.button" />
-    <VPrismicImage :reference="reference" v-bind="image" :class="$style.image"><slot /></VPrismicImage>
-    <VVideoPlayer v-if="hadInteraction" v-bind="video" autoplay :class="$style['player']" />
+    <VPrismicImage v-bind="videoThumbnail" :class="$style.image"><slot /></VPrismicImage>
+    <VVideoPlayer
+      v-if="hadInteraction"
+      v-bind="video"
+      :reference="videoReference"
+      :autoplay="true"
+      :class="$style['player']"
+    />
   </div>
   <VVideoPlayer
-    v-else-if="displayPlayerVideoRoot"
-    :src="src"
+    v-else-if="isVideo"
     v-bind="video"
-    :background="video?.background || videoWithoutThumbnail"
+    :reference="videoReference"
+    :background="video?.background"
     :class="$style.root"
   />
   <VPrismicImage v-else-if="mediaType === 'image'" :reference="reference" v-bind="image" :class="$style.root"
