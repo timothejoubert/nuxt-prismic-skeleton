@@ -1,35 +1,32 @@
 <script lang="ts" setup>
 import type { HomePageDocumentData } from '~/prismicio-types'
+import { isCustomEmbedVideo, isFilledLinkToMediaField, isVideoEmbedField } from '~/utils/prismic/guard'
 
 interface VHeaderHomeProps {
   pageData: HomePageDocumentData
 }
 
 const props = defineProps<VHeaderHomeProps>()
-
 const isCtaHovered = ref(false)
-const hasVideo = computed(() => {
-  return props.pageData?.internal_video || (props.pageData?.embed_id && props.pageData?.embed_platform)
-})
 
-const videoSrc = computed(() => {
-  if (!hasVideo.value) return
+const mediaProps = computed(() => {
+  let reference
 
-  return {
-    reference: props.pageData?.internal_video,
-    video: {
+  if (isFilledLinkToMediaField(props.pageData?.internal_video)) {
+    reference = props.pageData?.internal_video
+  } else if (isCustomEmbedVideo(props.pageData)) {
+    reference = {
       embedId: props.pageData.embed_id,
       embedPlatform: props.pageData.embed_platform,
-    },
+    }
+  } else if (isVideoEmbedField(props.pageData.embed_video)) {
+    reference = props.pageData.embed_video
   }
-})
 
-const backgroundVideo = computed(() => {
   return {
-    ...videoSrc.value,
     title: 'Showreel Hugo Tomasi',
+    reference,
     video: {
-      ...videoSrc.value?.video,
       playsinline: true,
       background: true,
       fit: 'cover',
@@ -37,10 +34,12 @@ const backgroundVideo = computed(() => {
   }
 })
 
+const hasVideo = computed(() => !!mediaProps.value.reference)
+
 // TODO: Create VEmbedVideo and use plyr for set video state
 const { open } = useMediaViewer()
 function onVideoButtonClick() {
-  videoSrc.value && open([videoSrc.value])
+  // videoSrc.value && open([videoSrc.value])
 }
 </script>
 
@@ -49,19 +48,8 @@ function onVideoButtonClick() {
     <h2 v-if="pageData.title" class="text-h1">{{ pageData.title }}</h2>
     <VText v-if="pageData.subtitle" :content="pageData.subtitle" :class="$style.tagline" class="text-h5" tag="h1" />
     <div :class="$style['media-wrapper']">
-      <VPrismicMedia v-if="hasVideo" v-bind="backgroundVideo" />
-      <!--      <VVideoPlayer-->
-      <!--        v-if="hasVideo"-->
-      <!--        :src="pageData.internal_video?.url"-->
-      <!--        playsinline-->
-      <!--        background-->
-      <!--        :embed-id="pageData.embed_id"-->
-      <!--        :embed-platform="pageData.embed_platform"-->
-      <!--        title="Showreel Hugo Tomasi"-->
-      <!--        :class="$style.video"-->
-      <!--      />-->
+      <VPrismicMedia v-if="hasVideo" v-bind="mediaProps" :class="$style.video" />
     </div>
-
     <VHeaderBottom
       :title="pageData.sub_section_title"
       :content="pageData.sub_section_content"
@@ -117,9 +105,11 @@ function onVideoButtonClick() {
 .media-wrapper {
   position: absolute;
   z-index: -1;
-  top: 0;
-  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  inset: 0;
   pointer-events: none;
 
   &::after {
@@ -133,16 +123,16 @@ function onVideoButtonClick() {
 
 .video {
   position: absolute;
-  inset: 0;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  //inset: 0;
+  //object-fit: cover;
+  //height: 100%;
 
-  :global(video) {
-    width: 100vw !important;
-    height: 100vh !important;
-    object-fit: cover;
-  }
+  //:global(video) {
+  //  width: 100vw !important;
+  //  height: 100vh !important;
+  //  object-fit: cover;
+  //}
 }
 
 .body {

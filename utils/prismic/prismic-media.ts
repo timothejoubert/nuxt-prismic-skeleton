@@ -34,7 +34,6 @@ function isVideoExtension(ext?: string) {
 function isImageExtension(ext?: string) {
   return imgExtension.includes(ext || '')
 }
-
 function getEmbedPlatform(field?: PrismicMediaField) {
   if (!field) return
   let result: CustomEmbedField['provider_name'] | undefined

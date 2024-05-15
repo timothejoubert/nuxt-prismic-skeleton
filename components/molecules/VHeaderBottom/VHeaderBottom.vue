@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 import type { RichTextField } from '@prismicio/types'
 
 defineProps({
-  title: String,
+  title: String as PropType<string | null>,
   content: [String, Array] as PropType<RichTextField | string>,
   altContent: [String, Array] as PropType<RichTextField | string>,
   contentClass: String,

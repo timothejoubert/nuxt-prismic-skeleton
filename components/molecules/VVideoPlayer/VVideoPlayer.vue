@@ -60,9 +60,12 @@ export default defineComponent({
     const controls = computed(() => videoAttrsValue.value.controls)
 
     const videoAttrs = computed(() => {
+      const width = Number(props.width || props.reference?.width || '')
+      const height = Number(props.height || props.reference?.height || '')
+
       return {
-        width: props.width || props.reference?.width,
-        height: props.height || props.reference?.height,
+        width,
+        height,
         playsinline: playsinline.value ? '' : undefined,
         muted: muted.value ? '' : undefined,
         loop: loop.value ? '' : undefined,
@@ -103,6 +106,7 @@ export default defineComponent({
           rel: '0',
           enablejsapi: '1',
           autoplay: autoplay.value ? '1' : '0',
+          playlist: autoplay.value ? embedData.value.video_id : '', // Add video ID another time as playlist value for make loop work
           mute: muted.value ? '1' : '0',
           loop: loop.value ? '1' : '0',
           controls: controls.value ? '1' : '0',
@@ -137,8 +141,7 @@ export default defineComponent({
       return [{ src: videoSrc.value, type: props.mimeType || 'video/mp4' }, ...altSources]
     })
 
-    const playerElement = ref<HTMLElement | null>()
-    const centerOffset = ref(0)
+    const playerElement = ref<HTMLIFrameElement | null>()
     const playerSize = ref<number[]>([])
 
     const videoRatio = computed(() => {
@@ -149,29 +152,13 @@ export default defineComponent({
       return 16 / 9
     })
 
-    function updatePlayerSize() {
-      // for now, it handles cover size only
-      const width = (playerElement.value?.clientWidth || 0) + 2 // + 2 for hiding a potential antialiasing issue
-      const height = (playerElement.value?.clientHeight || 0) + 2
-      const boundsRatio = width / height
-
-      if (boundsRatio < videoRatio.value) {
-        // Increase size for fill height
-        playerSize.value = [height * videoRatio.value, height]
-        centerOffset.value = Math.abs(width - window.innerWidth) / videoRatio.value
-      } else {
-        // Increase size for fill width
-        playerSize.value = [width, width * videoRatio.value]
-      }
-    }
-
     const playerStyle = computed(() => {
       const style: Record<string, string | number> = {}
+
       if (playerSize.value.length) {
+        // Cover center
         style.width = playerSize.value[0] + 'px'
         style.height = playerSize.value[1] + 'px'
-        // Cover center
-        style.left = -centerOffset.value + 'px'
       } else if (videoRatio.value) {
         style.aspectRatio = videoRatio.value
       }
@@ -179,17 +166,41 @@ export default defineComponent({
       return style
     })
 
+    // COVER
+    function updatePlayerSize() {
+      const ratio = videoRatio.value
+      const width = playerElement.value?.clientWidth || window.innerWidth // Take fullwidth by default
+      const height = playerElement.value?.clientHeight || width / ratio
+
+      // + 2 for hiding a potential antialiasing issue
+      const boundsRatio = (width + 2) / (height + 2)
+
+      if (boundsRatio < ratio) {
+        // TODO: calc aren't good
+        const fullHeight = Math.max(height, window.innerHeight)
+        playerSize.value = [width * fullHeight, fullHeight]
+      } else {
+        console.log('increase height')
+        playerSize.value = [width, width * ratio]
+      }
+    }
+
     function initResizeListener() {
       updatePlayerSize()
       window.addEventListener('resize', updatePlayerSize)
     }
 
     onMounted(() => {
-      if (props.fit === 'cover') nextTick(() => initResizeListener())
+      if (props.fit === 'cover') {
+        console.log('mounted', playerElement.value)
+        nextTick(() => initResizeListener())
+      }
     })
 
     onBeforeUnmount(() => {
-      if (props.fit === 'cover') window.removeEventListener('resize', updatePlayerSize)
+      if (props.fit === 'cover') {
+        window.removeEventListener('resize', updatePlayerSize)
+      }
     })
 
     return {

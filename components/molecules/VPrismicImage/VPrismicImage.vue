@@ -103,7 +103,8 @@ export default defineComponent({
 
 <style lang="scss" module>
 .root {
-  width: var(--v-roadiz-image-width);
+  width: var(--v-roadiz-image-width, 100%);
+
   img {
     width: var(--v-roadiz-image-width);
   }

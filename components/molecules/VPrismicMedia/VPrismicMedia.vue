@@ -2,10 +2,10 @@
 import type { PropType } from 'vue'
 import { vPrismicImageProps } from '~/components/molecules/VPrismicImage/VPrismicImage.vue'
 import { vVideoPlayerProps } from '~/components/molecules/VVideoPlayer/VVideoPlayer.vue'
-import { getPrismicMediaData, type PrismicImageField } from '~/utils/prismic/prismic-media'
+import { getPrismicMediaData, type PrismicImageField, type PrismicMediaField } from '~/utils/prismic/prismic-media'
 
 const props = defineProps({
-  reference: Object as PropType<PrismicImageField>,
+  reference: Object as PropType<PrismicMediaField>,
   image: vPrismicImageProps,
   video: vVideoPlayerProps,
 })

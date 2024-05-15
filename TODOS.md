@@ -1,8 +1,8 @@
 ## Todo
 
 ## In progress
-- Gérer les liens avec les locales
 - Fullscreen fit video + MediaViewer
+- Gérer les liens avec les locales
 
 ## Selected for work
 - Retour graphique (hierarchie typo, remplissage, format img)
