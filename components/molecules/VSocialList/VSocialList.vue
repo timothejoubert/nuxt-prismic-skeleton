@@ -46,31 +46,34 @@ const socialList = computed((): SocialsContent[] => {
 
   if (!socials?.length) return []
 
-  return socials.map((item) => {
-    return {
-      link: isFilledLinkToWebField(item.link) ? item.link : undefined,
-      name: item.type,
-      icon: getSocialIconName(item.type),
-      label: item.name || '',
-    }
-  })
+  return socials
+    .filter((item) => {
+      return isFilledLinkToWebField(item.link) && !!item.link?.url
+    })
+    .map((item) => {
+      return {
+        link: isFilledLinkToWebField(item.link) ? item.link : undefined,
+        name: item.type,
+        icon: getSocialIconName(item.type),
+        label: item.name || '',
+      }
+    })
 })
 </script>
 
 <template>
   <div :class="$style.root">
-    <a
+    <VLink
       v-for="(social, i) in socialList"
       :key="'social-' + i"
+      :reference="social.link"
       :class="$style.link"
-      :href="social.link.url"
-      :target="social.link.target"
-      :rel="social.link.target ? 'noopener nofollow' : undefined"
+      :target="social.link?.target"
       :title="social.name"
+      :label="social.label"
     >
       <VIcon v-if="displayIcon" :name="social.icon" />
-      <span v-else>{{ social.label || social.link.url }}</span>
-    </a>
+    </VLink>
   </div>
 </template>
 

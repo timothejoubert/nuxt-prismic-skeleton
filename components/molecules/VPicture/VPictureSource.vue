@@ -1,50 +1,97 @@
 <script lang="ts" setup>
-import type { PropType } from 'vue'
+import type { MaybeRefOrGetter, PropType } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
-import type { VPictureVNodeProps } from '~/components/molecules/VPicture/VPicture.vue'
+import type { VPictureProps } from '~/components/molecules/VPicture/VPicture.vue'
 
 const props = defineProps({
-  media: String,
-  src: String,
-  srcset: String,
-  format: String,
-  quality: String,
-  sizes: String,
-  fit: String,
-  width: [String, Number],
-  height: [String, Number],
-  modifiers: Object as PropType<Record<string, any>>,
+    media: String,
+    src: String,
+    srcset: String,
+    format: String,
+    quality: String,
+    sizes: [String, Object],
+    fit: String,
+    width: String,
+    height: String,
+    modifiers: Object as PropType<Record<string, any>>,
 })
 
-const pictureVNodeProps = inject<VPictureVNodeProps>('pictureVNodeProps')
+const pictureProps = inject<MaybeRefOrGetter<VPictureProps>>('pictureProps')
+
 const $img = useImage()
 
-const options: ImageOptions = {
-  modifiers: {
-    ...pictureVNodeProps?.modifiers,
-    ...props.modifiers,
-    fit: props.fit || props.modifiers?.fit || pictureVNodeProps.fit,
-    width: props.width || props.modifiers?.width || pictureVNodeProps?.width,
-    height: props.height || props.modifiers?.height || pictureVNodeProps?.height,
-    quality:
-      props.quality || props.modifiers?.quality || pictureVNodeProps?.quality || pictureVNodeProps?.modifiers?.quality,
-    format:
-      props.format ||
-      props.modifiers?.format ||
-      pictureVNodeProps?.format ||
-      pictureVNodeProps?.modifiers?.format ||
-      'webp',
-  },
-  provider: pictureVNodeProps?.provider,
-  preset: pictureVNodeProps?.preset,
-  // TODO: open issue on nuxt/image because the sizes is not into the options in the docs
-  sizes: props.sizes,
-}
-const computedSrc = computed(() => props.src || pictureVNodeProps?.src)
-const imgSizes = computed(() => $img.getSizes(computedSrc.value as string, options))
-const computedSrcset = computed(() => imgSizes.value.srcset)
+const options: ImageOptions = computed(() => {
+    if (!pictureProps) return {}
+
+    const picturePropsValue = toValue<VPictureProps>(pictureProps)
+
+    return {
+        modifiers: {
+            ...picturePropsValue?.modifiers,
+            ...props.modifiers,
+            fit: props.fit || props.modifiers?.fit,
+            quality:
+                props.quality ||
+                props.modifiers?.quality ||
+                picturePropsValue?.quality ||
+                picturePropsValue?.modifiers?.quality ||
+                $img.options.quality,
+        },
+        width: props.width || props.modifiers?.width || picturePropsValue?.width,
+        height: props.height || props.modifiers?.height || picturePropsValue?.height,
+        provider: picturePropsValue?.provider,
+        preset: picturePropsValue?.preset,
+        sizes: props.sizes,
+    }
+})
+
+const size = computed(() => {
+    const crop = options.value.modifiers?.crop
+    const result: number[] = [options.width, options.height]
+
+    // If the image has a crop modifier, set the width and height.
+    if (typeof crop === 'string' && crop.includes('x')) {
+        const [width, height] = crop.split('x')
+
+        if (width) result[0] = parseInt(width)
+        if (height) result[1] = parseInt(height)
+    }
+
+    return result
+})
+
+const sources = computed(() => {
+    if (!pictureProps) return []
+
+    const picturePropsValue = toValue<VPictureProps>(pictureProps)
+    const src = props.src || picturePropsValue.src
+
+    if (!src) return []
+
+    const internalFormat =
+        props.format || props.modifiers?.format || picturePropsValue?.format || picturePropsValue?.modifiers?.format
+    const formats = internalFormat?.split(',') || ($img.options.format?.length ? [...$img.options.format] : ['webp'])
+
+    return formats.map((format) => {
+        const { srcset } = $img.getSizes(src, {
+            ...options.value,
+            modifiers: {
+                ...options.value?.modifiers,
+                format,
+            },
+        })
+
+        return {
+            media: props.media,
+            type: `image/${format}`,
+            width: size.value[0],
+            height: size.value[1],
+            srcset,
+        }
+    })
+})
 </script>
 
 <template>
-  <source :media="media" :srcset="computedSrcset" />
+    <source v-for="(source, index) in sources" :key="index" v-bind="source" />
 </template>

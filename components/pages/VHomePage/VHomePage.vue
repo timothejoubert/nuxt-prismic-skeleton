@@ -6,5 +6,5 @@ defineProps<PageProps<HomePageDocument>>()
 </script>
 
 <template>
-  <VHeaderHome :page-data="prismicDocument.data" />
+  <div>Home page</div>
 </template>

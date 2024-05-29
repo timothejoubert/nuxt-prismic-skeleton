@@ -1,4 +1,4 @@
-//Vendors
+// Vendors
 @import "include-media/dist/include-media";
 
 // Utils
@@ -6,12 +6,14 @@
 @import "variables";
 @import "mixins";
 
-// common
+// Common
 @import "normalize";
 @import "fonts";
 @import "common";
 @import "grid";
 @import "typography";
 
-@import "container";
-@import "slice";
+// Transitions
+@import "transitions/expand";
+
+// App

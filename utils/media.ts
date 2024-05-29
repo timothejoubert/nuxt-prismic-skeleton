@@ -1,4 +1,4 @@
-import breakpoints from '~/assets/scss/export/_breakpoints.module.scss'
+import breakpoints from '../assets/scss/export/_breakpoints.module.scss'
 
 export function getBreakpointValue(breakpoint: string) {
   return parseInt(breakpoints['breakpoint-' + breakpoint])

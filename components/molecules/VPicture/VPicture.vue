@@ -1,116 +1,57 @@
 <script lang="ts">
 import { pictureProps } from '#image/components/nuxt-picture'
 import type { ExtractPropTypes } from 'vue'
-import { NuxtImg, NuxtPicture } from '#components'
-import { getHtmlElement } from '~/utils/ref/get-html-element'
+import { imgProps } from '#image/components/nuxt-img'
+import pick from 'lodash/pick'
+import VImg from '~/components/molecules/VImg/VImg.vue'
+import VPictureSource from '~/components/molecules/VPicture/VPictureSource.vue'
 
-export type VPictureVNodeProps = ExtractPropTypes<typeof pictureProps>
-type PicturePropsKeys = keyof VPictureVNodeProps
+export const vPictureProps = {
+    ...pictureProps,
+    placeholder: imgProps.placeholder,
+}
+
+export type VPictureProps = ExtractPropTypes<typeof vPictureProps>
 
 export default defineComponent({
-  props: {
-    ...pictureProps,
-    src: {
-      // override required src on NuxtImg
-      type: pictureProps.src.type,
+    props: {
+        ...vPictureProps,
     },
-    placeholder: {
-      type: [Boolean, String],
+    setup(props, context) {
+        // Provide props to children (<sources>)
+        provide('pictureProps', props)
+
+        const imgFilteredProps = computed(() => pick(props, Object.keys(imgProps)))
+        const img = h(VImg, {
+            ...imgFilteredProps.value,
+            format: undefined, // let the VImg choose the format itself
+            ...props.imgAttrs,
+        })
+        const $img = useImage()
+        const sources = computed(() => {
+            return (
+                context.slots.default?.() ||
+                h(VPictureSource, {
+                    sizes: props.sizes || $img.options.screens,
+                })
+            )
+        })
+
+        return () => h('picture', null, [sources.value, img])
     },
-  },
-  setup(props) {
-    const $style = useCssModule()
-
-    // Load
-    const root = ref<HTMLElement | null>(null)
-    const loaded = ref(false)
-    const onLoad = () => (loaded.value = true)
-
-    onMounted(() => {
-      const img = getHtmlElement(root)?.querySelector('img')
-      if (img?.complete) onLoad()
-    })
-
-    // Props
-    const vNodeProps: Partial<VPictureVNodeProps> = {}
-    Object.keys(pictureProps).forEach((key: PicturePropsKeys | string) => {
-      // @ts-ignore just copy values
-      if (props[key]) vNodeProps[key] = props[key]
-    })
-
-    if (!vNodeProps.src) return () => h('')
-
-    vNodeProps.imgAttrs = {
-      ...vNodeProps.imgAttrs,
-      onLoad: () => (loaded.value = true),
-      style: {
-        ...vNodeProps.imgAttrs?.style,
-      },
-    }
-
-    // Common attributes
-    const rootStyle = computed(() => {
-      if (typeof props.placeholder === 'string') return { '--v-picture-background': props.placeholder }
-    })
-
-    const rootClasses = computed(() => {
-      return [$style.root, loaded.value && $style['root--loaded']]
-    })
-
-    const rootAttributes = computed(() => {
-      return {
-        ref: root,
-        style: rootStyle.value,
-        class: rootClasses.value,
-      }
-    })
-
-    // Custom render for <source> tags
-    const slots = useSlots()
-    if (slots.default) {
-      provide('pictureVNodeProps', vNodeProps)
-
-      const img = h(NuxtImg, {
-        ...vNodeProps,
-        ...vNodeProps.imgAttrs,
-      })
-
-      return () =>
-        h(
-          'picture',
-          {
-            ...rootAttributes.value,
-          },
-          [slots.default?.(), img],
-        )
-    }
-
-    // regular render
-    return () =>
-      h(NuxtPicture, {
-        ...rootAttributes.value,
-        ...vNodeProps,
-      })
-  },
 })
 </script>
 
 <style lang="scss" module>
-.root {
-  position: relative;
+.root img {
+    // for switching easily between VImg and VPicture, we use the same css var name
+    max-width: var(--v-img-max-width, 100%); // responsive image
+    height: var(--v-img-height, auto); // responsive image
+    background: var(--v-img-background, var(--v-img-placeholder));
+}
 
-  &::before {
-    position: absolute;
-    background: no-repeat var(--v-picture-background);
-    background-size: cover;
-    content: '';
-    inset: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-  }
-
-  &--loaded::before {
-    opacity: 0;
-  }
+.root--loaded img {
+    // Remove background when image is loaded. This is useful for hiding antialiasing artifacts.
+    --v-img-background: none;
 }
 </style>

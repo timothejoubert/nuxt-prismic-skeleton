@@ -9,9 +9,9 @@ Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introdu
 ### Init project
 
 ```bash
-npx nuxi@latest init hugo-tomasi-v2
-cd hugo-tomasi-v2
-npx @slicemachine/init@latest --repository hugo-tomasi-v2
+npx nuxi@latest init nuxt-starter-timothe
+cd nuxt-starter-timothe
+npx @slicemachine/init@latest --repository nuxt-starter-timothe
 npm run slicemachine
 ```
 

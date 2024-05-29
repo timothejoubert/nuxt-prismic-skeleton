@@ -3,7 +3,7 @@ import VSocialList from '~/components/molecules/VSocialList/VSocialList.vue'
 
 const { setting } = useCommonContent()
 
-const siteName = computed(() => setting.value?.site_name || 'fallback title')
+const siteName = computed(() => setting.value?.site_name || 'fallback siteName')
 const currentYear = computed(() => new Date().getFullYear())
 </script>
 

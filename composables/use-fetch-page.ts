@@ -34,15 +34,15 @@ export async function useFetchPage<T extends PrismicDocument>(prismicDocument: D
         }
       })
 
-  const webResponse = data.value as T
+  const prismicDocumentData = data.value as T
 
-  const locale = webResponse?.lang
-  const pageData = webResponse?.data as T['data']
-  const alternateLinks = webResponse?.alternate_languages || []
+  const locale = prismicDocumentData?.lang
+  const pageData = prismicDocumentData?.data as T['data']
+  const alternateLinks = prismicDocumentData?.alternate_languages || []
 
   return {
     alternateLinks,
-    webResponse,
+    prismicDocumentData,
     pageData,
     locale,
     error: data.value?.error,

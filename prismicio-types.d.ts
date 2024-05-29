@@ -850,15 +850,15 @@ export type AllDocumentTypes =
   | WebPageDocument
 
 /**
- * Primary content in *IntroductionSlice → Primary*
+ * Primary content in *IntroductionSlice → Default → Primary*
  */
 export interface IntroductionSliceSliceDefaultPrimary {
   /**
-   * content field in *IntroductionSlice → Primary*
+   * content field in *IntroductionSlice → Default → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: introduction_slice.primary.content
+   * - **API ID Path**: introduction_slice.default.primary.content
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   content: prismic.RichTextField
@@ -949,36 +949,36 @@ type MarqueeSliceSliceVariation = MarqueeSliceSliceDefault
 export type MarqueeSliceSlice = prismic.SharedSlice<'marquee_slice', MarqueeSliceSliceVariation>
 
 /**
- * Primary content in *MediaSlice → Primary*
+ * Primary content in *MediaSlice → Default → Primary*
  */
 export interface MediaSliceSliceDefaultPrimary {
   /**
-   * Title field in *MediaSlice → Primary*
+   * Title field in *MediaSlice → Default → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: media_slice.primary.title
+   * - **API ID Path**: media_slice.default.primary.title
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   title: prismic.KeyTextField
 
   /**
-   * Content field in *MediaSlice → Primary*
+   * Content field in *MediaSlice → Default → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: media_slice.primary.content
+   * - **API ID Path**: media_slice.default.primary.content
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   content: prismic.KeyTextField
 
   /**
-   * Full width field in *MediaSlice → Primary*
+   * Full width field in *MediaSlice → Default → Primary*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
    * - **Default Value**: false
-   * - **API ID Path**: media_slice.primary.full_width
+   * - **API ID Path**: media_slice.default.primary.full_width
    * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   full_width: prismic.BooleanField
@@ -1078,15 +1078,15 @@ type MediaSliceSliceVariation = MediaSliceSliceDefault
 export type MediaSliceSlice = prismic.SharedSlice<'media_slice', MediaSliceSliceVariation>
 
 /**
- * Primary content in *ProjectPushSlice → Primary*
+ * Primary content in *ProjectPushSlice → Default → Primary*
  */
 export interface ProjectPushSliceSliceDefaultPrimary {
   /**
-   * Project reference field in *ProjectPushSlice → Primary*
+   * Project reference field in *ProjectPushSlice → Default → Primary*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: project_push_slice.primary.project_reference
+   * - **API ID Path**: project_push_slice.default.primary.project_reference
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   project_reference: prismic.ContentRelationshipField<'project_page'>
@@ -1120,15 +1120,15 @@ type ProjectPushSliceSliceVariation = ProjectPushSliceSliceDefault
 export type ProjectPushSliceSlice = prismic.SharedSlice<'project_push_slice', ProjectPushSliceSliceVariation>
 
 /**
- * Primary content in *ProjectsFeedSlice → Primary*
+ * Primary content in *ProjectsFeedSlice → Default → Primary*
  */
 export interface ProjectsFeedSliceSliceDefaultPrimary {
   /**
-   * Title field in *ProjectsFeedSlice → Primary*
+   * Title field in *ProjectsFeedSlice → Default → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: projects_feed_slice.primary.title
+   * - **API ID Path**: projects_feed_slice.default.primary.title
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   title: prismic.KeyTextField
@@ -1162,25 +1162,25 @@ type ProjectsFeedSliceSliceVariation = ProjectsFeedSliceSliceDefault
 export type ProjectsFeedSliceSlice = prismic.SharedSlice<'projects_feed_slice', ProjectsFeedSliceSliceVariation>
 
 /**
- * Primary content in *PromoteSlice → Primary*
+ * Primary content in *PromoteSlice → Default → Primary*
  */
 export interface PromoteSliceSliceDefaultPrimary {
   /**
-   * Title field in *PromoteSlice → Primary*
+   * Title field in *PromoteSlice → Default → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: promote_slice.primary.title
+   * - **API ID Path**: promote_slice.default.primary.title
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   title: prismic.KeyTextField
 
   /**
-   * content field in *PromoteSlice → Primary*
+   * content field in *PromoteSlice → Default → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: promote_slice.primary.content
+   * - **API ID Path**: promote_slice.default.primary.content
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   content: prismic.RichTextField
@@ -1279,15 +1279,15 @@ type PromoteSliceSliceVariation = PromoteSliceSliceDefault
 export type PromoteSliceSlice = prismic.SharedSlice<'promote_slice', PromoteSliceSliceVariation>
 
 /**
- * Primary content in *SkillsSlice → Primary*
+ * Primary content in *SkillsSlice → Default → Primary*
  */
 export interface SkillsSliceSliceDefaultPrimary {
   /**
-   * Title field in *SkillsSlice → Primary*
+   * Title field in *SkillsSlice → Default → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: skills_slice.primary.title
+   * - **API ID Path**: skills_slice.default.primary.title
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   title: prismic.KeyTextField

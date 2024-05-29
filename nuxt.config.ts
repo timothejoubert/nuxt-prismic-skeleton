@@ -92,7 +92,12 @@ export default defineNuxtConfig({
     preview: '/preview',
     toolbar: true, // Whether or not to inject Prismic toolbar, required for previews to work properly.
   },
-  components: ['~/components/atoms', '~/components/molecules', '~/components/organisms', '~/components/pages'],
+  components: [
+    '~/components/atoms',
+    '~/components/molecules',
+    '~/components/organisms',
+    { path: '~/components/pages/', global: true },
+  ],
   image: {
     // prismic: {},
     imgix: {
@@ -113,7 +118,7 @@ export default defineNuxtConfig({
     // @ts-ignore not working with [1]
     densities: '1',
     presets: {
-      default: {
+      fullScreen: {
         sizes: 'xs:100vw sm:100vw md:100vw lg:100vw vl:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw',
       },
     },

@@ -13,7 +13,7 @@ const linkList = computed(() => mainMenu.value?.links || [])
           :class="$style.item"
           :nuxt-link-props="{ prefetch: true }"
         >
-          <VSplitWord :content="item.label" />
+          {{ item.label }}
         </VLink>
       </li>
     </ul>

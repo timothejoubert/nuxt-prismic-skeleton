@@ -1,7 +1,7 @@
 import type { TransitionProps } from 'vue'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import eventBus from '~/utils/event-bus'
-import EventType from '~/constants/event-type'
+import eventBus from '../utils/event-bus'
+import EventType from '../constants/event-type'
 
 function foregroundElement() {
   const foreground = document.createElement('div')
@@ -25,16 +25,14 @@ const defaultPageTransition: TransitionProps = {
     disableBodyScroll(document.body, { reserveScrollBarGap: true })
 
     const animation = foreground.animate([{ opacity: '0' }, { opacity: '1' }], {
-      duration: 500,
+      duration: 200,
     })
-
     const onAnimationFinish = () => {
       foreground.remove()
       done()
     }
 
-    onAnimationFinish()
-    // animation.onfinish = onAnimationFinish
+    animation.onfinish = onAnimationFinish
   },
   onAfterLeave() {
     eventBus.emit(EventType.PAGE_TRANSITION_AFTER_LEAVE)
@@ -46,17 +44,18 @@ const defaultPageTransition: TransitionProps = {
     element.appendChild(foreground)
 
     const animation = foreground.animate([{ opacity: '1' }, { opacity: '0' }], {
-      duration: 500,
+      duration: 400,
     })
-
     const onAnimationFinish = () => {
       enableBodyScroll(document.body)
       foreground.remove()
       done()
     }
 
-    onAnimationFinish()
-    // animation.onfinish = onAnimationFinish
+    animation.onfinish = onAnimationFinish
+  },
+  onAfterEnter() {
+    eventBus.emit(EventType.PAGE_TRANSITION_AFTER_ENTER)
   },
 }
 
