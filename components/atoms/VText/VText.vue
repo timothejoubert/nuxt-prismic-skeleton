@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { RichTextField } from '@prismicio/types'
+import type { KeyTextField, RichTextField } from '@prismicio/types'
 
 interface VTextProps {
   tag?: string
   textClass?: string
-  content?: string | RichTextField
+  content?: string | RichTextField | KeyTextField
 }
 
 const props = defineProps<VTextProps>()

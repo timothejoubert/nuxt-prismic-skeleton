@@ -38,15 +38,15 @@ interface AboutPageDocumentData {
   content: prismic.RichTextField
 
   /**
-   * Main media field in *About page*
+   * Image field in *About page*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: about_page.main_media
+   * - **API ID Path**: about_page.image
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  main_media: prismic.ImageField<never>
+  image: prismic.ImageField<never>
 
   /**
    * Slice Zone field in *About page*
@@ -135,7 +135,7 @@ interface ErrorPageDocumentData {
   content: prismic.RichTextField
 
   /**
-   * Main media field in *Error page*
+   * Image field in *Error page*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -226,15 +226,15 @@ interface HomePageDocumentData {
   title: prismic.KeyTextField
 
   /**
-   * SubTitle field in *Home page*
+   * Content field in *Home page*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.subtitle
+   * - **API ID Path**: home_page.content
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#key-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  subtitle: prismic.KeyTextField
+  content: prismic.RichTextField
 
   /**
    * Image field in *Home page*
@@ -246,83 +246,6 @@ interface HomePageDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<never>
-
-  /**
-   * Internal video field in *Home page*
-   *
-   * - **Field Type**: Link to Media
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.internal_video
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  internal_video: prismic.LinkToMediaField
-
-  /**
-   * embed_id field in *Home page*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.embed_id
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  embed_id: prismic.KeyTextField
-
-  /**
-   * Embed platform field in *Home page*
-   *
-   * - **Field Type**: Select
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.embed_platform
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#select
-   */
-  embed_platform: prismic.SelectField<'youtube' | 'vimeo'>
-
-  /**
-   * Embed video field in *Home page*
-   *
-   * - **Field Type**: Embed
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.embed_video
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#embed
-   */
-  embed_video: prismic.EmbedField
-
-  /**
-   * Sub section title field in *Home page*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.sub_section_title
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  sub_section_title: prismic.KeyTextField
-
-  /**
-   * Sub section content field in *Home page*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.sub_section_content
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  sub_section_content: prismic.RichTextField
-
-  /**
-   * Sub section aside field in *Home page*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.sub_section_aside
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  sub_section_aside: prismic.RichTextField
 
   /**
    * Slice Zone field in *Home page*
@@ -456,6 +379,28 @@ interface ProjectListingPageDocumentData {
   title: prismic.KeyTextField
 
   /**
+   * Content field in *Project listing page*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project_listing_page.content
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField
+
+  /**
+   * Image field in *Project listing page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project_listing_page.image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>
+
+  /**
    * Slice Zone field in *Project listing page*
    *
    * - **Field Type**: Slice Zone
@@ -531,7 +476,7 @@ interface ProjectPageDocumentData {
   title: prismic.KeyTextField
 
   /**
-   * Excerpt field in *Project page*
+   * Content field in *Project page*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -542,7 +487,7 @@ interface ProjectPageDocumentData {
   excerpt: prismic.RichTextField
 
   /**
-   * Main field in *Project page*
+   * Image field in *Project page*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -749,28 +694,6 @@ interface WebPageDocumentData {
   title: prismic.KeyTextField
 
   /**
-   * Sub title field in *Web page*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: web_page.sub_title
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  sub_title: prismic.RichTextField
-
-  /**
-   * Main media field in *Web page*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: web_page.main_media
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  main_media: prismic.ImageField<never>
-
-  /**
    * Content field in *Web page*
    *
    * - **Field Type**: Rich Text
@@ -780,6 +703,17 @@ interface WebPageDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   content: prismic.RichTextField
+
+  /**
+   * Image field in *Web page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: web_page.image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>
 
   /**
    * Slice Zone field in *Web page*

@@ -31,7 +31,7 @@ usePage({
   <div :class="$style.root">
     <VPageFactory :type="prismicDocumentType" :document="prismicDocumentData" />
     <LazySliceZone
-      v-if="pageData?.slices"
+      v-if="pageData?.slices?.length"
       :slices="pageData.slices"
       wrapper="main"
       :components="components"

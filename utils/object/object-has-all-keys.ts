@@ -1,6 +1,6 @@
 import { isObject } from '~/utils/object/is-object'
 
-export function returnObjWithAllValidKey<T extends Record<string, unknown>, U extends string>(
+export function returnObjWithAllValidKey<T extends Object, U extends string>(
   entity: T,
   keys: U[],
 ): Record<U, T[U]> | undefined {

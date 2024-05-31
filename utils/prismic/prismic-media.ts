@@ -2,6 +2,7 @@ import type { EmbedField, ImageField, LinkToMediaField } from '@prismicio/types'
 import { isFilledImageField, isFilledLinkToMediaField, isVideoEmbedField } from '~/utils/prismic/guard'
 import prismicData from '~/slicemachine.config.json'
 import { removeSpecialCharacter } from '~/utils/string/format'
+import { objectHasAllKeys, returnObjWithAllValidKey } from '~/utils/object/object-has-all-keys'
 
 // REFERENCES
 export type CustomEmbedField = {
@@ -19,13 +20,6 @@ export type PrismicMediaField = PrismicImageField | PrismicVideoField
 type MediaType = 'unknown' | 'image' | 'video' | 'embed'
 const videoExtension = ['mp4', 'mov', 'quick', 'webm', 'mkv', 'avi', 'mpeg']
 const imgExtension = ['jpg', 'png', 'webp', 'gif', 'avif', 'jpeg', 'svg']
-
-export function getMediaFieldUrl(field: PrismicMediaField | undefined) {
-  if (!field) return
-
-  if (isVideoEmbedField(field)) return field.embed_url
-  else if (isFilledImageField(field) || isFilledLinkToMediaField(field)) return field.url
-}
 
 // TYPES
 function isVideoExtension(ext?: string) {
@@ -110,4 +104,44 @@ export function getPrismicMediaData(field: PrismicImageField | undefined) {
   }
 
   return data
+}
+
+// Simplified
+export function getReferenceDimension(field: PrismicImageField | undefined) {
+  if (!field) return
+
+  const filledField = returnObjWithAllValidKey(field, ['width', 'height'])
+  if (filledField) {
+    return {
+      width: filledField?.width,
+      height: filledField?.height,
+    }
+  } else if (isFilledImageField(field)) {
+    return {
+      width: field.dimensions.width,
+      height: field.dimensions.height,
+    }
+  }
+}
+
+export function getReferenceUrl(field: PrismicMediaField | undefined) {
+  if (!field) return
+
+  if (isVideoEmbedField(field)) {
+    return field.embed_url
+  } else {
+    return returnObjWithAllValidKey(field, ['url'])?.url
+  }
+}
+
+export function getReferenceCopyright(field: PrismicImageField | undefined) {
+  if (!field) return
+
+  return returnObjWithAllValidKey(field, ['copyright'])?.copyright
+}
+
+export function getReferenceAltText(field: PrismicImageField | undefined) {
+  if (!field) return
+
+  return returnObjWithAllValidKey(field, ['alt'])?.alt || returnObjWithAllValidKey(field, ['name'])?.name
 }

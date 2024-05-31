@@ -19,7 +19,7 @@ export default defineComponent({
   props: {
     ...vImgProps,
   },
-  // emits: ['load', 'error'],
+  emits: ['load', 'error'],
   setup(props, context) {
     // PLACEHOLDER COLOR
     const placeholderColor = computed(
@@ -79,15 +79,25 @@ export default defineComponent({
         },
       ),
     )
+
     const responsiveImageData = computed(() => {
-      return (
-        (props.sizes || props.densities) &&
-        $img.getSizes(props.src!, {
-          ...options.value,
-          sizes: props.sizes,
-        })
-      )
+      if (!props.sizes && !props.densities) return
+
+      return $img.getSizes(props.src!, {
+        ...options.value,
+        sizes: props.sizes,
+      })
     })
+
+    console.log(
+      'responsiveImageData',
+      props.src,
+      {
+        ...options.value,
+        sizes: props.sizes,
+      },
+      responsiveImageData.value,
+    )
 
     return () =>
       h('img', {

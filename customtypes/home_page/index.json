@@ -13,11 +13,13 @@
           "placeholder": ""
         }
       },
-      "subtitle": {
-        "type": "Text",
+      "content": {
+        "type": "StructuredText",
         "config": {
-          "label": "SubTitle",
-          "placeholder": ""
+          "label": "Content",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
         }
       },
       "image": {
@@ -26,61 +28,6 @@
           "label": "Image",
           "constraint": {},
           "thumbnails": []
-        }
-      },
-      "internal_video": {
-        "type": "Link",
-        "config": {
-          "label": "Internal video",
-          "placeholder": "",
-          "select": "media"
-        }
-      },
-      "embed_id": {
-        "type": "Text",
-        "config": {
-          "label": "embed_id",
-          "placeholder": ""
-        }
-      },
-      "embed_platform": {
-        "type": "Select",
-        "config": {
-          "label": "Embed platform",
-          "placeholder": "",
-          "options": ["youtube", "vimeo"]
-        }
-      },
-      "embed_video": {
-        "type": "Embed",
-        "config": {
-          "label": "Embed video",
-          "placeholder": ""
-        }
-      },
-      "sub_section_title": {
-        "type": "Text",
-        "config": {
-          "label": "Sub section title",
-          "placeholder": ""
-        }
-      },
-      "sub_section_content": {
-        "type": "StructuredText",
-        "config": {
-          "label": "Sub section content",
-          "placeholder": "",
-          "allowTargetBlank": true,
-          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-        }
-      },
-      "sub_section_aside": {
-        "type": "StructuredText",
-        "config": {
-          "label": "Sub section aside",
-          "placeholder": "",
-          "allowTargetBlank": true,
-          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
         }
       },
       "slices": {

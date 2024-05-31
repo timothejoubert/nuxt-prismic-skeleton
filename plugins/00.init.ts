@@ -7,6 +7,7 @@ import type { CommonContent } from '~/composables/use-common-content'
 import { useLocale } from '~/composables/use-locale'
 import { DocumentType } from '~/constants/document-type'
 import { mapRoutePathToPrismicDocument } from '~/utils/prismic/route-resolver'
+import { useSiteUrlPath } from '~/composables/use-site-url-path'
 
 async function initCommonContent() {
   const prismic = useNuxtApp().$prismic as PrismicPluginClient
@@ -42,7 +43,7 @@ function initHead(webResponse?: PrismicDocument, alternateLinks?: AlternateLangu
   const link: Link[] = [
     {
       rel: 'canonical',
-      href: webResponse?.url || joinURL(runtimeConfig.public.siteUrl, route.path),
+      href: webResponse?.url || useSiteUrlPath(route.path),
     },
   ]
 
@@ -52,7 +53,7 @@ function initHead(webResponse?: PrismicDocument, alternateLinks?: AlternateLangu
       hid: `alternate-${alternateLink.lang}`,
       rel: 'alternate',
       hreflang: alternateLink.lang,
-      href: joinURL(runtimeConfig.public.siteUrl, alternateLink.uid || ''),
+      href: useSiteUrlPath(alternateLink.uid),
     }
   })
   if (alternateLinksHead) link.push(...alternateLinksHead)
@@ -63,16 +64,12 @@ function initHead(webResponse?: PrismicDocument, alternateLinks?: AlternateLangu
     },
     script,
     link,
-    meta: [
-      // app version
-      { name: 'version', content: runtimeConfig.public.version },
-    ],
+    meta: [{ name: 'version', content: runtimeConfig.public.version }],
   })
 }
 
 function initSeoMeta(webResponse?: PrismicDocument) {
   const { siteName } = useCommonContent()
-  const runtimeConfig = useRuntimeConfig()
 
   const pageData = webResponse?.data
   const description = pageData?.meta_description || pageData?.excerpt || pageData?.description
@@ -80,18 +77,22 @@ function initSeoMeta(webResponse?: PrismicDocument) {
 
   const img = useImage()
   const image = () => {
-    const imageUrl = [pageData?.meta_image, pageData?.media, pageData?.thumbnail, pageData?.mainMedia].find(
-      (prismicMedia) => !!prismicMedia?.url && prismicMedia?.kind !== 'all',
-    )
+    const imageUrl = [
+      pageData?.meta_image,
+      pageData?.image,
+      pageData?.media,
+      pageData?.thumbnail,
+      pageData?.mainMedia,
+    ].find((prismicMedia) => !!prismicMedia?.url)
 
     if (typeof imageUrl === 'string') {
       return img(imageUrl, {
         width: 1200,
-        quality: 70,
+        quality: 90,
         providers: 'ipx',
       })
     } else {
-      return joinURL(runtimeConfig.public.siteUrl, '/images/share.jpg')
+      return useSiteUrlPath('/images/share.jpg')
     }
   }
 
@@ -100,10 +101,10 @@ function initSeoMeta(webResponse?: PrismicDocument) {
     ogTitle: title,
     ogSiteName: siteName,
     ogDescription: description,
-    ogImage: image(),
-    twitterCard: 'summary',
     twitterTitle: title,
     twitterDescription: description,
+    twitterCard: 'summary',
+    ogImage: image(),
     robots: {
       noindex: pageData?.noIndex,
     },
@@ -120,6 +121,6 @@ export default defineNuxtPlugin(async () => {
     useAlternateLinks(pageResponse?.alternateLinks)
   }
   await initCommonContent()
-  initHead(pageResponse?.webResponse, pageResponse?.alternateLinks)
-  initSeoMeta(pageResponse?.webResponse)
+  initHead(pageResponse?.prismicDocumentData, pageResponse?.alternateLinks)
+  initSeoMeta(pageResponse?.prismicDocumentData)
 })

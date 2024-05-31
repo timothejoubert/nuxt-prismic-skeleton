@@ -22,10 +22,10 @@
           "multi": "paragraph,strong,em,hyperlink"
         }
       },
-      "main_media": {
+      "image": {
         "type": "Image",
         "config": {
-          "label": "Main media",
+          "label": "Image",
           "constraint": {},
           "thumbnails": []
         }
