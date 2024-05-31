@@ -248,6 +248,17 @@ interface HomePageDocumentData {
   image: prismic.ImageField<never>
 
   /**
+   * Embed field in *Home page*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home_page.embed
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField
+
+  /**
    * Slice Zone field in *Home page*
    *
    * - **Field Type**: Slice Zone

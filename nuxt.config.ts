@@ -61,6 +61,34 @@ export default defineNuxtConfig({
       }),
     ],
   },
+
+  nitro: {
+    routeRules: {
+      '/**': {
+        headers: {
+          // https://web.dev/articles/floc?hl=fr#can_websites_opt_out_of_being_included_in_the_floc_computation
+          'Permissions-Policy': 'interest-cohort=()',
+          // Hardening client security policies
+          // https://developer.mozilla.org/fr/docs/Web/HTTP/CSP
+          'Content-Security-Policy': [
+            // Only allows these iframe origins
+            "frame-src 'self' *.prismic.io *.youtube-nocookie.com *.youtube.com *.vimeo.com *.instagram.com *.soundcloud.com *.google.com",
+            // Only allows these script origins
+            // "script-src 'self' 'unsafe-inline' *.google.com *.googleapis.com *.gstatic.com",
+            // Only allows these images origins
+            // "img-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com",
+          ].join('; '),
+        },
+      },
+      // Auto generated page by svgSprite module
+      '/_icons': {
+        headers: {
+          // Do not index the page and remove from it sitemap
+          'X-Robots-Tag': 'noindex',
+        },
+      },
+    },
+  },
   modules: [
     '@nuxt/image',
     '@nuxtjs/prismic',

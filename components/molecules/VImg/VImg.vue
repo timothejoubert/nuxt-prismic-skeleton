@@ -89,16 +89,6 @@ export default defineComponent({
       })
     })
 
-    console.log(
-      'responsiveImageData',
-      props.src,
-      {
-        ...options.value,
-        sizes: props.sizes,
-      },
-      responsiveImageData.value,
-    )
-
     return () =>
       h('img', {
         src: src.value,

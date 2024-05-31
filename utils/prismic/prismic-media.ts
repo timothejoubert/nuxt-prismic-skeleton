@@ -1,8 +1,13 @@
 import type { EmbedField, ImageField, LinkToMediaField } from '@prismicio/types'
-import { isFilledImageField, isFilledLinkToMediaField, isVideoEmbedField } from '~/utils/prismic/guard'
+import {
+  isFilledImageField,
+  isFilledLinkToMediaField,
+  isLinkToMediaField,
+  isVideoEmbedField,
+} from '~/utils/prismic/guard'
 import prismicData from '~/slicemachine.config.json'
 import { removeSpecialCharacter } from '~/utils/string/format'
-import { objectHasAllKeys, returnObjWithAllValidKey } from '~/utils/object/object-has-all-keys'
+import { returnObjWithAllValidKey } from '~/utils/object/object-has-all-keys'
 
 // REFERENCES
 export type CustomEmbedField = {
@@ -25,9 +30,11 @@ const imgExtension = ['jpg', 'png', 'webp', 'gif', 'avif', 'jpeg', 'svg']
 function isVideoExtension(ext?: string) {
   return videoExtension.includes(ext || '')
 }
+
 function isImageExtension(ext?: string) {
   return imgExtension.includes(ext || '')
 }
+
 function getEmbedPlatform(field?: PrismicMediaField) {
   if (!field) return
   let result: CustomEmbedField['provider_name'] | undefined
@@ -59,7 +66,7 @@ function extractDataFromUrl(url: string | undefined) {
 }
 
 export function getPrismicMediaData(field: PrismicImageField | undefined) {
-  const url = getMediaFieldUrl(field)
+  const url = getReferenceUrl(field)
   const { extension, name, id } = extractDataFromUrl(url)
   let mediaType: MediaType = 'unknown'
 
@@ -107,6 +114,10 @@ export function getPrismicMediaData(field: PrismicImageField | undefined) {
 }
 
 // Simplified
+export function isReferenceImage(field: unknown) {
+  return isLinkToMediaField(field) || isFilledImageField(field)
+}
+
 export function getReferenceDimension(field: PrismicImageField | undefined) {
   if (!field) return
 

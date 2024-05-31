@@ -11,6 +11,8 @@ const homeItem = computed(() => props.prismicDocument.data)
     <VPrismicImage :reference="homeItem.image">
       <VText tag="h1" :content="homeItem.title" />
       <VText :content="homeItem.content" />
+      <VPrismicVideo :reference="homeItem.embed" hide-thumbnail loop />
+      <pre>{{ homeItem.embed }}</pre>
       <VPictureSource
         :media="`(max-width: ${getBreakpointValue('md') - 1}px)`"
         :modifiers="{
