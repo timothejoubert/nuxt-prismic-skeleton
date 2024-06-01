@@ -30,13 +30,6 @@
           "thumbnails": []
         }
       },
-      "embed": {
-        "type": "Embed",
-        "config": {
-          "label": "Embed",
-          "placeholder": ""
-        }
-      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",

@@ -2,15 +2,8 @@
 import type { PropType } from 'vue'
 import { commonVideoProps, videoAttributes, videoSrc } from '~/utils/video/video-props'
 import { getVideoAttrsValues } from '~/utils/video/video-attributes'
-import { isReferenceImage } from '~/utils/prismic/prismic-media'
 import type { PrismicImageField, PrismicVideoField } from '~/utils/prismic/prismic-media'
-
-const ytUrl = 'youtu.be/'
-function extractEmbedIdFromUrl(url: string | undefined) {
-  if (!url) return
-
-  return url.substring(url.lastIndexOf(ytUrl) + ytUrl.length, url.lastIndexOf('?'))
-}
+import { isReferenceImage, isVideoEmbedField } from '~/utils/prismic/guard'
 
 const props = defineProps({
   ...commonVideoProps,
@@ -45,10 +38,27 @@ const videoRatio = computed(() => {
   if (typeof ratio === 'number') return ratio
 })
 
-const embedVideoAttrs = computed(() => {
+const YT_URL = 'youtu.be/'
+const embedProps = computed(() => {
+  const embed = isVideoEmbedField(props.reference) && props.reference
+
+  if (!embed) return
+
+  if (embed.provider_name?.toLocaleLowerCase() === 'youtube') {
+    const url = embed.embed_url
+    return {
+      ...embed,
+      video_id: url.substring(url.lastIndexOf(YT_URL) + YT_URL.length, url.lastIndexOf('?')),
+    }
+  }
+
+  return embed
+})
+
+const videoAttrs = computed(() => {
   return {
-    embedPlatform: props.reference.provider_name,
-    embedId: extractEmbedIdFromUrl(props.reference.embed_url),
+    embedPlatform: embedProps.value?.provider_name,
+    embedId: embedProps.value?.video_id,
     src: props.reference.url,
     altSources: props.reference.altSources,
     ...getVideoAttrsValues(props, !!props?.background),
@@ -68,7 +78,7 @@ const onVideoEnded = () => (hadInteraction.value = false)
 </script>
 
 <template>
-  <VVideoPlayer v-if="hideThumbnail || props.background" v-bind="embedVideoAttrs" />
+  <VVideoPlayer v-if="hideThumbnail || props.background" v-bind="videoAttrs" />
   <div v-else :class="[$style.root, hadInteraction && $style['root--had-interaction']]">
     <VButton
       :label="$t('watch_the_video')"
@@ -94,7 +104,7 @@ const onVideoEnded = () => (hadInteraction.value = false)
     </slot>
     <VVideoPlayer
       v-if="hadInteraction"
-      v-bind="embedVideoAttrs"
+      v-bind="videoAttrs"
       :autoplay="true"
       :plyr="{ listener: { ended: onVideoEnded } }"
     />
@@ -137,8 +147,16 @@ const onVideoEnded = () => (hadInteraction.value = false)
   }
 
   &--placeholder {
+    position: relative;
     aspect-ratio: 16 / 9;
     background-color: color(grey-50);
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      content: '';
+      background: linear-gradient(45deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+    }
   }
 }
 </style>

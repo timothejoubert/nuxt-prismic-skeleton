@@ -248,17 +248,6 @@ interface HomePageDocumentData {
   image: prismic.ImageField<never>
 
   /**
-   * Embed field in *Home page*
-   *
-   * - **Field Type**: Embed
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home_page.embed
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#embed
-   */
-  embed: prismic.EmbedField
-
-  /**
    * Slice Zone field in *Home page*
    *
    * - **Field Type**: Slice Zone
@@ -725,6 +714,39 @@ interface WebPageDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<never>
+
+  /**
+   * Embed youtbe field in *Web page*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: web_page.embed_youtbe
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed_youtbe: prismic.EmbedField
+
+  /**
+   * Embed vimeo field in *Web page*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: web_page.embed_vimeo
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed_vimeo: prismic.EmbedField
+
+  /**
+   * Native video field in *Web page*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: web_page.native_video
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  native_video: prismic.LinkToMediaField
 
   /**
    * Slice Zone field in *Web page*

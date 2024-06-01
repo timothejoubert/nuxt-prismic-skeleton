@@ -37,6 +37,28 @@
           "thumbnails": []
         }
       },
+      "embed_youtbe": {
+        "type": "Embed",
+        "config": {
+          "label": "Embed youtbe",
+          "placeholder": ""
+        }
+      },
+      "embed_vimeo": {
+        "type": "Embed",
+        "config": {
+          "label": "Embed vimeo",
+          "placeholder": ""
+        }
+      },
+      "native_video": {
+        "type": "Link",
+        "config": {
+          "label": "Native video",
+          "placeholder": "",
+          "select": "media"
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",

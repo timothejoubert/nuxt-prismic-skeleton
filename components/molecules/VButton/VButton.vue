@@ -103,7 +103,7 @@ const rootClasses = computed(() => {
     :disabled="(internalTag === 'button' && disabled) || undefined"
     v-bind="linkProps"
   >
-    <VLoadingDots v-if="hasIcon && loading" :class="$style.icon" />
+    <div v-if="hasIcon && loading" :class="$style.icon">...</div>
     <VIcon v-else-if="iconName" :name="iconName" :class="$style.icon" />
     <slot v-else-if="hasIconSlot" name="icon" :icon-class="$style.icon" />
 

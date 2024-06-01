@@ -65,7 +65,7 @@ export default defineComponent({
         width: width.value,
         height: height.value,
         alt: getReferenceAltText(props.reference),
-        placeholder: props.imageAverageColor || '#E9E9E9',
+        placeholder: props.placeholder || props.imageAverageColor || '#E9E9E9',
         sizes:
           props.sizes ||
           (!isPicture.value && !props.densities && ($img.options.presets?.default?.sizes || $img.options.screens)) ||

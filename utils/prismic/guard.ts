@@ -10,14 +10,14 @@ import type {
 } from '@prismicio/types'
 import { LinkType } from '@prismicio/types'
 import { isObject } from '~/utils/object/is-object'
-import { objectHasAllKeys } from '~/utils/object/object-has-all-keys'
+import { objectHasAllKeys, returnObjWithAllValidKey } from '~/utils/object/object-has-all-keys'
 import type { CustomEmbedField } from '~/utils/prismic/prismic-media'
 
 export function isDocumentEntity(entity: unknown): entity is PrismicDocument {
   return isObject(entity) && !!objectHasAllKeys(entity, ['id', 'type', 'last_publication_date', 'tags', 'lang'])
 }
 
-// Link
+// Relation Link field
 export function isLinkField(entity: unknown): entity is LinkField {
   if (!isObject(entity)) return false
 
@@ -36,9 +36,13 @@ export function isLinkToMediaField(entity: unknown): entity is FilledLinkToMedia
   return isLinkField(entity) && !!objectHasAllKeys(entity, ['name', 'kind', 'url', 'size'])
 }
 
-// Media
+export function isFilledLinkToImage(entity: unknown): entity is FilledLinkToMediaField {
+  return isLinkToMediaField(entity) && entity.kind === 'image'
+}
+
+// Media field
 export function isFilledImageField(field: unknown): field is FilledImageFieldImage {
-  return !!objectHasAllKeys(field, ['alt', 'url', 'dimensions', 'copyright'])
+  return !!returnObjWithAllValidKey(field as Object, ['alt', 'url', 'dimensions', 'copyright'])?.url
 }
 
 export function isFilledLinkToMediaField(field: unknown): field is FilledLinkToMediaField {
@@ -58,4 +62,9 @@ export function isVideoEmbedField(
 export function isCustomEmbedVideo(field: unknown): field is CustomEmbedField {
   const typedField = objectHasAllKeys(field, ['video_id', 'provider_name'])
   return !!typedField && !!typedField?.video_id && !!typedField?.provider_name
+}
+
+// Merged media
+export function isReferenceImage(field: unknown): field is FilledImageFieldImage | FilledLinkToMediaField {
+  return isFilledLinkToImage(field) || isFilledImageField(field)
 }

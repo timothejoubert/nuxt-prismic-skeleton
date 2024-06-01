@@ -1,6 +1,7 @@
 import type { EmbedField, ImageField, LinkToMediaField } from '@prismicio/types'
 import {
   isFilledImageField,
+  isFilledLinkToImage,
   isFilledLinkToMediaField,
   isLinkToMediaField,
   isVideoEmbedField,
@@ -27,28 +28,8 @@ const videoExtension = ['mp4', 'mov', 'quick', 'webm', 'mkv', 'avi', 'mpeg']
 const imgExtension = ['jpg', 'png', 'webp', 'gif', 'avif', 'jpeg', 'svg']
 
 // TYPES
-function isVideoExtension(ext?: string) {
-  return videoExtension.includes(ext || '')
-}
-
-function isImageExtension(ext?: string) {
-  return imgExtension.includes(ext || '')
-}
-
-function getEmbedPlatform(field?: PrismicMediaField) {
-  if (!field) return
-  let result: CustomEmbedField['provider_name'] | undefined
-
-  if (field.provider_name) {
-    result = (field as CustomEmbedField).provider_name
-  } else {
-    const src = field?.embed_url || field?.url
-    if (src?.includes('youtube.com/embed/')) result = 'youtube'
-    else if (src?.includes('player.vimeo.com/')) result = 'vimeo'
-  }
-
-  return (result || '').toLocaleLowerCase()
-}
+const isVideoExtension = (ext?: string) => videoExtension.includes(ext || '')
+const isImageExtension = (ext?: string) => imgExtension.includes(ext || '')
 
 function extractDataFromUrl(url: string | undefined) {
   // Ex pattern: https://images.prismic.io/hugo-tomasi-v2/Zh10NDjCgu4jz1TZ_electrochoc-screen-01.png?auto=format,compress
@@ -114,10 +95,6 @@ export function getPrismicMediaData(field: PrismicImageField | undefined) {
 }
 
 // Simplified
-export function isReferenceImage(field: unknown) {
-  return isLinkToMediaField(field) || isFilledImageField(field)
-}
-
 export function getReferenceDimension(field: PrismicImageField | undefined) {
   if (!field) return
 

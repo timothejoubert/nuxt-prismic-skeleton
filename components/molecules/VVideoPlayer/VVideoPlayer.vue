@@ -126,7 +126,7 @@ async function createPlayer() {
     muted: muted.value,
     loop: { active: loop.value },
     ...props.plyr,
-    iconUrl: '/images/plyr-icons.svg', // TODO: use Vite to import this file. Stored in public folder for now.
+    iconUrl: '/images/plyr-icons.svg', // Stored in public folder for now.
     iconPrefix: 'plyr-icon',
   }
   const PlyrClass = await import('plyr').then((module) => module.default)
@@ -204,7 +204,6 @@ onBeforeUnmount(disposePlayer)
 </script>
 
 <template>
-  <pre>{{ src }} || {{ isEmbed }} || {{ embedPlatform }}</pre>
   <div v-if="isEmbed" ref="playerComponent" :style="playerStyle" :class="$style['iframe-wrapper']">
     <iframe :src="src" frameborder="0" allow="autoplay" :class="$style.iframe"></iframe>
     <!--    <VSpinner v-if="!videoReady" :class="$style.spinner" />-->
