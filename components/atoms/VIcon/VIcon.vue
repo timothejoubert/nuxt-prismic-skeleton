@@ -16,5 +16,5 @@ defineProps({
 </script>
 
 <template>
-  <SvgIcon :name="name" :width="width" :height="height" />
+  <SvgIcon aria-hidden="true" :name="name" :width="width" :height="height" />
 </template>

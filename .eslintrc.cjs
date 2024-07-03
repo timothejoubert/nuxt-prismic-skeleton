@@ -16,6 +16,17 @@ module.exports = {
         'vue/no-v-text-v-html-on-component': 'off',
         '@typescript-eslint/camelcase': 'off', // Allow camelCase (used for prismic field name)
         'camelcase': 'off',
+        'scss/at-rule-no-unknown': [
+            true,
+            {
+                ignoreAtRules: ['container', 'starting-style'],
+            },
+        ],
+        'selector-pseudo-class-no-unknown': [
+            true, {
+                ignorePseudoClasses: ["popover-open"],
+            }
+        ],
     },
     overrides: [
         {
