@@ -2,7 +2,7 @@
 
 <template>
   <NuxtStory>
-    <VTopBarNav />
+    <VToggleNav />
   </NuxtStory>
 </template>
 

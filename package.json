@@ -1,6 +1,9 @@
 {
   "name": "nuxt-app",
   "version": "0.1.0",
+  "engines": {
+    "node": "^20"
+  },
   "scripts": {
     "start": "pnpm dev && pnpm slicemachine",
     "dev": "nuxt dev",
@@ -39,6 +42,8 @@
   "dependencies": {
     "@nuxt/image": "^1.7.0",
     "@nuxtjs/svg-sprite": "^1.0.2",
+    "@vueuse/core": "^10.11.0",
+    "@vueuse/nuxt": "^10.11.0",
     "body-scroll-lock": "4.0.0-beta.0",
     "plyr": "^3.7.8",
     "tiny-emitter": "^2.1.0"

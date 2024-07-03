@@ -13,7 +13,7 @@ function getReferenceUrl(reference: Reference | undefined) {
 }
 
 export const vLinkProps = {
-  label: [String, Boolean],
+  label: [String, Boolean] as PropType<string | boolean | null>,
   reference: Object as PropType<Reference>,
   url: String,
   isDownload: Boolean,

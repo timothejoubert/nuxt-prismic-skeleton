@@ -61,7 +61,6 @@ export default defineNuxtConfig({
       }),
     ],
   },
-
   nitro: {
     routeRules: {
       '/**': {
@@ -97,6 +96,7 @@ export default defineNuxtConfig({
     '@rezo-zero/nuxt-stories',
     '@nuxt/image',
     '@nuxtjs/sitemap',
+    '@vueuse/nuxt',
   ],
   // https://github.com/nuxt-modules/svg-sprite#options
   svgSprite: {

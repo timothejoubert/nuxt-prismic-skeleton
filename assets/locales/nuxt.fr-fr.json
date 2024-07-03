@@ -1,4 +1,6 @@
 {
+    "toggle_menu.open": "Ouvrir la navigation principale",
+    "toggle_menu.close": "Fermer la navigation principale",
     "cta.label": "En voir plus",
     "filter.label": "Filtres",
     "see_all_project": "Voir tous",

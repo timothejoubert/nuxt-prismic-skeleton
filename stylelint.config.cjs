@@ -12,7 +12,6 @@ module.exports = {
     rules: {
         'no-descending-specificity': null,
         'at-rule-no-unknown': null,
-        'scss/at-rule-no-unknown': true,
         // sass context: @use + @import
         // https://github.com/stylelint/stylelint/issues/5133
         'no-invalid-position-at-import-rule': null,
@@ -23,6 +22,17 @@ module.exports = {
         'function-no-unknown': null, // we use SCSS global imports for functions
         'scss/function-no-unknown': null, // we use SCSS global imports for functions
         'color-function-notation': null, // do not change rgba() to rgb()
+        'scss/at-rule-no-unknown': [
+            true,
+            {
+                ignoreAtRules: ['container', 'starting-style'],
+            },
+        ],
+        'selector-pseudo-class-no-unknown': [
+            true, {
+                ignorePseudoClasses: ["popover-open"],
+            }
+        ],
     },
     defaultSeverity: 'warning',
     ignoreFiles: ['./assets/scss/vendors/_tarteaucitron.scss', './assets/scss/vendors/_orejime.scss'],
