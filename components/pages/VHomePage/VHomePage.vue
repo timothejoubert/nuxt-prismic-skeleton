@@ -31,6 +31,15 @@ const homeItem = computed(() => props.prismicDocument.data)
   @include property-fluid(margin-top, (xs: 30, xl: 66));
   grid-column: 1 / -1;
 
+  &::after {
+    position: absolute;
+    content: '';
+    left: var(--gutter);
+    right: var(--gutter);
+    height: 1px;
+    background-color: color-mix(in srgb, color(black) 30%, transparent);
+  }
+
   @include media('>=md') {
     grid-column: 1 / span 11;
   }
