@@ -4,8 +4,9 @@
     @include font-size-fluid((xs: 137, xl: 360));
 
     font-weight: 700;
-    line-height: math.div(79, 360);
-    text-transform: uppercase;
+    line-height: 0.79;
+
+    //text-transform: uppercase;
 }
 
 @mixin text-h2 {
@@ -13,7 +14,8 @@
 
     font-weight: 600;
     line-height: 1;
-    text-transform: uppercase;
+
+    //text-transform: uppercase;
 }
 
 @mixin text-h3 {
@@ -24,11 +26,12 @@
 }
 
 @mixin text-h4 {
-    @include font-size-fluid((xs: 24, xl: 54));
+    @include font-size-fluid((xs: 41, xl: 112));
 
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1;
-    text-transform: uppercase;
+
+    //text-transform: uppercase;
 }
 
 @mixin text-h5 {
@@ -57,7 +60,8 @@
 
     font-weight: 550;
     line-height: 1;
-    text-transform: uppercase;
+
+    //text-transform: uppercase;
 }
 
 @mixin text-body-lg {

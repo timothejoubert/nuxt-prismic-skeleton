@@ -1,20 +1,21 @@
+@mixin grid($width: null) {
+    @include container;
+
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+}
+
+@mixin container($width: null) {
+    @include grid-gap;
+
+    width: if($width != null, $width, var(--grid-width));
+    max-width: var(--grid-max-width);
+    margin-inline: auto;
+}
+
 @mixin grid-gap {
     @supports (gap: 0) {
         /* autoprefixer grid: off */
         gap: 0 var(--gutter);
-    }
-}
-
-@mixin grid($width: null) {
-    @include grid-gap;
-
-    display: grid;
-    width: if($width != null, $width, var(--grid-width));
-    max-width: var(--grid-max-width);
-    margin: 0 auto;
-    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
-
-    @if($width == 100%) {
-        padding-inline: var(--gutter);
     }
 }

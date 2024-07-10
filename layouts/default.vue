@@ -2,7 +2,8 @@
 
 <template>
   <div>
-    <VTopBar />
+<!--    <VTopBar />-->
+    <VMainNav />
     <NuxtPage />
     <VFooter />
   </div>

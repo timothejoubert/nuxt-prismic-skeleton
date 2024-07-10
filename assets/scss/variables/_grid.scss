@@ -1,18 +1,15 @@
 $gutters: (
-    0: var(--spacing-sm),
-    lg: var(--spacing-md),
+    0: rem(20),
+    md: rem(42),
 ) !default;
-
 $grid-widths: (
     0: calc(100% - 2 * var(--gutter)),
 ) !default;
-
 $grid-max-widths: (
      0: 1920px,
 ) !default;
-
 $grid-columns: (
-    0: 8,
-    lg: 24,
+    0: 6,
+    md: 14,
 ) !default;
 

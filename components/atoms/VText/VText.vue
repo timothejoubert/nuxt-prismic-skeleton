@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import type { KeyTextField, RichTextField } from '@prismicio/types'
+import {isRichTextFilled} from "~/utils/prismic/guard";
+import type {RTTextNodeBase} from "@prismicio/types";
 
 interface VTextProps {
   tag?: string
@@ -8,18 +10,32 @@ interface VTextProps {
 }
 
 const props = defineProps<VTextProps>()
+
 const slots = useSlots()
 const hasSlot = slots.default?.()
-const isRichTextFilled = computed(() => {
-  return !!(props.content?.[0] as Partial<Record<'text', string>>)?.text
+
+const isString = computed(() => typeof props.content === 'string')
+
+const richText = computed(() => {
+  if(isRichTextFilled(props.content)) return props.content
 })
+
+const flatRichTextContent = computed(() => {
+  if(!props.tag) return
+
+  const spans = (richText.value?.[0] as RTTextNodeBase)?.spans
+  if(richText.value && richText.value.length > 1 || spans && spans.length > 0) return
+
+  return (richText.value?.[0] as {text: string })?.text
+})
+
 </script>
 
 <template>
-  <component :is="tag || 'div'" v-if="typeof content === 'string' || hasSlot" :class="$style.root">
-    <slot>{{ content }}</slot>
+  <component :is="tag || 'div'" v-if="isString || hasSlot || flatRichTextContent" :class="$style.root">
+    <slot>{{ flatRichTextContent ? flatRichTextContent : content }}</slot>
   </component>
-  <PrismicRichText v-else-if="isRichTextFilled" :class="$style.root" :field="content" />
+  <PrismicRichText v-else-if="richText" :class="$style.root" :field="richText" />
 </template>
 
 <style lang="scss" module>

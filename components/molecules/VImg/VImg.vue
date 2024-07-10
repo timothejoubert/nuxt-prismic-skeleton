@@ -113,12 +113,11 @@ export default defineComponent({
 
 <style lang="scss" module>
 .root {
-  max-width: var(--v-img-max-width, 100%); // responsive image
-  height: var(--v-img-height, auto); // responsive image
+  max-width: var(--v-img-max-width);
+  height: var(--v-img-height, auto);
   background: var(--v-img-background, var(--v-img-placeholder));
 
   &--loaded {
-    // Remove background when image is loaded. This is useful for hiding antialiasing artifacts.
     --v-img-background: none;
   }
 }

@@ -6,12 +6,13 @@ import type {
   FilledLinkToMediaField,
   FilledImageFieldImage,
   EmbedField,
-  VideoOEmbed,
+  VideoOEmbed, RichTextField,
 } from '@prismicio/types'
 import { LinkType } from '@prismicio/types'
 import { isObject } from '~/utils/object/is-object'
 import { objectHasAllKeys, returnObjWithAllValidKey } from '~/utils/object/object-has-all-keys'
 import type { CustomEmbedField } from '~/utils/prismic/prismic-media'
+import { RichTextNodeType } from "@prismicio/types";
 
 export function isDocumentEntity(entity: unknown): entity is PrismicDocument {
   return isObject(entity) && !!objectHasAllKeys(entity, ['id', 'type', 'last_publication_date', 'tags', 'lang'])
@@ -67,4 +68,14 @@ export function isCustomEmbedVideo(field: unknown): field is CustomEmbedField {
 // Merged media
 export function isReferenceImage(field: unknown): field is FilledImageFieldImage | FilledLinkToMediaField {
   return isFilledLinkToImage(field) || isFilledImageField(field)
+}
+
+// RichText
+const richTextKeys = Object.values(RichTextNodeType)
+
+export function isRichTextFilled(el: unknown): el is RichTextField<'filled'> {
+  const isArray = Array.isArray(el)
+  if(!isArray || isArray && !el?.length) return false
+
+  return el.some(item => richTextKeys.includes(item.type))
 }

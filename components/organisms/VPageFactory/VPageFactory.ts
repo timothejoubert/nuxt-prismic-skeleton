@@ -29,15 +29,15 @@ const isComponent = (component: string) => {
   return typeof resolveDynamicComponent(component) !== 'string' || typeof resolveComponent(component) !== 'string'
 }
 
-const VPageFactory: FunctionalComponent<VPageFactoryProps> = ({ type, document }, context): VNodeChild => {
-  const componentName = getPageComponentName(type)
+const VPageFactory: FunctionalComponent<VPageFactoryProps> = (props, context): VNodeChild => {
+  const componentName = getPageComponentName(props.type)
 
   if (isComponent(componentName)) {
-    return h(resolveComponent(componentName), { prismicDocument: document, ...context.attrs })
+    return h(resolveComponent(componentName), { prismicDocument: props.document, type: props.type, ...context.attrs })
   } else {
     showError({
       status: 404,
-      message: `Aucune composant de page existe pour cette requete: ${type} - ${componentName}`,
+      message: `Aucune composant de page existe pour cette requete: ${props.type} - ${componentName}`,
     })
     return h('')
   }

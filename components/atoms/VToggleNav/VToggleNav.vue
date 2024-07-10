@@ -1,7 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
 <template>
-  <button :class="$style.root">Menu</button>
+  <button
+      :class="$style.root"
+  >Menu</button>
 </template>
 
 <style lang="scss" module>

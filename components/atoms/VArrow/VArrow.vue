@@ -30,20 +30,24 @@ const rootClasses = computed(() => {
 
 <style lang="scss" module>
 .root {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   background-color: color(grey-400);
-  border-radius: rem(30);
 
-  .root--size-sm {
+  &--size-sm {
+    border-radius: rem(12);
     padding: rem(3);
   }
 
-  .root--size-md {
+  &--size-md {
+    border-radius: rem(16);
     padding: rem(6);
   }
 
-  .root--size-lg {
+  &--size-lg {
+    border-radius: rem(30);
     padding: rem(9);
   }
 }
