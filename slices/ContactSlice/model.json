@@ -1,0 +1,59 @@
+{
+  "id": "contact_slice",
+  "type": "SharedSlice",
+  "name": "ContactSlice",
+  "description": "ContactSlice",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "content": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Content",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "strong,em,hyperlink"
+          }
+        },
+        "email": {
+          "type": "Text",
+          "config": {
+            "label": "Email",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {
+        "link_label": {
+          "type": "Text",
+          "config": {
+            "label": "Link label",
+            "placeholder": ""
+          }
+        },
+        "external_link": {
+          "type": "Link",
+          "config": {
+            "label": "External link",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "select": null
+          }
+        }
+      }
+    }
+  ]
+}

@@ -37,30 +37,21 @@ export function getLinkFieldFilled(link: LinkField | undefined) {
 
 export function getLinkToRelationFieldFilled(relation: ContentRelationshipField | undefined) {
   const filledRelation = relation as FilledContentRelationshipField
-  if (!filledRelation?.id) {
-    console.warn(`LinkToRelation is empty or undefined`)
-    return
-  }
+  if (filledRelation?.id) return filledRelation
 
-  return filledRelation
+  // console.warn(`LinkToRelation is empty or undefined`)
 }
 
 export function getLinkToWebFieldFilled(webLink: FilledLinkToWebField | EmptyLinkField | undefined) {
-  if (!webLink || !(webLink as FilledLinkToWebField)?.url) {
-    console.warn(`LinkToWeb is empty or undefined `)
-    return
-  }
+  if (!webLink || !(webLink as FilledLinkToWebField)?.url) return webLink as FilledLinkToWebField
 
-  return webLink as FilledLinkToWebField
+  // console.warn(`LinkToWeb is empty or undefined `)
 }
 
 export function getLinkToMediaFieldFilled(media: LinkToMediaField | undefined) {
   const filledFile = media as LinkToMediaField<'filled'>
 
-  if (!filledFile?.url) {
-    console.warn(`LinkToMedia is empty or undefined`)
-    return
-  }
+  if (!filledFile?.url) return filledFile
 
-  return filledFile
+  // console.warn(`LinkToMedia is empty or undefined`)
 }

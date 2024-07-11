@@ -6,3 +6,4 @@ export interface PageProps<T extends PrismicDocument> {
     prismicDocument: T
     type: DocumentType
 }
+

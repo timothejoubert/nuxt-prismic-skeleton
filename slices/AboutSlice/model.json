@@ -1,0 +1,64 @@
+{
+  "id": "about_slice",
+  "type": "SharedSlice",
+  "name": "AboutSlice",
+  "description": "AboutSlice",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "title",
+            "placeholder": ""
+          }
+        },
+        "content": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Content",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "strong,em,hyperlink"
+          }
+        },
+        "link_label": {
+          "type": "Text",
+          "config": {
+            "label": "Link label",
+            "placeholder": ""
+          }
+        },
+        "external_link": {
+          "type": "Link",
+          "config": {
+            "label": "External link",
+            "placeholder": "",
+            "select": null
+          }
+        },
+        "internal_link": {
+          "type": "Link",
+          "config": {
+            "label": "Internal link",
+            "select": "document",
+            "customtypes": [
+              "about_page",
+              "home_page",
+              "project_page",
+              "web_page",
+              "project_listing_page"
+            ]
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

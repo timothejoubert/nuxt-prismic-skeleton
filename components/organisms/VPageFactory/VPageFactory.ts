@@ -1,12 +1,9 @@
-import { resolveDynamicComponent, resolveComponent } from 'vue'
+import {resolveDynamicComponent, resolveComponent, } from 'vue'
+import type { PropType} from 'vue'
 import type { FunctionalComponent, VNodeChild } from 'vue'
 import type { PrismicDocument } from '@prismicio/types'
 import { DocumentType } from '~/constants/document-type'
 
-interface VPageFactoryProps {
-  type: DocumentType
-  document: PrismicDocument
-}
 
 function getPageComponentName(type: DocumentType) {
   switch (type) {
@@ -25,6 +22,14 @@ function getPageComponentName(type: DocumentType) {
   }
 }
 
+type DocumentTypeValue = (typeof DocumentType)[keyof typeof DocumentType]
+
+interface VPageFactoryProps {
+  type: DocumentTypeValue
+  document: PrismicDocument
+}
+
+
 const isComponent = (component: string) => {
   return typeof resolveDynamicComponent(component) !== 'string' || typeof resolveComponent(component) !== 'string'
 }
@@ -33,7 +38,11 @@ const VPageFactory: FunctionalComponent<VPageFactoryProps> = (props, context): V
   const componentName = getPageComponentName(props.type)
 
   if (isComponent(componentName)) {
-    return h(resolveComponent(componentName), { prismicDocument: props.document, type: props.type, ...context.attrs })
+    return h(resolveComponent(componentName), {
+      prismicDocument: props.document,
+      type: props.type,
+      ...context.attrs
+    })
   } else {
     showError({
       status: 404,
@@ -41,6 +50,11 @@ const VPageFactory: FunctionalComponent<VPageFactoryProps> = (props, context): V
     })
     return h('')
   }
+}
+
+VPageFactory.props = {
+  type: String as PropType<DocumentTypeValue>,
+  document: Object as PropType<PrismicDocument>
 }
 
 export default VPageFactory

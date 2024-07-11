@@ -7,8 +7,29 @@
 				"__TYPE__": "FieldContent",
 				"value": "bean",
 				"type": "Text"
+			},
+			"project_length": {
+				"__TYPE__": "FieldContent",
+				"value": "3",
+				"type": "Number"
 			}
 		},
-		"items": []
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": [
+					[
+						"manual_project",
+						{
+							"__TYPE__": "LinkContent",
+							"value": {
+								"__TYPE__": "DocumentLink",
+								"id": "mock_document_id"
+							}
+						}
+					]
+				]
+			}
+		]
 	}
 ]

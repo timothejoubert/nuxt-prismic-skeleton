@@ -1,0 +1,20 @@
+@mixin pseudo-line {
+    position: absolute;
+    background-color: color(line-primary);
+    content: '';
+}
+
+@mixin line($direction: right) {
+  border-#{$direction}: 1px solid color(line-primary);
+}
+
+@mixin pseudo-right-line {
+  &::after {
+    @include pseudo-line;
+
+    top:0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+  }
+}

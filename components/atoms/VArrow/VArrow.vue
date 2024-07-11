@@ -1,15 +1,15 @@
 <script setup lang="ts">
 
 interface VArrowProps {
-  tag: string
-  size: 'sm' | 'md' | 'lg'
-  direction: 'top' | 'bottom' | 'left' | 'right'
+  tag?: string
+  size?: 'sm' | 'md' | 'lg'
+  direction?: 'top' | 'bottom' | 'left' | 'right'
+  href?: string
 }
 
 const props = withDefaults(defineProps<VArrowProps>(), {
   size: 'md',
   direction: 'right',
-  tag: 'span'
 })
 
 const $style = useCssModule()
@@ -20,10 +20,21 @@ const rootClasses = computed(() => {
     $style[`root--size-${props.size}`]
   ]
 })
+
+const rootTag = computed(() => {
+  return props.tag || (props.href ? 'a' : 'span')
+})
+
+const rootAttrs = computed(() => {
+  return {
+    'aria-hidden': rootTag.value === 'button' || rootTag.value === 'a' ?  undefined : 'true',
+    href: props.href,
+  }
+})
 </script>
 
 <template>
-  <component aria-hidden="true" :is="tag" :class="rootClasses">
+  <component :is="rootTag" :class="rootClasses" v-bind="rootAttrs">
     <VIcon :class="$style.icon" name="arrow-right" />
   </component>
 </template>
@@ -34,7 +45,8 @@ const rootClasses = computed(() => {
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: color(grey-400);
+  background-color: color(dark);
+  color: color(primary);
 
   &--size-sm {
     border-radius: rem(12);

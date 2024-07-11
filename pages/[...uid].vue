@@ -28,7 +28,7 @@ usePage({
 </script>
 
 <template>
-  <div :class="$style.root">
+  <div :class="$style.root" class="grid">
     <VPageFactory :type="prismicDocumentType" :document="prismicDocumentData" />
     <LazySliceZone
       v-if="pageData?.slices?.length"
@@ -43,5 +43,17 @@ usePage({
 <style lang="scss" module>
 .root {
   position: relative;
+}
+
+.slices {
+  position: relative;
+  grid-column: 1 / -1;
+
+  @include media('>=md') {
+    @include line(right);
+
+    grid-column: 1 / -4;
+    width: calc(100% + var(--gutter));
+  }
 }
 </style>

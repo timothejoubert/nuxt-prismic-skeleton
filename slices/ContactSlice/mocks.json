@@ -1,0 +1,54 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "FieldContent",
+				"value": "travel",
+				"type": "Text"
+			},
+			"content": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Pariatur exercitation enim dolore eu cillum anim excepteur mollit aliquip consequat."
+						}
+					}
+				]
+			},
+			"email": {
+				"__TYPE__": "FieldContent",
+				"value": "mission",
+				"type": "Text"
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": [
+					[
+						"link_label",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "dull",
+							"type": "Text"
+						}
+					],
+					[
+						"external_link",
+						{
+							"__TYPE__": "LinkContent",
+							"value": {
+								"__TYPE__": "ExternalLink",
+								"url": "https://slicemachine.dev"
+							}
+						}
+					]
+				]
+			}
+		]
+	}
+]

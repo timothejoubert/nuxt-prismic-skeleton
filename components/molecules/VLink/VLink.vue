@@ -1,22 +1,14 @@
 <script lang="ts">
 import { h, type PropType } from 'vue'
 import type { NuxtLinkProps } from '#app/components/nuxt-link'
-import type { LinkField, PrismicDocument } from '@prismicio/types'
 import { NuxtLink } from '#components'
-
-export type Reference = PrismicDocument | LinkField
-
-function getReferenceUrl(reference: Reference | undefined) {
-  if (!reference || !('url' in reference)) return undefined
-
-  return reference.url || undefined
-}
+import type { ReachableDocument } from '~/types/api'
 
 export const vLinkProps = {
-  label: [String, Boolean] as PropType<string | boolean | null>,
-  reference: Object as PropType<Reference>,
+  label: [String, Boolean],
+  reference: [Array, Object] as PropType<ReachableDocument[] | ReachableDocument>,
   url: String,
-  isDownload: Boolean,
+  document: Object,
   nuxtLinkProps: Object as PropType<NuxtLinkProps>,
   custom: Boolean, // use scoped slot
 }
@@ -25,46 +17,54 @@ export default defineComponent({
   inheritAttrs: false,
   props: vLinkProps,
   setup(props, { attrs, slots }) {
-    const url = props.url || getReferenceUrl(props.reference)
+    const reference = props.reference && Array.isArray(props.reference) ? props.reference[0] : props.reference
+    const url = props.url || reference?.url
+    const { $isInternalUrl } = useNuxtApp()
 
-    const { $isInternalUrl, $isExternalUrl } = useNuxtApp()
+    const isInternal = $isInternalUrl && $isInternalUrl(url || '')
+    const isExternal = !isInternal && !!props.url
+    const isDownload = !isInternal && !isExternal && !!props.document
 
-    const isInternal = $isInternalUrl(url)
-    const isExternal = $isExternalUrl(url)
-
-    if (!url && !props.isDownload) {
+    // A VLink without URL or reference will render nothing except the default slot if present, fallback to the label, or at least nothing
+    if (!url && !props.document?.relativePath) {
       return () =>
-        slots.default?.({ label: props.label }) ||
-        (typeof props.label === 'string' && h('span', attrs, props.label)) ||
-        null
+          slots.default?.({ label: props.label }) ||
+          (typeof props.label === 'string' && h('span', attrs, props.label)) ||
+          null
     }
 
-    const linkKey = isInternal ? 'to' : isExternal || props.isDownload ? 'href' : ''
-    const attributes = {
-      ...attrs,
-      ...props.nuxtLinkProps,
-      [linkKey]: url,
-    }
+    // Define attributes
+    const attributes = { ...attrs, ...props.nuxtLinkProps }
 
-    if (props.isDownload || isExternal) {
+    if (isDownload || isExternal) {
       Object.assign(attributes, {
         target: attrs?.target || '_blank',
-        rel: attrs?.rel || 'noopener noreferrer',
+        rel: attrs?.rel || 'noopener',
       })
+    }
+
+    if (isDownload) {
+      console.log("download document isn't done")
+      // Object.assign(attributes, { href: useDocumentUrl(props.document?.relativePath) })
+    } else if (isInternal) {
+      Object.assign(attributes, { to: url })
+    } else if (isExternal) {
+      Object.assign(attributes, { href: props.url })
     }
 
     // Custom VLink will pass all attributes to the default slot and render it (i.e. render-less component behavior)
     if (props.custom) {
       const vNode = slots.default?.({
-        download: props.isDownload ? true : undefined,
+        download: isDownload ? '' : undefined,
         ...attributes,
       })
 
       if (vNode?.length) return () => vNode[0]
     }
 
+    // By default return a NuxtLink component
     return () =>
-      h(NuxtLink, attributes, slots.default || (() => (typeof props.label === 'string' && props.label) || ''))
+        h(NuxtLink, attributes, slots.default || (() => (typeof props.label === 'string' && props.label) || ''))
   },
 })
 </script>

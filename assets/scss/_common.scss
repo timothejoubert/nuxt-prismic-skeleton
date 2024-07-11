@@ -10,8 +10,10 @@ html {
 body {
     @include text-body-md;
 
-    font-family: $noi;
     min-height: 100svh;
+    background-color: color(primary);
+    color: color(dark);
+    font-family: $mango;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

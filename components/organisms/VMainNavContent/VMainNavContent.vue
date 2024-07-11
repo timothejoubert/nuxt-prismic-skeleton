@@ -61,7 +61,7 @@ const rootClasses = computed(() => {
 .link {
   display: block;
   padding-block: rem(14);
-  background-color: lightgrey;
+  background-color: color(primary-70);
   padding-inline: rem(30);
 
   &:global(.router-link-exact-active)::after,
@@ -70,8 +70,8 @@ const rootClasses = computed(() => {
     left: 0;
     width: 100%;
     bottom: 0;
-    height: 2px;
-    background-color: rgba(black, 0.5);
+    height: 3px;
+    background-color: color(primary-120);
     content: '';
   }
 }

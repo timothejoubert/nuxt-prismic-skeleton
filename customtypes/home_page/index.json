@@ -35,6 +35,18 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "contact_slice": {
+              "type": "SharedSlice"
+            },
+            "about_slice": {
+              "type": "SharedSlice"
+            },
+            "media_slice": {
+              "type": "SharedSlice"
+            },
+            "promote_slice": {
+              "type": "SharedSlice"
+            },
             "skills_slice": {
               "type": "SharedSlice"
             },
@@ -45,9 +57,6 @@
               "type": "SharedSlice"
             },
             "introduction_slice": {
-              "type": "SharedSlice"
-            },
-            "project_push_slice": {
               "type": "SharedSlice"
             }
           }

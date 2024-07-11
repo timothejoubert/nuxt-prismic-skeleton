@@ -1,9 +1,7 @@
 import type { EmbedField, ImageField, LinkToMediaField } from '@prismicio/types'
 import {
   isFilledImageField,
-  isFilledLinkToImage,
   isFilledLinkToMediaField,
-  isLinkToMediaField,
   isVideoEmbedField,
 } from '~/utils/prismic/guard'
 import prismicData from '~/slicemachine.config.json'

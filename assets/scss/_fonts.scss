@@ -2,9 +2,9 @@
 
 @font-face {
     font-display: swap;
-    font-family: 'noi';
-    font-weight: 100 900;
+    font-family: noi;
     font-style: oblique 0deg 10deg;
+    font-weight: 100 900;
     src: url('~/assets/fonts/noigrotesk-variable.ttf') format('truetype');
 }
 
@@ -12,3 +12,13 @@
 //    font-weight: 100 900;
 //    font-style: oblique 0deg 10deg;
 //}
+
+@font-face {
+    font-display: swap;
+    font-family: mango;
+    font-style: oblique 0deg 10deg;
+    font-weight: 100 900;
+    src: url('~/assets/fonts/mango-grotesque-variable.ttf') format('truetype');
+}
+
+

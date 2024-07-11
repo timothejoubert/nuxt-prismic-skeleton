@@ -18,9 +18,27 @@
             "label": "Title",
             "placeholder": ""
           }
+        },
+        "project_length": {
+          "type": "Number",
+          "config": {
+            "label": "Project length",
+            "placeholder": ""
+          }
         }
       },
-      "items": {}
+      "items": {
+        "manual_project": {
+          "type": "Link",
+          "config": {
+            "label": "Manual project",
+            "select": "document",
+            "customtypes": [
+              "project_page"
+            ]
+          }
+        }
+      }
     }
   ]
 }

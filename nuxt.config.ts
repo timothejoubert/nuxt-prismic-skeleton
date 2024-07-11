@@ -8,17 +8,7 @@ import { defaultLocale, allLocale as locales } from './constants/locale'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  site: {
-    url: process.env.NUXT_PUBLIC_SITE_URL,
-  },
-  sitemap: {
-    // Don't add any /secret/** URLs to the sitemap.xml
-    exclude: ['/slice-simulator', '/preview', '/_icons'],
-    sources: [
-      // create our own API endpoints
-      '/api/sitemap/prismic-urls',
-    ],
-  },
+
   app: {
     head: {
       htmlAttrs: {
@@ -40,7 +30,19 @@ export default defineNuxtConfig({
       ],
     },
   },
+
+  router: {
+    options: {
+      scrollBehaviorType: 'smooth'
+    }
+  },
+
+  site: {
+    url: process.env.NUXT_PUBLIC_SITE_URL,
+  },
+
   css: ['~/assets/scss/main.scss'],
+
   // https://nuxt.com/docs/api/configuration/nuxt-config#vite
   vite: {
     css: {
@@ -61,6 +63,7 @@ export default defineNuxtConfig({
       }),
     ],
   },
+
   nitro: {
     routeRules: {
       '/**': {
@@ -88,6 +91,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   modules: [
     '@nuxt/image',
     '@nuxtjs/prismic',
@@ -98,11 +102,13 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     '@vueuse/nuxt',
   ],
+
   // https://github.com/nuxt-modules/svg-sprite#options
   svgSprite: {
     input: '~/assets/images/icons',
     output: '~/assets/images/sprites',
   },
+
   runtimeConfig: {
     public: {
       siteUrl: '',
@@ -110,22 +116,14 @@ export default defineNuxtConfig({
       version,
     },
   },
-  // https://prismic.io/docs/technical-reference/prismicio-vue?version=v3#plugin-usage
-  prismic: {
-    endpoint: prismicData.repositoryName,
-    clientConfig: {
-      routes: prismicDocumentRouteList,
-    },
-    // richTextSerializer: '~/path'
-    preview: '/preview',
-    toolbar: true, // Whether or not to inject Prismic toolbar, required for previews to work properly.
-  },
+
   components: [
     '~/components/atoms',
     '~/components/molecules',
     '~/components/organisms',
     { path: '~/components/pages/', global: true },
   ],
+
   image: {
     // prismic: {},
     imgix: {
@@ -151,6 +149,18 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  // https://prismic.io/docs/technical-reference/prismicio-vue?version=v3#plugin-usage
+  prismic: {
+    endpoint: prismicData.repositoryName,
+    clientConfig: {
+      routes: prismicDocumentRouteList,
+    },
+    // richTextSerializer: '~/path'
+    preview: '/preview',
+    toolbar: true, // Whether or not to inject Prismic toolbar, required for previews to work properly.
+  },
+
   i18n: {
     // Default: all routes will have a locale prefix added except for the default language
     strategy: 'no_prefix',
@@ -163,4 +173,15 @@ export default defineNuxtConfig({
     })),
     langDir: 'assets/locales/',
   },
+
+  sitemap: {
+    // Don't add any /secret/** URLs to the sitemap.xml
+    exclude: ['/slice-simulator', '/preview', '/_icons'],
+    sources: [
+      // create our own API endpoints
+      '/api/sitemap/prismic-urls',
+    ],
+  },
+
+  compatibilityDate: '2024-07-11',
 })

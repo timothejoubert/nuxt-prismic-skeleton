@@ -2,11 +2,12 @@
 import type { KeyTextField, RichTextField } from '@prismicio/types'
 import {isRichTextFilled} from "~/utils/prismic/guard";
 import type {RTTextNodeBase} from "@prismicio/types";
+import type {VTextContent} from "~/types/prismic-shim";
 
 interface VTextProps {
   tag?: string
   textClass?: string
-  content?: string | RichTextField | KeyTextField
+  content?: VTextContent
 }
 
 const props = defineProps<VTextProps>()
