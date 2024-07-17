@@ -6,6 +6,10 @@
     @include grid(100%);
 }
 
+.container {
+    @include container;
+}
+
 :root {
     @each $breakpoint, $value in $grid-widths {
         @if $breakpoint == 0 {

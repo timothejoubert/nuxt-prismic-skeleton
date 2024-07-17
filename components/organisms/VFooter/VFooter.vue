@@ -8,16 +8,25 @@ const currentYear = computed(() => new Date().getFullYear())
 </script>
 
 <template>
-  <footer :class="$style.root" class="container">
-    <div class="text-body-xs" :class="$style.copyright">
-      © {{ siteName }} | {{ currentYear }}
-      <div :class="$style.creator">
-        <span>{{ $t('created_by') }}</span>
-        <a href="https://timothejoubert.com" target="_blank">Timothé J.</a>
-      </div>
-    </div>
-    <VSocialList display-icon />
-  </footer>
+    <footer
+        :class="$style.root"
+        class="container"
+    >
+        <div
+            class="text-body-xs"
+            :class="$style.copyright"
+        >
+            © {{ siteName }} | {{ currentYear }}
+            <div :class="$style.creator">
+                <span>{{ $t('created_by') }}</span>
+                <a
+                    href="https://timothejoubert.com"
+                    target="_blank"
+                >Timothé J.</a>
+            </div>
+        </div>
+        <VSocialList display-icon />
+    </footer>
 </template>
 
 <style lang="scss" module>
@@ -26,11 +35,10 @@ const currentYear = computed(() => new Date().getFullYear())
   display: flex;
   height: rem(64);
   justify-content: space-between;
-  background-color: color(black);
-  border-radius: rem(16);
-  color: color(white);
-  margin: rem(24) var(--page-gutter);
-  padding-inline: rem(32);
+  background-color: color(primary-90);
+  border-radius: rem(4);
+  margin-bottom: rem(24);
+  padding-inline: rem(24);
 }
 
 .copyright {

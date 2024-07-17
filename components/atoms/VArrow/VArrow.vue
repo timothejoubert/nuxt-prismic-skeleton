@@ -1,43 +1,46 @@
-<script setup lang="ts">
+<script lang="ts">
+import type { PropType } from 'vue'
+import { VIcon } from '#components'
 
-interface VArrowProps {
-  tag?: string
-  size?: 'sm' | 'md' | 'lg'
-  direction?: 'top' | 'bottom' | 'left' | 'right'
-  href?: string
+export const vArrowProps = {
+    tag: String,
+    size: {
+        type: String as PropType<'sm' | 'md' | 'lg' >,
+        default: 'md',
+    },
+    direction: {
+        type: String as PropType<'top' | 'bottom' | 'left' | 'right' >,
+        default: 'right',
+    },
+    href: String,
 }
 
-const props = withDefaults(defineProps<VArrowProps>(), {
-  size: 'md',
-  direction: 'right',
-})
+export default defineComponent({
+    props: vArrowProps,
+    setup(props) {
+        const $style = useCssModule()
 
-const $style = useCssModule()
+        const rootClasses = [
+            $style.root,
+            $style[`root--direction-${props.direction}`],
+            $style[`root--size-${props.size}`],
+        ]
 
-const rootClasses = computed(() => {
-  return [$style.root,
-    $style[`root--direction-${props.direction}`],
-    $style[`root--size-${props.size}`]
-  ]
-})
+        const rootTag = props.tag || (props.href ? 'a' : 'span')
 
-const rootTag = computed(() => {
-  return props.tag || (props.href ? 'a' : 'span')
-})
+        const rootAttrs = {
+            'aria-hidden': rootTag === 'button' || rootTag === 'a' ? undefined : 'true',
+            'href': props.href,
+        }
 
-const rootAttrs = computed(() => {
-  return {
-    'aria-hidden': rootTag.value === 'button' || rootTag.value === 'a' ?  undefined : 'true',
-    href: props.href,
-  }
+        return () => h(
+            rootTag,
+            { class: rootClasses, ...rootAttrs },
+            h(VIcon, { class: $style.icon, name: 'arrow-right' }),
+        )
+    },
 })
 </script>
-
-<template>
-  <component :is="rootTag" :class="rootClasses" v-bind="rootAttrs">
-    <VIcon :class="$style.icon" name="arrow-right" />
-  </component>
-</template>
 
 <style lang="scss" module>
 .root {

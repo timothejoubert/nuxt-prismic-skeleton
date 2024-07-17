@@ -9,44 +9,49 @@ const isMinMd = computed(() => width.value > getBreakpointValue('md'))
 const toggle = () => (isDisplayed.value = !isDisplayed.value)
 
 watch(isMinMd, (value) => {
-  isDisplayed.value = value
+    isDisplayed.value = value
 })
 
 onMounted(() => {
-  isDisplayed.value = isMinMd.value
+    isDisplayed.value = isMinMd.value
 })
 onBeforeUnmount(() => {})
-
 
 const { t } = useI18n()
 const ariaLabel = computed(() => t(isDisplayed.value ? 'toggle_menu.close' : 'toggle_menu.open'))
 </script>
 
 <template>
-  <div :class="$style.root">
-    <VMainNavContent :isDisplayed="isDisplayed" :class="$style.nav"/>
-    <VToggleNav
-        :aria-hidden="isMinMd"
-        :aria-expanded="isDisplayed"
-        :aria-controls="id"
-        :aria-label="ariaLabel"
-        @click="toggle"
-        :class="$style.toggle"
-    />
-  </div>
+    <div :class="$style.root">
+        <VMainNavContent
+            :is-displayed="isDisplayed"
+            :class="$style.nav"
+        />
+        <VToggleNav
+            :aria-hidden="isMinMd"
+            :aria-expanded="isDisplayed"
+            :aria-controls="id"
+            :aria-label="ariaLabel"
+            :class="$style.toggle"
+            @click="toggle"
+        />
+    </div>
 </template>
 
 <style lang="scss" module>
 .root {
-  position: fixed;
-  bottom: rem(20);
-  right: rem(20);
+    position: fixed;
+    bottom: rem(20);
+    right: rem(20);
+    left: rem(20);
+    z-index: 11;
 
-  @include media('>=md') {
-    position: initial;
-    bottom: initial;
-    right: initial;
-  }
+    @include media('>=md') {
+        position: initial;
+        bottom: initial;
+        right: initial;
+        width: calc(#{flex-grid-value(11, 14, '%', true)} + var(--gutter) * 2);
+    }
 }
 
 .toggle {

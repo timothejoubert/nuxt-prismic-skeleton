@@ -101,6 +101,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/sitemap',
     '@vueuse/nuxt',
+    '@nuxt/eslint',
   ],
 
   // https://github.com/nuxt-modules/svg-sprite#options
@@ -181,6 +182,15 @@ export default defineNuxtConfig({
       // create our own API endpoints
       '/api/sitemap/prismic-urls',
     ],
+  },
+
+  // https://eslint.nuxt.com/packages/module
+  eslint: {
+    config: {
+      stylistic: {
+        indent: 4,
+      },
+    },
   },
 
   compatibilityDate: '2024-07-11',

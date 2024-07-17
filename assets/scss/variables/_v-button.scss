@@ -2,88 +2,85 @@
 @use "sass:math";
 
 $v-button-size-vars-by-variant: () !default;
-$v-button: (
-        xs: (
-                font-size: rem(11),
-                min-width: rem(18),
-                height: rem(18),
-                padding-inline: rem(10),
-        ),
-        s: (
-                font-size: rem(14),
-                min-width: rem(28),
-                height: rem(28),
-                padding-inline: rem(12),
-        ),
-        m: (
-                font-size: rem(16),
-                min-width: rem(36),
-                height: rem(36),
-                padding-inline: rem(12),
-        ),
-        l: (
-                font-size: rem(17),
-                min-width: rem(40),
-                height: rem(40),
-                padding-inline: rem(14),
-        ),
-        xl: (
-                font-size: rem(52),
-                min-width: rem(42),
-                height: rem(42),
-                padding-inline: rem(18),
-        )
-);
-$v-button-icon: (
-        xs: (
-                margin-inline: rem(4),
-        ),
-        s: (
-                margin-inline: rem(4),
-        ),
-        m: (
-                margin-inline: rem(6),
-        ),
-);
-$v-button-label: (
-        xs: (
-                padding-inline: rem(4)
-        ),
-        s: (
-                padding-inline: rem(4),
-        ),
-        m: (
-                padding-inline: rem(4),
-        ),
+
+$v-button-font: (
+    common: (
+        font-family: $mango,
+        font-weight: 500,
+        text-transform: uppercase,
+        line-height: 1,
+    ),
+    sm: (
+        font-size: rem(12),
+    ),
+    md: (
+        font-size: rem(42),
+    ),
 );
 
-// Props styles
+// root
+$v-button: (
+    sm: (
+        min-height: rem(40),
+        min-width: rem(40), // width with icon-only
+        max-width: rem(180),
+    ),
+    md: (
+        min-height: rem(40),
+        min-width: rem(40), // width with icon-only
+        max-width: rem(180),
+    ),
+);
+
+// icon
+$v-button-icon: ();
+
+// label
+$v-button-label: (
+    common: (
+        color: currentColor,
+    ),
+    sm: (
+        margin-inline: rem(6),
+    ),
+    md: (
+        margin-inline: rem(10),
+    ),
+);
+
+// styles
 $v-button-rounded: (
-        default: (
-                border-radius: 100vmax,
-        ),
+    sm: (
+        border-radius: rem(math.div(40, 2)),
+    ),
+    md: (
+        border-radius: rem(math.div(40, 2)),
+    ),
 );
 $v-button-filled: (
-        default: (
-                background-color: var(--theme-background-color),
-        ),
+    common: (
+        background-color: var(--theme-color-buttons-high-button-high-bg),
+        color: var(--theme-color-buttons-high-button-high-content),
+    ),
 );
 $v-button-outlined: (
-        default: (
-                border-width: 1px,
-                border-style: solid,
-                border-color: currentColor
-        ),
+    common: (
+        background-color: initial,
+        color: var(--theme-color-buttons-medium-button-medium-content),
+
+        border-width: 1px,
+        border-style: solid,
+        border-color: var(--theme-color-buttons-medium-button-medium-border),
+    ),
 );
 
-// All button and variant styles
 $v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, (
-        default: (
-                (vars: $v-button, prefix: ''),
-                (vars: $v-button-filled, prefix: 'filled'),
-                (vars: $v-button-outlined, prefix: 'outlined'),
-                (vars: $v-button-rounded, prefix: 'rounded'),
-                (vars: $v-button-icon, prefix: 'icon'),
-                (vars: $v-button-label, prefix: 'label'),
-        )
+    default: (
+        (vars: $v-button, prefix: ''),
+        (vars: $v-button-icon, prefix: 'icon'),
+        (vars: $v-button-label, prefix: 'label'),
+        (vars: $v-button-filled, prefix: 'filled'),
+        (vars: $v-button-outlined, prefix: 'outlined'),
+        (vars: $v-button-rounded, prefix: 'rounded'),
+    )
 ));

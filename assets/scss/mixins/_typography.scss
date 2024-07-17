@@ -5,8 +5,7 @@
 
     font-weight: 700;
     line-height: 0.79;
-
-    //text-transform: uppercase;
+    text-transform: uppercase;
 }
 
 @mixin text-h2 {
@@ -39,6 +38,13 @@
 
     font-weight: 400;
     line-height: 1.1;
+}
+
+@mixin text-over-title-xl {
+    @include font-size-fluid((xs: 36, xl: 42));
+
+    font-weight: 600;
+    line-height: 1;
 }
 
 @mixin text-over-title-lg {

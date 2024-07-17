@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     extends: [
         // 'stylelint-config-standard',
         'stylelint-config-standard-scss',
@@ -35,5 +35,5 @@ module.exports = {
         ],
     },
     defaultSeverity: 'warning',
-    ignoreFiles: ['./assets/scss/vendors/_tarteaucitron.scss', './assets/scss/vendors/_orejime.scss'],
+    ignoreFiles: ['./assets/scss/vendors/_tarteaucitron.scss', './assets/scss/vendors/_orejime.scss', './dist/**/*.css'],
 }

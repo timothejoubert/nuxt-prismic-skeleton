@@ -16,12 +16,12 @@ type PageError = {
 
 const props = defineProps<PageError>()
 
-const { webResponse, pageData, alternateLinks } = await useFetchPage<ErrorPageDocument>(DocumentType.ERROR_PAGE)
+const { prismicDocumentData, pageData, alternateLinks } = await useFetchPage<ErrorPageDocument>(DocumentType.ERROR_PAGE)
 
 usePage({
-  webResponse,
+  webResponse: prismicDocumentData,
   alternateLinks,
-  title: webResponse.data.meta_title || webResponse.data.title || webResponse.uid || '',
+  title: pageData.meta_title || pageData.title || prismicDocumentData.uid || '',
 })
 
 const title = computed(() => {
