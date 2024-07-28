@@ -59,8 +59,8 @@ usePage({
   @include media('>=md') {
     @include line(right);
 
-    grid-column: 1 / -4;
     width: calc(100% + var(--gutter));
+    grid-column: 1 / -4;
   }
 }
 </style>

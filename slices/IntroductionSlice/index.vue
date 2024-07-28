@@ -128,17 +128,17 @@ onBeforeUnmount(() => disposeIntersectionObserver)
 
   @include media('>=lg') {
     &--media {
-      border-radius: rem(6);
-      overflow: hidden;
       position: relative;
       top: rem(2);
       display: inline-flex;
+      overflow: hidden;
       width: rem(42);
       height: rem(42);
       align-items: center;
       justify-content: center;
-      margin-inline: rem(16);
+      border-radius: rem(6);
       background-color: lightgrey;
+      margin-inline: rem(16);
       transition: width 0.5s ease(out-quad);
     }
 

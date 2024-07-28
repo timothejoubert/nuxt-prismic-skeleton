@@ -36,10 +36,10 @@ const rootClasses = computed(() => {
 
 <style lang="scss" module>
 .root {
-  text-transform: uppercase;
   width: 100%;
-  visibility: hidden;
   pointer-events: none;
+  text-transform: uppercase;
+  visibility: hidden;
 
     &--displayed {
       pointer-events: initial;
@@ -68,16 +68,16 @@ const rootClasses = computed(() => {
 
 .link {
   display: block;
-  padding-block: rem(14);
   background-color: color(primary-70);
+  padding-block: rem(14);
   padding-inline: rem(30);
 
   &:global(.router-link-exact-active)::after,
   &:not(#{&}--home):global(.nuxt-link-active)::after {
     position: absolute;
+    bottom: 0;
     left: 0;
     width: 100%;
-    bottom: 0;
     height: 3px;
     background-color: color(primary-120);
     content: '';

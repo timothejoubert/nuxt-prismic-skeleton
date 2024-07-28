@@ -108,16 +108,16 @@ const isFullWidth = props.slice.primary?.full_width
 
   position: relative;
   display: grid;
-  grid-template-columns: 1fr;
   gap: calc(var(--page-gutter) * 0.5);
+  grid-template-columns: 1fr;
 
   @include media('>=md') {
     grid-template-columns: 1fr 1fr;
   }
 
   video {
-    object-fit: cover;
     height: 100%;
+    object-fit: cover;
   }
 }
 
@@ -132,6 +132,7 @@ const isFullWidth = props.slice.primary?.full_width
 
 .image {
   --v-roadiz-image-width: 100%;
+
   width: 100%;
 
   &--solo {
@@ -149,11 +150,11 @@ const isFullWidth = props.slice.primary?.full_width
 
   &--fullwidth {
     position: relative;
+    left: calc(var(--page-gutter) * -1);
     display: block;
     width: calc(100% + var(--page-gutter) * 2);
-    left: calc(var(--page-gutter) * -1);
-    grid-column: 1 / -1;
     max-width: initial;
+    grid-column: 1 / -1;
 
     img {
       max-width: initial;

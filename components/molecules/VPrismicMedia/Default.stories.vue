@@ -22,9 +22,9 @@ import prismicRelationVideo from 'assets/stories/fixtures/media/relation-link-vi
 <style lang="scss" module>
 .root {
   display: flex;
+  max-width: 50%;
   flex-direction: column;
   gap: 30px;
-  max-width: 50%;
   margin-inline: auto;
 }
 </style>

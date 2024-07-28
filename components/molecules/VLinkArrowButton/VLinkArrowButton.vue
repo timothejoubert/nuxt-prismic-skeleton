@@ -39,10 +39,10 @@ export default defineComponent({
 .root {
     @include text-over-title-xl;
 
-    text-transform: uppercase;
     display: flex;
-    align-items: center;
     max-width: rem(172);
+    align-items: center;
+    text-transform: uppercase;
 }
 
 .arrow {

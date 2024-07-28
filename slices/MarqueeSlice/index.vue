@@ -56,8 +56,8 @@ const hasMedia = computed(() => !!mediaListRow.value?.[0])
 
 <style lang="scss" module>
 .root {
-  overflow-x: hidden;
   margin-block: rem(320);
+  overflow-x: hidden;
 }
 
 .marquee {
@@ -67,10 +67,10 @@ const hasMedia = computed(() => !!mediaListRow.value?.[0])
 }
 
 .media {
-  border-radius: rem(6);
   width: rem(300);
-  flex-shrink: 0;
-  margin-right: rem(50);
   max-width: initial;
+  flex-shrink: 0;
+  border-radius: rem(6);
+  margin-right: rem(50);
 }
 </style>

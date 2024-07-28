@@ -159,9 +159,9 @@ const onVideoEnded = () => (hadInteraction.value = false)
 
     &::after {
       position: absolute;
-      inset: 0;
+      background: linear-gradient(45deg, rgba(0, 0, 0, 80%) 0%, transparent 100%);
       content: '';
-      background: linear-gradient(45deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+      inset: 0;
     }
   }
 }

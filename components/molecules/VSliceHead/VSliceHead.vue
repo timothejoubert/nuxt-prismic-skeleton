@@ -42,9 +42,9 @@ const hasLink = computed(() => {
     @include property-fluid(padding-top, (xs: 36, xl: 60));
     @include property-fluid(padding-bottom, (xs: 26, xl: 20));
 
+    position: relative;
     display: flex;
     align-items: center;
-    position: relative;
     justify-content: space-between;
 }
 

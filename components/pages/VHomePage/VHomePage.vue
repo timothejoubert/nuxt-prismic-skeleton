@@ -29,16 +29,17 @@ const pageData = computed(() => props.prismicDocument.data)
 
 .title {
   @include property-fluid(margin-top, (xs: 30, xl: 66));
+
   grid-column: 1 / -1;
 
   &::after {
     position: absolute;
-    content: '';
-    left: 0;
     right: calc(var(--gutter) * -1);
-    height: 1px;
     bottom: 0;
+    left: 0;
+    height: 1px;
     background-color: color-mix(in srgb, color(black) 30%, transparent);
+    content: '';
   }
 
   @include media('>=md') {
@@ -48,6 +49,7 @@ const pageData = computed(() => props.prismicDocument.data)
 
 .content {
   grid-column: 1 / -1;
+
   @include property-fluid(padding-top, (xs: 32, xl: 121));
   @include property-fluid(padding-bottom, (xs: 32, xl: 150));
 
@@ -55,8 +57,8 @@ const pageData = computed(() => props.prismicDocument.data)
     @include line(right);
 
     position: relative;
-    grid-column: 1 / span 11;
     width: calc(100% + var(--gutter));
+    grid-column: 1 / span 11;
 
   }
 }
@@ -65,8 +67,8 @@ const pageData = computed(() => props.prismicDocument.data)
   grid-column: 1 / -1;
 
   @include media('>=md') {
-    grid-column: -4 / -1;
     width: calc(100% + var(--gutter));
+    grid-column: -4 / -1;
   }
 }
 </style>

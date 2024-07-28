@@ -91,8 +91,8 @@ const promoteList = computed(() => {
 
 .promote-title {
   min-width: rem(130);
-  transition: transform 0.3s ease(out-quad);
   font-weight: 700;
+  transition: transform 0.3s ease(out-quad);
 
   @media (hover: hover) {
     .wrapper:hover & {

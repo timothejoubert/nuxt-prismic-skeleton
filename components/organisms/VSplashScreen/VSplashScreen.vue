@@ -73,13 +73,13 @@ const rootClasses = computed(() => {
 <style lang="scss" module>
 .root {
   position: absolute;
+  z-index: 1001;
   display: flex;
+  height: 100svh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 1001;
-  height: 100svh;
-  inset: 0;
   color: color(white);
+  inset: 0;
 }
 </style>

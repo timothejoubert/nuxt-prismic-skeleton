@@ -73,7 +73,6 @@ $primitives: (
     white-90: rgb(255 255 255 / 90%),
     white-100: rgb(255 255 255),
 );
-
 $tokens: (
     dark: map.get($primitives, dark-100),
     black: map.get($primitives, black-100),
@@ -83,5 +82,4 @@ $tokens: (
     primary: map.get($primitives, primary-100),
     line-primary: map.get($primitives, primary-110),
 );
-
 $colors: map.merge($primitives, $tokens);

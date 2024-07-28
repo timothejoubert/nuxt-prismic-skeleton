@@ -35,16 +35,15 @@ const currentYear = computed(() => new Date().getFullYear())
   display: flex;
   height: rem(64);
   justify-content: space-between;
-  background-color: color(primary-90);
   border-radius: rem(4);
   margin-bottom: rem(24);
+  background-color: color(primary-90);
   padding-inline: rem(24);
 }
 
 .copyright {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  flex-flow: column wrap;
   align-items: center;
   justify-content: center;
 

@@ -30,8 +30,8 @@ console.log('contactSliceData', sliceData.value)
 <style lang="scss" module>
 .root {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 0 rem(48);
+    grid-template-columns: 1fr 1fr;
 }
 
 .head {
@@ -47,10 +47,10 @@ console.log('contactSliceData', sliceData.value)
 }
 
 .infos {
-    grid-column: 1 / -1;
     min-height: rem(100);
     border: 1px solid black;
     margin-top: rem(32);
+    grid-column: 1 / -1;
 
     @include media('>=md') {
         margin-top: initial;

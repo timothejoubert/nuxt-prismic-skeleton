@@ -24,7 +24,7 @@ import video from '~/assets/stories/fixtures/documents/video-01.json'
     --v-player-video-object-fit: cover;
 
     position: absolute;
-    inset: 0;
     height: 100svh;
+    inset: 0;
 }
 </style>

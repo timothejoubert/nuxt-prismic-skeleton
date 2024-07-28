@@ -156,7 +156,6 @@ export default defineComponent({
 .root {
     @include v-button-default-css-vars($v-button-font);
     @include v-button-default-css-vars($v-button);
-
     @include theme-variants;
 
     position: var(--v-button-position, relative);
@@ -168,14 +167,15 @@ export default defineComponent({
     // Clear user-agent style
     background-color: var(--v-button-background-color, initial);
     color: var(--v-button-color, var(--theme-foreground-color));
-    text-decoration: initial;
     cursor: var(--v-button-cursor, pointer);
-    transition-property: color, background-color;
+    text-decoration: initial;
     transition: 0.3s ease(out-quad);
+    transition-property: color, background-color;
 
     // LOADING
     &--loading {
         --v-button-cursor: wait;
+
         pointer-events: none; // prevents click on disabled link (<a> or <nuxt-link>)
     }
 
@@ -183,6 +183,7 @@ export default defineComponent({
     &[inert],
     &--disabled {
         --v-button-cursor: disabled;
+
         pointer-events: none; // prevents click on disabled link (<a> or <nuxt-link>)
     }
 

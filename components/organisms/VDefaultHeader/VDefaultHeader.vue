@@ -33,16 +33,17 @@ defineProps<VHeaderTitle>()
 <style lang="scss" module>
 .title {
   @include property-fluid(margin-top, (xs: 30, xl: 66));
+
   grid-column: 1 / -1;
 
   &::after {
     position: absolute;
-    content: '';
-    left: 0;
     right: calc(var(--gutter) * -1);
-    height: 1px;
     bottom: 0;
-    background-color: color(line-primary)
+    left: 0;
+    height: 1px;
+    background-color: color(line-primary);
+    content: ''
   }
 
   @include media('>=md') {
@@ -54,8 +55,8 @@ defineProps<VHeaderTitle>()
   grid-column: 1 / -1;
 
   @include media('>=md') {
-    grid-column: -4 / -1;
     width: calc(100% + var(--gutter));
+    grid-column: -4 / -1;
   }
 }
 </style>

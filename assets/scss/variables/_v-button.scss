@@ -2,7 +2,6 @@
 @use "sass:math";
 
 $v-button-size-vars-by-variant: () !default;
-
 $v-button-font: (
     common: (
         font-family: $mango,
@@ -38,7 +37,7 @@ $v-button-icon: ();
 // label
 $v-button-label: (
     common: (
-        color: currentColor,
+        color: currentcolor,
     ),
     sm: (
         margin-inline: rem(6),
@@ -73,7 +72,6 @@ $v-button-outlined: (
         border-color: var(--theme-color-buttons-medium-button-medium-border),
     ),
 );
-
 $v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, (
     default: (
         (vars: $v-button, prefix: ''),

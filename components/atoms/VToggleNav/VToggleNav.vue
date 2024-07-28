@@ -13,9 +13,9 @@
     padding: rem(15) rem(30);
     background-color: color(primary-180);
     color: color(primary-100);
-    font-size: rem(16);
     font-family: $noi;
-    text-transform: uppercase;
+    font-size: rem(16);
     font-weight: 650;
+    text-transform: uppercase;
 }
 </style>

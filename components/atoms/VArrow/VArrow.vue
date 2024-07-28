@@ -44,32 +44,32 @@ export default defineComponent({
 
 <style lang="scss" module>
 .root {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   background-color: color(dark);
   color: color(primary);
 
   &--size-sm {
-    border-radius: rem(12);
     padding: rem(3);
+    border-radius: rem(12);
   }
 
   &--size-md {
-    border-radius: rem(16);
     padding: rem(6);
+    border-radius: rem(16);
   }
 
   &--size-lg {
-    border-radius: rem(30);
     padding: rem(9);
+    border-radius: rem(30);
   }
 }
 
 .icon {
-  transform-origin: center;
   height: auto;
+  transform-origin: center;
 
   .root--size-sm & {
     @include property-fluid('width', (xs: 16, xl: 24), $breakpoint: null);

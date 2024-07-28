@@ -43,10 +43,10 @@ console.log(listingResponse.value, pageData.value)
   outline: 1px solid black;
 
   @include media('>=md') {
-    grid-column: 1 / -4;
     display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: var(--gutter);
+    grid-column: 1 / -4;
+    grid-template-columns: 1fr 1fr;
   }
 }
 

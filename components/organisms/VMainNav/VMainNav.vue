@@ -41,15 +41,15 @@ const ariaLabel = computed(() => t(isDisplayed.value ? 'toggle_menu.close' : 'to
 <style lang="scss" module>
 .root {
     position: fixed;
-    bottom: rem(20);
-    right: rem(20);
-    left: rem(20);
     z-index: 11;
+    right: rem(20);
+    bottom: rem(20);
+    left: rem(20);
 
     @include media('>=md') {
         position: initial;
-        bottom: initial;
         right: initial;
+        bottom: initial;
         width: calc(#{flex-grid-value(11, 14, '%', true)} + var(--gutter) * 2);
     }
 }

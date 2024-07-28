@@ -85,9 +85,9 @@ function onThumbnailClicked() {
 
 <style lang="scss" module>
 .root {
-  aspect-ratio: var(--v-prismic-medias-aspect-ratio);
-  border-radius: var(--v-prismic-media-border-radius);
   overflow: hidden;
+  border-radius: var(--v-prismic-media-border-radius);
+  aspect-ratio: var(--v-prismic-medias-aspect-ratio);
 }
 
 .wrapper {
@@ -96,10 +96,10 @@ function onThumbnailClicked() {
 
   .player {
     position: absolute;
-    inset: 0;
     width: 100%;
     height: 100%;
     background-color: black;
+    inset: 0;
     object-fit: cover;
   }
 
@@ -116,8 +116,9 @@ function onThumbnailClicked() {
 
 .button {
   --v-button-position: absolute;
+
+  z-index: 1;
   right: rem(12);
   bottom: rem(12);
-  z-index: 1;
 }
 </style>

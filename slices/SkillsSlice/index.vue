@@ -41,6 +41,7 @@ const skillList = computed(() => {
 .root {
   position: relative;
 }
+
 .title {
   margin-bottom: rem(50);
   opacity: 0.6;

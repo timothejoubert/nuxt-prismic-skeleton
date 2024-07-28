@@ -66,6 +66,7 @@ const nodeList = computed(() => {
 <style lang="scss" module>
 .root {
   position: relative;
+
   //display: flex;
   //flex-wrap: wrap;
   //gap: 0 1rem;
@@ -73,7 +74,7 @@ const nodeList = computed(() => {
 
 .arrow {
   height: 1lh;
-  translate: 0 -0.33lh;
   margin-right: 2rem;
+  translate: 0 -0.33lh;
 }
 </style>
