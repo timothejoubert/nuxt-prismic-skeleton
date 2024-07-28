@@ -37,7 +37,7 @@ const currentYear = computed(() => new Date().getFullYear())
   justify-content: space-between;
   border-radius: rem(4);
   margin-bottom: rem(24);
-  background-color: color(primary-90);
+  background-color: var(--color-primary-lighter-10);
   padding-inline: rem(24);
 }
 

@@ -1,19 +1,14 @@
 // use https://maketintsandshades.com for generate shade
 @use "sass:map";
 
+/* App specific */
+$primitives-app: (
+    primary: rgb(250 173 23),
+    secondary: rgb(50 35 7),
+);
+
+/* Communs */
 $primitives: (
-  /* dark */
-    dark-0: rgb(255 255 255),
-    dark-10: rgb(235 233 230),
-    dark-20: rgb(214 211 205),
-    dark-30: rgb(194 189 181),
-    dark-40: rgb(173 167 156),
-    dark-50: rgb(153 145 131),
-    dark-60: rgb(132 123 106),
-    dark-70: rgb(112 101 81),
-    dark-80: rgb(91 79 57),
-    dark-90: rgb(71 57 32),
-    dark-100: rgb(50 35 7),
   /* grey */
     grey-0: rgb(255 255 255),
     grey-05: rgb(255 255 255),
@@ -27,28 +22,6 @@ $primitives: (
     grey-80: rgb(51 51 51),
     grey-90: rgb(26 26 26),
     grey-100: rgb(0 0 0),
-  /* primary */
-    primary-0: rgb(255 255 255),
-    primary-10: rgb(255 247 232),
-    primary-20: rgb(254 239 209),
-    primary-30: rgb(254 230 185),
-    primary-40: rgb(253 222 162),
-    primary-50: rgb(253 214 139),
-    primary-60: rgb(252 206 116),
-    primary-70: rgb(252 198 93),
-    primary-80: rgb(251 189 69),
-    primary-90: rgb(251 181 46),
-    primary-100: rgb(250 173 23),
-    primary-110: rgb(225 156 21),
-    primary-120: rgb(200 138 18),
-    primary-130: rgb(175 121 16),
-    primary-140: rgb(150 104 14),
-    primary-150: rgb(125 87 12),
-    primary-160: rgb(100 69 9),
-    primary-170: rgb(75 52 7),
-    primary-180: rgb(50 35 5),
-    primary-190: rgb(25 17 2),
-    primary-200: rgb(0 0 0),
   /* black */
     black-05: rgb(1 1 1 / 5%),
     black-10: rgb(1 1 1 / 10%),

@@ -38,7 +38,7 @@ const pageData = computed(() => props.prismicDocument.data)
     bottom: 0;
     left: 0;
     height: 1px;
-    background-color: color-mix(in srgb, color(black) 30%, transparent);
+    background-color: color(black-30);
     content: '';
   }
 

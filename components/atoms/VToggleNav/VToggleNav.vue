@@ -11,8 +11,8 @@
 .root {
     position: relative;
     padding: rem(15) rem(30);
-    background-color: color(primary-180);
-    color: color(primary-100);
+    background-color: var(--color-primary-darker-80);
+    color: var(--color-primary);
     font-family: $noi;
     font-size: rem(16);
     font-weight: 650;

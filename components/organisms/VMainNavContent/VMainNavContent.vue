@@ -63,12 +63,13 @@ const rootClasses = computed(() => {
 
 .item {
   position: relative;
-  flex: 1;
+    flex: 1;
+    list-style: none;
 }
 
 .link {
   display: block;
-  background-color: color(primary-70);
+  background-color: var(--color-primary-lighter-30);
   padding-block: rem(14);
   padding-inline: rem(30);
 
@@ -79,7 +80,7 @@ const rootClasses = computed(() => {
     left: 0;
     width: 100%;
     height: 3px;
-    background-color: color(primary-120);
+    background-color: var(--color-primary-darker-20);
     content: '';
   }
 }

@@ -15,8 +15,6 @@ function getPageComponentName(type: DocumentType) {
             return 'VProjectPage'
         case DocumentType.WEB_PAGE:
             return 'VDefaultPage'
-        default:
-            return 'VErrorPage'
     }
 }
 
@@ -34,7 +32,7 @@ const isComponent = (component: string) => {
 const VPageFactory: FunctionalComponent<VPageFactoryProps> = (props, context): VNodeChild => {
     const componentName = getPageComponentName(props.type)
 
-    if (isComponent(componentName)) {
+    if (componentName && isComponent(componentName)) {
         return h(resolveComponent(componentName), {
             prismicDocument: props.document,
             type: props.type,

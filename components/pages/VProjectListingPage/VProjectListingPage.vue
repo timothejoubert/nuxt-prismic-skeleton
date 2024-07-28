@@ -51,6 +51,6 @@ console.log(listingResponse.value, pageData.value)
 }
 
 .item {
-  background-color: color(primary-80);
+  background-color: var(--color-primary-lighter-20);
 }
 </style>

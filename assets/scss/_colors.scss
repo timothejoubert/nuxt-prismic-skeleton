@@ -1,0 +1,9 @@
+html {
+    @each $color-key, $value in $primitives-app {
+        --color-#{$color-key}: #{$value};
+
+        @include color-mixes($color-key, var(--color-#{$color-key}));
+    }
+
+    --line-primary: var(--color-primary-darker-10);
+}

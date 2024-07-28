@@ -9,12 +9,6 @@ export const vLinkArrowButton = {
 
 export default defineComponent({
     props: vLinkArrowButton,
-    setup(props) {
-        const $style = useCssModule()
-        const rootClasses = [$style['root']]
-
-        return { rootClasses }
-    },
 })
 </script>
 
@@ -22,7 +16,7 @@ export default defineComponent({
     <VPrismicLink
         :external-link-reference="externalLinkReference"
         :internal-link-reference="internalLinkReference"
-        :class="rootClasses"
+        :class="$style.root"
     >
         <VArrow
             :tag="tag"

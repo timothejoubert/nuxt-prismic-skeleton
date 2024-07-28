@@ -11,20 +11,15 @@ body {
     @include text-body-md;
 
     min-height: 100svh;
-    background-color: color(primary);
-    color: color(dark);
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
     font-family: $mango;
-    -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Improved heading in supported browsers */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
     text-wrap: balance;
 }
 
@@ -42,8 +37,8 @@ a {
 }
 
 ::selection {
-    background-color: color(black);
-    color: color(white);
+    background-color: var(black);
+    color: var(white);
     text-shadow: none;
 }
 

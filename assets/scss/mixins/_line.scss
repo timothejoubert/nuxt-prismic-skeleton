@@ -1,11 +1,11 @@
 @mixin pseudo-line {
     position: absolute;
-    background-color: color(line-primary);
+    background-color: var(--line-primary);
     content: '';
 }
 
 @mixin line($direction: right) {
-  border-#{$direction}: 1px solid color(line-primary);
+  border-#{$direction}: 1px solid var(--line-primary);;
 }
 
 @mixin pseudo-right-line {

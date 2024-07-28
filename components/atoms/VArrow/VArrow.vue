@@ -48,8 +48,8 @@ export default defineComponent({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: color(dark);
-  color: color(primary);
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
 
   &--size-sm {
     padding: rem(3);

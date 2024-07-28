@@ -42,7 +42,7 @@ defineProps<VHeaderTitle>()
     bottom: 0;
     left: 0;
     height: 1px;
-    background-color: color(line-primary);
+    background-color: var(--line-primary);
     content: ''
   }
 

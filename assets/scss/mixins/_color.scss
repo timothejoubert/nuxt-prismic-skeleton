@@ -1,0 +1,16 @@
+@mixin color-mix($name: '', $from-color, $to-color) {
+    @for $i from 1 through 9 {
+        $percent: $i * 10;
+        $key: list-implode(('--', 'color', $name, $percent), '-');
+
+        @debug "color-mix: #{$key}";
+
+        #{$key}: color-mix(in srgb, #{$from-color}, #{$to-color} unquote("#{$percent}%"));
+    }
+}
+
+
+@mixin color-mixes($name: '', $color-1) {
+    @include color-mix(unquote("#{$name}-lighter"), $color-1, white);
+    @include color-mix(unquote("#{$name}-darker"), $color-1, black);
+}

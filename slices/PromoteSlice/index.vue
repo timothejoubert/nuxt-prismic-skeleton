@@ -74,7 +74,7 @@ const promoteList = computed(() => {
 }
 
 .wrapper {
-  --v-promote-border: 1px solid #{rgba(color(black), 0.2)};
+  --v-promote-border: 1px solid #{color(black-20)};
 
   position: relative;
   display: flex;
