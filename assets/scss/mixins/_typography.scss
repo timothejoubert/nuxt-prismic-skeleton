@@ -1,103 +1,97 @@
 @use 'sass:math';
 
 @mixin text-h1 {
-    @include font-size-fluid((xs: 137, xl: 360));
-
     font-weight: 700;
     line-height: 0.79;
     text-transform: uppercase;
+
+    @include font-size-fluid((xs: 137, xl: 360));
 }
 
 @mixin text-h2 {
-    @include font-size-fluid((xs: 48, xl: 90));
-
     font-weight: 600;
     line-height: 1;
 
-    //text-transform: uppercase;
+    @include font-size-fluid((xs: 48, xl: 90));
 }
 
 @mixin text-h3 {
-    @include font-size-fluid((xs: 92, xl: 144));
-
     font-weight: 500;
     line-height: 0.9;
+
+    @include font-size-fluid((xs: 92, xl: 144));
 }
 
 @mixin text-h4 {
-    @include font-size-fluid((xs: 41, xl: 112));
-
     font-weight: 500;
     line-height: 1;
 
-    //text-transform: uppercase;
+    @include font-size-fluid((xs: 41, xl: 112));
 }
 
 @mixin text-h5 {
-    @include font-size-fluid((xs: 20, xl: 48));
-
     font-weight: 400;
     line-height: 1.1;
+
+    @include font-size-fluid((xs: 20, xl: 48));
 }
 
 @mixin text-over-title-xl {
-    @include font-size-fluid((xs: 36, xl: 42));
-
     font-weight: 600;
     line-height: 1;
+
+    @include font-size-fluid((xs: 36, xl: 42));
 }
 
 @mixin text-over-title-lg {
-    @include font-size-fluid((xs: 16, xl: 22));
-
     font-weight: 600;
     line-height: 1;
+
+    @include font-size-fluid((xs: 16, xl: 22));
 }
 
 @mixin text-over-title-md {
-    @include font-size-fluid((xs: 16, xl: 18));
-
     font-weight: 400;
     line-height: 1;
+
+    @include font-size-fluid((xs: 16, xl: 18));
 }
 
 @mixin text-over-title-sm {
-    @include font-size-fluid((xs: 14, xl: 18));
-
     font-weight: 550;
     line-height: 1;
 
-    //text-transform: uppercase;
+    @include font-size-fluid((xs: 14, xl: 18));
 }
 
 @mixin text-body-lg {
-    @include font-size-fluid((xs: 22, xl: 27));
-
     font-family: $noi;
     font-weight: 500;
     line-height: 1.2;
+
+    @include font-size-fluid((xs: 22, xl: 27));
 }
 
 @mixin text-body-md {
-    @include font-size-fluid((xs: 16, xl: 18));
-
     font-family: $noi;
     font-weight: 400;
     line-height: 1.2;
+
+    @include font-size-fluid((xs: 16, xl: 18));
 }
 
 @mixin text-body-sm {
-    @include font-size-fluid((xs: 14, xl: 16));
-
     font-family: $noi;
     font-weight: 300;
     line-height: 1.4;
+
+    @include font-size-fluid((xs: 14, xl: 16));
 }
 
 @mixin text-body-xs {
-    @include font-size-fluid((xs: 12, xl: 14));
-
     font-family: $noi;
     font-weight: 400;
     line-height: 1.45;
+
+    @include font-size-fluid((xs: 12, xl: 14));
 }

@@ -4,10 +4,17 @@ import type { PageProps } from '~/types/app'
 
 const props = defineProps<PageProps<WebPageDocument>>()
 const pageItem = computed(() => props.prismicDocument.data)
+
+if (!pageItem.value) {
+    showError({ status: 404, message: 'Aucune page de type default n\'existe via cette url' })
+}
 </script>
 
 <template>
-    <div :class="$style.root">
+    <div
+        v-if="pageItem"
+        :class="$style.root"
+    >
         <VText :content="pageItem.title" />
         <VText :content="pageItem.content" />
         <VPrismicImage :reference="pageItem.image">

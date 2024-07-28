@@ -1,16 +1,16 @@
 @mixin grid($width: null) {
-    @include container($width);
-
     display: grid;
     grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    
+    @include container($width);
 }
 
 @mixin container($width: null) {
-    @include grid-gap;
-
     width: if($width != null, $width, var(--grid-width));
     max-width: var(--grid-max-width);
     margin-inline: auto;
+
+    @include grid-gap;
 }
 
 @mixin grid-gap {

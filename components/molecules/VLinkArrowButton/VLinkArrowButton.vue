@@ -31,12 +31,12 @@ export default defineComponent({
 
 <style lang="scss" module>
 .root {
-    @include text-over-title-xl;
-
     display: flex;
     max-width: rem(172);
     align-items: center;
     text-transform: uppercase;
+
+    @include text-over-title-xl;
 }
 
 .arrow {

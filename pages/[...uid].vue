@@ -9,6 +9,8 @@ definePageMeta({
 })
 
 const prismicDocumentType = useRoutePathToPrismicDocument()
+console.log('prismicDocumentType', prismicDocumentType)
+
 const { prismicDocumentData, pageData, alternateLinks, error } = await useFetchPage(prismicDocumentType)
 
 if (!isExistingDocumentType(prismicDocumentType)) {

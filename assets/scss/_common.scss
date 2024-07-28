@@ -8,14 +8,14 @@ html {
 }
 
 body {
-    @include text-body-md;
-
     min-height: 100svh;
     background-color: var(--color-primary);
     color: var(--color-secondary);
     font-family: $mango;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    
+    @include text-body-md;
 }
 
 /* Improved heading in supported browsers */

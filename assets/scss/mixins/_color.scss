@@ -3,8 +3,6 @@
         $percent: $i * 10;
         $key: list-implode(('--', 'color', $name, $percent), '-');
 
-        @debug "color-mix: #{$key}";
-
         #{$key}: color-mix(in srgb, #{$from-color}, #{$to-color} unquote("#{$percent}%"));
     }
 }

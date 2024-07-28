@@ -15,6 +15,8 @@ function getPageComponentName(type: DocumentType) {
             return 'VProjectPage'
         case DocumentType.WEB_PAGE:
             return 'VDefaultPage'
+        default:
+            return 'VErrorPage'
     }
 }
 

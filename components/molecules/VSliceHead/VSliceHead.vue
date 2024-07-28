@@ -39,17 +39,17 @@ const hasLink = computed(() => {
 
 <style lang="scss" module>
 .root {
-    @include property-fluid(padding-top, (xs: 36, xl: 60));
-    @include property-fluid(padding-bottom, (xs: 26, xl: 20));
-
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @include property-fluid(padding-top, (xs: 36, xl: 60));
+    @include property-fluid(padding-bottom, (xs: 26, xl: 20));
 }
 
 .title {
-
+    position: relative;
 }
 
 .link {

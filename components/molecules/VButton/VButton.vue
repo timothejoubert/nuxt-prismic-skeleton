@@ -154,10 +154,6 @@ export default defineComponent({
 }
 
 .root {
-    @include v-button-default-css-vars($v-button-font);
-    @include v-button-default-css-vars($v-button);
-    @include theme-variants;
-
     position: var(--v-button-position, relative);
     display: var(--v-button-display, inline-flex);
     align-items: center;
@@ -171,6 +167,10 @@ export default defineComponent({
     text-decoration: initial;
     transition: 0.3s ease(out-quad);
     transition-property: color, background-color;
+
+    @include v-button-default-css-vars($v-button-font);
+    @include v-button-default-css-vars($v-button);
+    @include theme-variants;
 
     // LOADING
     &--loading {
@@ -227,8 +227,6 @@ export default defineComponent({
 // be aware than all nested svg are styled
 .root svg,
 .icon {
-    @include v-button-default-css-vars($v-button-icon, 'icon');
-
     z-index: 1;
     display: flex;
     flex-shrink: 0;
@@ -240,6 +238,8 @@ export default defineComponent({
     transform-origin: center;
     transition: rotate 0.3s;
 
+    @include v-button-default-css-vars($v-button-icon, 'icon');
+
     .root--loading & {
         width: rem(24);
         height: rem(24);
@@ -247,12 +247,12 @@ export default defineComponent({
 }
 
 .label {
-    @include v-button-default-css-vars($v-button-label, 'label');
-
     position: relative;
     display: var(--v-button-label-display);
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    @include v-button-default-css-vars($v-button-label, 'label');
 
     // button with icon at first position and without background color / border
     .root--raw:not(.root--icon-last) & {

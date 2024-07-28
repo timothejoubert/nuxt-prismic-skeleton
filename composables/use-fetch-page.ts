@@ -30,7 +30,7 @@ export async function useFetchPage<T extends PrismicDocument>(prismicDocument: D
                 }
             }
             catch (error: unknown) {
-                console.error('PrismicError in useFetchPage: ', error)
+                console.error(`PrismicError in useFetchPage on ${prismicDocument} `, error)
                 // @ts-ignore cannot know the error type
                 return { error: createError(error) }
             }
