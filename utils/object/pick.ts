@@ -18,33 +18,33 @@ export function pick<T extends object, U extends keyof T>(object: T, props: read
 // export function pick<T extends unknown[]>(array: T, indexes: readonly number[]): T
 
 export function pick(objectOrArray: Record<PropertyKey, unknown> | readonly unknown[], props: readonly PropertyKey[]) {
-  if (!objectOrArray) return objectOrArray
-  if (typeof props?.some !== 'function') return objectOrArray
+    if (!objectOrArray) return objectOrArray
+    if (typeof props?.some !== 'function') return objectOrArray
 
-  if (objectOrArray instanceof Array) {
-    return props
-      .filter((i): i is number => {
-        if (typeof i !== 'number' || !Number.isInteger(i))
-          throw new TypeError(
+    if (objectOrArray instanceof Array) {
+        return props
+            .filter((i): i is number => {
+                if (typeof i !== 'number' || !Number.isInteger(i))
+                    throw new TypeError(
             `While picking from an array we expect array of integer indexes to pick, but got ${String(i)}`,
-          )
-        return Math.abs(i) <= objectOrArray.length
-      })
-      .map((i) => objectOrArray[i < 0 ? objectOrArray.length + i : i])
-  }
+                    )
+                return Math.abs(i) <= objectOrArray.length
+            })
+            .map(i => objectOrArray[i < 0 ? objectOrArray.length + i : i])
+    }
 
-  if (typeof objectOrArray !== 'object') return objectOrArray
-  const entries: [string | symbol, unknown][] = Object.entries(objectOrArray)
-  if (props.some((property) => typeof property === 'symbol')) {
-    const symbolProps: [symbol, unknown][] = Object.getOwnPropertySymbols(objectOrArray).map((symbol) => [
-      symbol,
-      objectOrArray[symbol],
-    ])
-    entries.push(...symbolProps)
-  }
-  const properties = new Set(props)
-  if (properties.size === 0) return {}
-  return Object.fromEntries(entries.filter(([property]) => properties.has(property)))
+    if (typeof objectOrArray !== 'object') return objectOrArray
+    const entries: [string | symbol, unknown][] = Object.entries(objectOrArray)
+    if (props.some(property => typeof property === 'symbol')) {
+        const symbolProps: [symbol, unknown][] = Object.getOwnPropertySymbols(objectOrArray).map(symbol => [
+            symbol,
+            objectOrArray[symbol],
+        ])
+        entries.push(...symbolProps)
+    }
+    const properties = new Set(props)
+    if (properties.size === 0) return {}
+    return Object.fromEntries(entries.filter(([property]) => properties.has(property)))
 }
 
 /**
@@ -63,34 +63,34 @@ export function pick(objectOrArray: Record<PropertyKey, unknown> | readonly unkn
  * // => { 'a': 1, 'c': 3 }
  */
 export function pickBy<U, T extends Record<string, U>>(
-  record: T,
-  predicate: (value: U, key: string) => boolean,
+    record: T,
+    predicate: (value: U, key: string) => boolean,
 ): Partial<T>
 export function pickBy<T extends Record<PropertyKey, unknown>>(
-  object: T,
-  predicate: (value: unknown, key: PropertyKey) => boolean,
+    object: T,
+    predicate: (value: unknown, key: PropertyKey) => boolean,
 ): Partial<T>
 export function pickBy<U, T extends readonly U[]>(
-  array: T,
-  predicate: (value: U, index: number, accumulator: U[]) => boolean,
+    array: T,
+    predicate: (value: U, index: number, accumulator: U[]) => boolean,
 ): T
 export function pickBy(
-  objectOrArray: Record<PropertyKey, unknown> | readonly unknown[],
-  predicate: (...args) => boolean,
+    objectOrArray: Record<PropertyKey, unknown> | readonly unknown[],
+    predicate: (...args) => boolean,
 ) {
-  if (!objectOrArray || typeof predicate !== 'function') return objectOrArray
+    if (!objectOrArray || typeof predicate !== 'function') return objectOrArray
 
-  if (objectOrArray instanceof Array) {
-    return objectOrArray.reduce<(typeof objectOrArray)[number][]>((accumulator, currentValue, currentIndex) => {
-      if (predicate(currentValue, currentIndex, accumulator)) accumulator.push(currentValue)
-      return accumulator
-    }, [])
-  }
+    if (objectOrArray instanceof Array) {
+        return objectOrArray.reduce<(typeof objectOrArray)[number][]>((accumulator, currentValue, currentIndex) => {
+            if (predicate(currentValue, currentIndex, accumulator)) accumulator.push(currentValue)
+            return accumulator
+        }, [])
+    }
 
-  return Object.fromEntries(
-    [
-      ...Object.entries(objectOrArray),
-      ...Object.getOwnPropertySymbols(objectOrArray).map((symbol) => [symbol, objectOrArray[symbol]]),
-    ].filter(([key, value]) => predicate(value, key)),
-  ) as Partial<typeof objectOrArray>
+    return Object.fromEntries(
+        [
+            ...Object.entries(objectOrArray),
+            ...Object.getOwnPropertySymbols(objectOrArray).map(symbol => [symbol, objectOrArray[symbol]]),
+        ].filter(([key, value]) => predicate(value, key)),
+    ) as Partial<typeof objectOrArray>
 }

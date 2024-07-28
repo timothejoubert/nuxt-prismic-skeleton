@@ -1,9 +1,20 @@
 <template>
     <NuxtStory>
-        <VButton label="Button label" emphasis="secondary" icon-last>
+        <VButton
+            label="Button label"
+            emphasis="secondary"
+            icon-last
+        >
             <template #icon>
-                <input type="checkbox" name="checkbox-button" :class="$style.input" />
-                <VCheckbox :class="$style.checkbox" checked />
+                <input
+                    type="checkbox"
+                    name="checkbox-button"
+                    :class="$style.input"
+                >
+                <VCheckbox
+                    :class="$style.checkbox"
+                    checked
+                />
             </template>
         </VButton>
     </NuxtStory>

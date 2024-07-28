@@ -10,7 +10,7 @@ function isSlotEmpty(slot: Slot, props = {}) {
 }
 
 function isVNodeEmpty(vNode: VNode[]) {
-    return !vNode || asArray(vNode).every((vNode) => vNode.type === Comment)
+    return !vNode || asArray(vNode).every(vNode => vNode.type === Comment)
 }
 
 function asArray(arg: unknown[] | unknown) {

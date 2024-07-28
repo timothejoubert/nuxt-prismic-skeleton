@@ -11,7 +11,10 @@ const imageProps = {
 <template>
     <NuxtStory>
         <VPicture v-bind="imageProps">
-            <VPictureSource :modifiers="{ crop: '400x600' }" media="(max-width: 1024px)" />
+            <VPictureSource
+                :modifiers="{ crop: '400x600' }"
+                media="(max-width: 1024px)"
+            />
         </VPicture>
     </NuxtStory>
 </template>

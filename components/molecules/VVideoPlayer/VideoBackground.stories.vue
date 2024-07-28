@@ -4,11 +4,25 @@ import video from '~/assets/stories/fixtures/documents/video-01.json'
 
 <template>
     <NuxtStory>
-        <NuxtStoryVariant title="Contain" :class="[$style.wrapper, $style['wrapper--contain']]">
-            <VVideoPlayer :src="video.relativePath" background :class="$style.video" />
+        <NuxtStoryVariant
+            title="Contain"
+            :class="[$style.wrapper, $style['wrapper--contain']]"
+        >
+            <VVideoPlayer
+                :src="video.relativePath"
+                background
+                :class="$style.video"
+            />
         </NuxtStoryVariant>
-        <NuxtStoryVariant title="Cover" :class="[$style.wrapper, $style['wrapper--cover']]">
-            <VVideoPlayer :src="video.relativePath" background :class="$style.video" />
+        <NuxtStoryVariant
+            title="Cover"
+            :class="[$style.wrapper, $style['wrapper--cover']]"
+        >
+            <VVideoPlayer
+                :src="video.relativePath"
+                background
+                :class="$style.video"
+            />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>

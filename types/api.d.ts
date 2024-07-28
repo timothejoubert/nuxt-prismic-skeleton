@@ -1,5 +1,5 @@
 import type { PrismicDocumentWithoutUID, PrismicDocument, PrismicDocumentWithUID } from '@prismicio/types'
-import type {AllDocumentTypes, MenuDocument} from '~/prismicio-types'
+import type { AllDocumentTypes, MenuDocument } from '~/prismicio-types'
 
 // Document data
 export type DocumentWithUid = IntersectDocument<AllDocumentTypes, PrismicDocumentWithUID>
@@ -15,7 +15,6 @@ export type ReachableDocumentType = ExtractDocumentType<ReachableDocument>
 // Page
 export type VDocumentData = ReachableDocument['data']
 export type VDocumentResponse<T extends AllDocumentTypes['data']> = { webResponse: PrismicDocument<T> }
-
 
 //  UTILS
 type ExtractDocumentType<T extends PrismicDocument> = Pick<T, 'type'>['type']

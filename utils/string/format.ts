@@ -1,7 +1,7 @@
 export function format(value: string) {
-  return value.replace(/^\/|\/$/g, '')
+    return value.replace(/^\/|\/$/g, '')
 }
 
 export function removeSpecialCharacter(value: string) {
-  return value.replace(/[^\w\s]/gi, ' ')
+    return value.replace(/[^\w\s]/gi, ' ')
 }

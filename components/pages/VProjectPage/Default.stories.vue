@@ -1,9 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <NuxtStory>
-    <VProjectPage />
-  </NuxtStory>
+    <NuxtStory>
+        <VProjectPage />
+    </NuxtStory>
 </template>
 
 <style lang="scss" module></style>

@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <NuxtStory>
-    <VSliceHead/>
-  </NuxtStory>
+    <NuxtStory>
+        <VSliceHead />
+    </NuxtStory>
 </template>
 
 <style lang="scss" module>

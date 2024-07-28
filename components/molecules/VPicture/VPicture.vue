@@ -1,8 +1,8 @@
 <script lang="ts">
-import { pictureProps } from '#image/components/nuxt-picture'
 import type { ExtractPropTypes } from 'vue'
-import { imgProps } from '#image/components/nuxt-img'
 import pick from 'lodash/pick'
+import { pictureProps } from '#image/components/nuxt-picture'
+import { imgProps } from '#image/components/nuxt-img'
 import VImg from '~/components/molecules/VImg/VImg.vue'
 import VPictureSource from '~/components/molecules/VPicture/VPictureSource.vue'
 
@@ -30,8 +30,8 @@ export default defineComponent({
         const $img = useImage()
         const sources = computed(() => {
             return (
-                context.slots.default?.() ||
-                h(VPictureSource, {
+                context.slots.default?.()
+                || h(VPictureSource, {
                     sizes: props.sizes || $img.options.screens,
                 })
             )

@@ -5,15 +5,18 @@ import prismicRelationVideo from 'assets/stories/fixtures/media/relation-link-vi
 </script>
 
 <template>
-  <div :class="$style.root">
-    <VPrismicMedia :reference="prismicRelationVideo" />
-    <VPrismicMedia :reference="prismicRelationImage" />
-    <VPrismicMedia
-      :reference="prismicImage"
-      :image="{ width: '600', height: '100', crop: true, sizes: 'xs:100vw lg:100vw' }"
-    />
-    <VPrismicMedia :reference="prismicImage" :image="{ width: '100', height: '100', crop: true, sizes: 'xs:100vw' }" />
-  </div>
+    <div :class="$style.root">
+        <VPrismicMedia :reference="prismicRelationVideo" />
+        <VPrismicMedia :reference="prismicRelationImage" />
+        <VPrismicMedia
+            :reference="prismicImage"
+            :image="{ width: '600', height: '100', crop: true, sizes: 'xs:100vw lg:100vw' }"
+        />
+        <VPrismicMedia
+            :reference="prismicImage"
+            :image="{ width: '100', height: '100', crop: true, sizes: 'xs:100vw' }"
+        />
+    </div>
 </template>
 
 <style lang="scss" module>

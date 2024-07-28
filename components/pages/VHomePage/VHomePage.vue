@@ -1,16 +1,27 @@
 <script lang="ts" setup>
 import type { HomePageDocument } from '~/prismicio-types'
 import type { PageProps } from '~/types/app'
-import {anchor} from '~/constants/anchor'
+import { anchor } from '~/constants/anchor'
 
 const props = defineProps<PageProps<HomePageDocument>>()
 const pageData = computed(() => props.prismicDocument.data)
 </script>
 
 <template>
-    <VDefaultHeader :title="pageData.title" :media="pageData.image" :anchor-id="anchor.HOME_PAGE_TAG_LINE" />
-    <VText :id="anchor.HOME_PAGE_TAG_LINE" tag="h2" :content="pageData.content" class="text-h4" :class="$style.content" />
+    <VDefaultHeader
+        :title="pageData.title"
+        :media="pageData.image"
+        :anchor-id="anchor.HOME_PAGE_TAG_LINE"
+    />
+    <VText
+        :id="anchor.HOME_PAGE_TAG_LINE"
+        tag="h2"
+        :content="pageData.content"
+        class="text-h4"
+        :class="$style.content"
+    />
 </template>
+
 <style lang="scss" module>
 .root {
   grid-auto-flow: dense;

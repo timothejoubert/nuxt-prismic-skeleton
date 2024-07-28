@@ -4,12 +4,12 @@ import { defineAsyncComponent } from 'vue'
 import { defineSliceZoneComponents } from '@prismicio/vue'
 
 export const components = defineSliceZoneComponents({
-  about_slice: defineAsyncComponent(() => import('./AboutSlice/index.vue')),
-  contact_slice: defineAsyncComponent(() => import('./ContactSlice/index.vue')),
-  introduction_slice: defineAsyncComponent(() => import('./IntroductionSlice/index.vue')),
-  marquee_slice: defineAsyncComponent(() => import('./MarqueeSlice/index.vue')),
-  media_slice: defineAsyncComponent(() => import('./MediaSlice/index.vue')),
-  projects_feed_slice: defineAsyncComponent(() => import('./ProjectsFeedSlice/index.vue')),
-  promote_slice: defineAsyncComponent(() => import('./PromoteSlice/index.vue')),
-  skills_slice: defineAsyncComponent(() => import('./SkillsSlice/index.vue')),
+    about_slice: defineAsyncComponent(() => import('./AboutSlice/index.vue')),
+    contact_slice: defineAsyncComponent(() => import('./ContactSlice/index.vue')),
+    introduction_slice: defineAsyncComponent(() => import('./IntroductionSlice/index.vue')),
+    marquee_slice: defineAsyncComponent(() => import('./MarqueeSlice/index.vue')),
+    media_slice: defineAsyncComponent(() => import('./MediaSlice/index.vue')),
+    projects_feed_slice: defineAsyncComponent(() => import('./ProjectsFeedSlice/index.vue')),
+    promote_slice: defineAsyncComponent(() => import('./PromoteSlice/index.vue')),
+    skills_slice: defineAsyncComponent(() => import('./SkillsSlice/index.vue')),
 })

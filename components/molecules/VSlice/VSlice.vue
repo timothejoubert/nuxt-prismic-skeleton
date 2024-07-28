@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import type {SharedSlice} from "@prismicio/types";
+import type { SharedSlice } from '@prismicio/types'
 
 interface VSliceProps {
-  slice: SharedSlice
+    slice: SharedSlice
 }
 defineProps<VSliceProps>()
 </script>
 
 <template>
-  <section :class="$style.root" :id="slice.id">
-    <slot />
-  </section>
+    <section
+        :id="slice.id"
+        :class="$style.root"
+    >
+        <slot />
+    </section>
 </template>
 
 <style lang="scss" module>

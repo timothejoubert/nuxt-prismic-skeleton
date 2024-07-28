@@ -1,9 +1,9 @@
 import type { AlternateLanguage } from '@prismicio/types'
 
 export function useAlternateLinks(links?: AlternateLanguage[]) {
-  const alternateLinks = useState<AlternateLanguage[]>('alternateLinks', () => [])
+    const alternateLinks = useState<AlternateLanguage[]>('alternateLinks', () => [])
 
-  if (links) alternateLinks.value = links
+    if (links) alternateLinks.value = links
 
-  return { alternateLinks }
+    return { alternateLinks }
 }

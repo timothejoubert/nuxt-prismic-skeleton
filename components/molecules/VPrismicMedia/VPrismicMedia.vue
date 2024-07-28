@@ -5,9 +5,9 @@ import { vVideoPlayerProps } from '~/components/molecules/VVideoPlayer/VVideoPla
 import { getPrismicMediaData, type PrismicImageField, type PrismicMediaField } from '~/utils/prismic/prismic-media'
 
 const props = defineProps({
-  reference: Object as PropType<PrismicMediaField>,
-  image: vPrismicImageProps,
-  video: vVideoPlayerProps,
+    reference: Object as PropType<PrismicMediaField>,
+    image: vPrismicImageProps,
+    video: vVideoPlayerProps,
 })
 
 const referenceData = computed(() => getPrismicMediaData(props.reference as PrismicImageField | undefined))
@@ -18,11 +18,11 @@ const isNativeVideo = computed(() => referenceData.value.mediaType === 'video')
 const isVideo = computed(() => isEmbedVideo.value || isNativeVideo.value)
 const videoThumbnail = computed(() => (isVideo.value && props.image?.reference ? props.image : undefined))
 const videoReference = computed(() => {
-  if (!isVideo.value) return
+    if (!isVideo.value) return
 
-  // TODO check if video ref is filled
-  if (props.video?.reference) return props.video?.reference
-  return props.reference
+    // TODO check if video ref is filled
+    if (props.video?.reference) return props.video?.reference
+    return props.reference
 })
 
 // Reference data
@@ -31,37 +31,56 @@ const mediaType = computed(() => referenceData.value?.mediaType)
 // Video with thumbnail
 const hadInteraction = ref(false)
 function onThumbnailClicked() {
-  hadInteraction.value = true
+    hadInteraction.value = true
 }
 </script>
 
 <template>
-  <div
-    v-if="videoThumbnail"
-    :class="[$style.root, $style.wrapper, hadInteraction && $style['wrapper--had-interaction']]"
-    @click="onThumbnailClicked"
-  >
-    <VButton size="s" filled icon-name="play" tag="div" :class="$style.button" />
-    <VPrismicImage v-bind="videoThumbnail" :class="$style.image"><slot /></VPrismicImage>
+    <div
+        v-if="videoThumbnail"
+        :class="[$style.root, $style.wrapper, hadInteraction && $style['wrapper--had-interaction']]"
+        @click="onThumbnailClicked"
+    >
+        <VButton
+            size="s"
+            filled
+            icon-name="play"
+            tag="div"
+            :class="$style.button"
+        />
+        <VPrismicImage
+            v-bind="videoThumbnail"
+            :class="$style.image"
+        >
+            <slot />
+        </VPrismicImage>
+        <VVideoPlayer
+            v-if="hadInteraction"
+            v-bind="video"
+            :reference="videoReference"
+            :autoplay="true"
+            :class="$style['player']"
+        />
+    </div>
     <VVideoPlayer
-      v-if="hadInteraction"
-      v-bind="video"
-      :reference="videoReference"
-      :autoplay="true"
-      :class="$style['player']"
+        v-else-if="isVideo"
+        v-bind="video"
+        :reference="videoReference"
+        :background="video?.background"
+        :class="$style.root"
     />
-  </div>
-  <VVideoPlayer
-    v-else-if="isVideo"
-    v-bind="video"
-    :reference="videoReference"
-    :background="video?.background"
-    :class="$style.root"
-  />
-  <VPrismicImage v-else-if="mediaType === 'image'" :reference="reference" v-bind="image" :class="$style.root"
-    ><slot
-  /></VPrismicImage>
-  <div v-else :class="[$style.root, $style.placeholder]"></div>
+    <VPrismicImage
+        v-else-if="mediaType === 'image'"
+        :reference="reference"
+        v-bind="image"
+        :class="$style.root"
+    >
+        <slot />
+    </VPrismicImage>
+    <div
+        v-else
+        :class="[$style.root, $style.placeholder]"
+    />
 </template>
 
 <style lang="scss" module>

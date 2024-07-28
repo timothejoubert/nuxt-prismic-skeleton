@@ -5,12 +5,14 @@ const restart = () => (state.value = 'beforeEnter')
 </script>
 
 <template>
-  <VStory :class="$style.root">
-    <template #settings>
-      <button @click="restart">Restart</button>
-    </template>
-    <VSplashScreen value="beforeEnter" />
-  </VStory>
+    <VStory :class="$style.root">
+        <template #settings>
+            <button @click="restart">
+                Restart
+            </button>
+        </template>
+        <VSplashScreen value="beforeEnter" />
+    </VStory>
 </template>
 
 <style lang="scss" module>

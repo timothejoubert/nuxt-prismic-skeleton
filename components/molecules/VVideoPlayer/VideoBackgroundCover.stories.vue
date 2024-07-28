@@ -5,7 +5,11 @@ import video from '~/assets/stories/fixtures/documents/video-01.json'
 <template>
     <NuxtStory :class="$style.root">
         <div :class="$style.wrapper">
-            <VVideoPlayer :src="video.relativePath" fit="cover" background />
+            <VVideoPlayer
+                :src="video.relativePath"
+                fit="cover"
+                background
+            />
         </div>
     </NuxtStory>
 </template>

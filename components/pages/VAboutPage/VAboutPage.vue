@@ -7,7 +7,7 @@ const pageData = computed(() => props.prismicDocument.data)
 </script>
 
 <template>
-  <div>About page</div>
+    <div>About page</div>
 </template>
 
 <style lang="scss" module></style>

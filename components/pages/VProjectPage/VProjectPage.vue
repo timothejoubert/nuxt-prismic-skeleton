@@ -7,7 +7,7 @@ const project = computed(() => props.prismicDocument.data)
 </script>
 
 <template>
-  <div>Project page</div>
+    <div>Project page</div>
 </template>
 
 <style lang="scss" module></style>

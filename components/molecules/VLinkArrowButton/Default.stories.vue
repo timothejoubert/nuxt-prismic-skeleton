@@ -4,7 +4,7 @@
 
 <template>
     <NuxtStory>
-        <VLinkArrowButton/>
+        <VLinkArrowButton />
     </NuxtStory>
 </template>
 

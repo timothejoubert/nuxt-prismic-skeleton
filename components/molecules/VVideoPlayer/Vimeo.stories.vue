@@ -15,7 +15,11 @@ const defaultProps = {
             <VVideoPlayer v-bind="defaultProps" />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Autoplay">
-            <VVideoPlayer v-bind="defaultProps" autoplay :controls="false" />
+            <VVideoPlayer
+                v-bind="defaultProps"
+                autoplay
+                :controls="false"
+            />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>

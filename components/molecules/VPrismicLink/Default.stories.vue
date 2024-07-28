@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <NuxtStory>
-    <VPrismicLink/>
-  </NuxtStory>
+    <NuxtStory>
+        <VPrismicLink />
+    </NuxtStory>
 </template>
 
 <style lang="scss" module>

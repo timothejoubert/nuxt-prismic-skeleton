@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <NuxtStory>
-    <VArrowTitle/>
-  </NuxtStory>
+    <NuxtStory>
+        <VArrowTitle />
+    </NuxtStory>
 </template>
 
 <style lang="scss" module>

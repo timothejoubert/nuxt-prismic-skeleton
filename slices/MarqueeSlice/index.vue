@@ -6,48 +6,52 @@ const props = defineProps(getSliceComponentProps<Content.MarqueeSliceSlice>(['sl
 
 const medias = computed(() => props.slice.items || [])
 const mediaListRow = computed(() => {
-  const filteredMedias = medias.value
-    .filter((item) => item.media?.url)
-    .map((item) => item.media as FilledLinkToMediaField)
+    const filteredMedias = medias.value
+        .filter(item => item.media?.url)
+        .map(item => item.media as FilledLinkToMediaField)
 
-  if (!filteredMedias.length) return []
+    if (!filteredMedias.length) return []
 
-  return filteredMedias.reduce((acc: FilledLinkToMediaField[][], curr: FilledLinkToMediaField, index) => {
-    if (index % 6 === 0) {
-      acc.push([curr])
-    } else {
-      acc[acc.length - 1].push(curr)
-    }
+    return filteredMedias.reduce((acc: FilledLinkToMediaField[][], curr: FilledLinkToMediaField, index) => {
+        if (index % 6 === 0) {
+            acc.push([curr])
+        }
+        else {
+            acc[acc.length - 1].push(curr)
+        }
 
-    return acc
-  }, [])
+        return acc
+    }, [])
 })
 
 const hasMedia = computed(() => !!mediaListRow.value?.[0])
 </script>
 
 <template>
-  <section v-if="hasMedia" :class="$style.root">
-    <LazyVMarquee
-      v-for="(row, i) in mediaListRow"
-      :id="`row-${i}-${row[0].id}`"
-      :key="i + row[0].url"
-      :space="18"
-      :class="$style.marquee"
-      :speed="40000"
-      :reverse="!!(i % 2)"
+    <section
+        v-if="hasMedia"
+        :class="$style.root"
     >
-      <VPrismicImage
-        v-for="(media, mediaIndex) in row"
-        :key="mediaIndex + media.url"
-        :reference="media"
-        width="600"
-        height="390"
-        :class="$style.media"
-        sizes="xs:40vw md:40vw vl:35vw"
-      />
-    </LazyVMarquee>
-  </section>
+        <LazyVMarquee
+            v-for="(row, i) in mediaListRow"
+            :id="`row-${i}-${row[0].id}`"
+            :key="i + row[0].url"
+            :space="18"
+            :class="$style.marquee"
+            :speed="40000"
+            :reverse="!!(i % 2)"
+        >
+            <VPrismicImage
+                v-for="(media, mediaIndex) in row"
+                :key="mediaIndex + media.url"
+                :reference="media"
+                width="600"
+                height="390"
+                :class="$style.media"
+                sizes="xs:40vw md:40vw vl:35vw"
+            />
+        </LazyVMarquee>
+    </section>
 </template>
 
 <style lang="scss" module>

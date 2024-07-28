@@ -1,28 +1,33 @@
 <script setup lang="ts">
-import type {ImageField} from "@prismicio/types";
+import type { ImageField } from '@prismicio/types'
 
 interface VHeaderTitle {
-  title: string | null
-  anchorId: string
-  media?: ImageField
+    title: string | null
+    anchorId: string
+    media?: ImageField
 }
 
 defineProps<VHeaderTitle>()
 </script>
 
 <template>
-  <VArrowTitle v-if="title" :title="title" :class="$style.title" :href="`#${anchorId}`" />
-  <VPrismicImage
-      v-if="media"
-      :reference="media"
-      :modifiers="{
-        crop: 'edges',
-        fit: 'cover',
-        width: '200',
-        height: '500',
-      }"
-      :class="$style.media"
-  />
+    <VArrowTitle
+        v-if="title"
+        :title="title"
+        :class="$style.title"
+        :href="`#${anchorId}`"
+    />
+    <VPrismicImage
+        v-if="media"
+        :reference="media"
+        :modifiers="{
+            crop: 'edges',
+            fit: 'cover',
+            width: '200',
+            height: '500',
+        }"
+        :class="$style.media"
+    />
 </template>
 
 <style lang="scss" module>
