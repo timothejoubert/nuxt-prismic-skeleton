@@ -173,6 +173,7 @@ export default defineNuxtConfig({
             file: `nuxt.${locale}.json`,
         })),
         langDir: 'assets/locales/',
+        // parsePages: false,
     },
 
     sitemap: {
@@ -192,6 +193,5 @@ export default defineNuxtConfig({
             },
         },
     },
-
     compatibilityDate: '2024-07-11',
 })

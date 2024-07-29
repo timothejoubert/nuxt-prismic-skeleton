@@ -18,9 +18,9 @@ defineProps<VSliceProps>()
 
 <style lang="scss" module>
 .root {
-  @include property-fluid(padding-bottom, (xs: 68, xl: 82));
-  @include line(top);
-
   width: 100%;
+
+  @include line(top);
+  @include property-fluid(padding-bottom, (xs: 68, xl: 82));
 }
 </style>

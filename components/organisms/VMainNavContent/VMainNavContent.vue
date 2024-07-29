@@ -23,13 +23,14 @@ const rootClasses = computed(() => {
                 :key="i"
                 :class="$style.item"
             >
-                {{ item }}
                 <VLink
                     :reference="item.link"
                     class="text-over-title-sm"
                     :class="$style.link"
-                    :label="item.label"
-                />
+                >
+                    test
+                    {{ item.label }}
+                </VLink>
             </li>
         </ul>
     </nav>
@@ -63,10 +64,9 @@ const rootClasses = computed(() => {
 }
 
 .item {
-  position: relative;
+    position: relative;
     flex: 1;
     list-style: none;
-    background-color: red;
 }
 
 .link {

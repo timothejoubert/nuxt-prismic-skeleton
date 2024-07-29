@@ -32,11 +32,12 @@
         "prettier": "^3.3.3",
         "sass": "^1.77.8",
         "slice-machine-ui": "^1.26.0",
-        "stylelint": "^16.7.0",
+        "stylelint": "^16.8.0",
         "stylelint-config-css-modules": "^4.4.0",
         "stylelint-config-idiomatic-order": "^10.0.0",
         "stylelint-config-standard-scss": "^13.1.0",
         "stylelint-config-standard-vue": "^1.0.0",
+        "typescript-eslint": "8.0.0-alpha.58",
         "typescript-imgix-url-params": "^0.3.1",
         "vite-svg-loader": "^5.1.0"
     },

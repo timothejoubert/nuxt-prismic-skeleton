@@ -37,10 +37,10 @@ console.log(listingResponse.value, pageData.value)
 }
 
 .list {
-  @include property-fluid(margin-top, (xs: 52, xl: 72));
-
   grid-column: 1 / -1;
   outline: 1px solid black;
+
+  @include property-fluid(margin-top, (xs: 52, xl: 72));
 
   @include media('>=md') {
     display: grid;

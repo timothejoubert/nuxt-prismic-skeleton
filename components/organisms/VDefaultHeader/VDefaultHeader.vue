@@ -32,9 +32,9 @@ defineProps<VHeaderTitle>()
 
 <style lang="scss" module>
 .title {
-  @include property-fluid(margin-top, (xs: 30, xl: 66));
-
   grid-column: 1 / -1;
+
+  @include property-fluid(margin-top, (xs: 30, xl: 66));
 
   &::after {
     position: absolute;

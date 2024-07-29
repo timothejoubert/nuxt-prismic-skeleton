@@ -35,7 +35,6 @@ export function mapRoutePathToPrismicDocument(path: string) {
     const firstRoute = extractValueBetweenOccurrence(path, '/', [1, 2]) || ''
 
     const route = prismicDocumentRouteList.find((prismicRoute) => {
-        console.log('mapRoutePathToPrismicDocument', prismicRoute, firstRoute, path)
         if (path === prismicRoute.path) return true
         // Replace locale or uid if exist
         const hasLocale = allLocale.includes(firstRoute as (typeof allLocale)[number])

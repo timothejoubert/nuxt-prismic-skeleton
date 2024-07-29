@@ -3,8 +3,6 @@ import { type Content } from '@prismicio/client'
 
 const props = defineProps(getSliceComponentProps<Content.ContactSliceSlice>(['slice', 'index', 'slices', 'context']))
 const sliceData = computed(() => props.slice.primary)
-
-console.log('contactSliceData', sliceData.value)
 </script>
 
 <template>

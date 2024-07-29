@@ -14,7 +14,7 @@ import { pick } from '~/utils/object/pick'
 
 const providerAttributes = {}
 
-export const vRoadizImageProps = {
+export const vPrismicImageProps = {
     ...providerAttributes,
     ...imgProps,
     ...pictureProps,
@@ -25,7 +25,7 @@ export const vRoadizImageProps = {
 }
 
 export default defineComponent({
-    props: vRoadizImageProps,
+    props: vPrismicImageProps,
     setup(props, { slots }) {
         const $style = useCssModule()
 
