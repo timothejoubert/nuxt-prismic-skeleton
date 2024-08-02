@@ -17,12 +17,14 @@
     $value-hd: decimal-round(math.div(breakpoint(hd), breakpoint(xl)) * $value-xl);
     $default-value: if($is-map, fluid($value), rem($value));
 
-    @if $breakpoint {
-        @include media($breakpoint) {
+    @if $breakpoint == null {
+        & {
             #{$property}: $default-value
         }
     } @else {
-        #{$property}: $default-value
+        @include media($breakpoint) {
+            #{$property}: $default-value
+        }
     }
 
     @include media('>=xl') {
